@@ -41,10 +41,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Commands\ModLoader.csproj">
-      <Project>{C58FCC14-F882-4D67-B6A8-8353A2B1E126}</Project>
-      <Name>ModLoader</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Assembly-CSharp.csproj">
       <Project>{d48b790f-7af2-4019-812d-0af1a5140725}</Project>
       <Name>Assembly-CSharp</Name>

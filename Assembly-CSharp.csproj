@@ -973,16 +973,21 @@
     <Compile Include="Items\Weapons\ExplosiveTrap.cs" />
     <Compile Include="Items\Weapons\Grenade.cs" />
     <Compile Include="Items\Weapons\Snare.cs" />
+    <Compile Include="ModLoader\AssemblyInfo.cs" />
+    <Compile Include="ModLoader\BetterNetworkUser.cs" />
+    <Compile Include="ModLoader\Command.cs" />
+    <Compile Include="ModLoader\CommandHandlerMain.cs" />
+    <Compile Include="ModLoader\CommandList.cs" />
+    <Compile Include="ModLoader\Hook.cs" />
+    <Compile Include="ModLoader\Ini.cs" />
+    <Compile Include="ModLoader\Loader.cs" />
+    <Compile Include="ModLoader\Reference.cs" />
+    <Compile Include="ModLoader\UserList.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Items\" />
     <Folder Include="Items\Weapons\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Commands\ModLoader.csproj">
-      <Project>{C58FCC14-F882-4D67-B6A8-8353A2B1E126}</Project>
-      <Name>ModLoader</Name>
-    </ProjectReference>
+    <Folder Include="ModLoader\" />
   </ItemGroup>
 </Project>

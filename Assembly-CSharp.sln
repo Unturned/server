@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{d48b790f-7af2-4019-812d-0af1a5140725}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModLoader", "Commands\ModLoader.csproj", "{C58FCC14-F882-4D67-B6A8-8353A2B1E126}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminCommands", "AdminCommands\AdminCommands.csproj", "{1CBB2C35-B7EE-4E8D-8F44-655D4C948D65}"
 EndProject
 Global
@@ -17,10 +15,6 @@ Global
 		{1CBB2C35-B7EE-4E8D-8F44-655D4C948D65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CBB2C35-B7EE-4E8D-8F44-655D4C948D65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CBB2C35-B7EE-4E8D-8F44-655D4C948D65}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C58FCC14-F882-4D67-B6A8-8353A2B1E126}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C58FCC14-F882-4D67-B6A8-8353A2B1E126}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C58FCC14-F882-4D67-B6A8-8353A2B1E126}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C58FCC14-F882-4D67-B6A8-8353A2B1E126}.Release|Any CPU.Build.0 = Release|Any CPU
 		{d48b790f-7af2-4019-812d-0af1a5140725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{d48b790f-7af2-4019-812d-0af1a5140725}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{d48b790f-7af2-4019-812d-0af1a5140725}.Release|Any CPU.ActiveCfg = Release|Any CPU
