@@ -5,19 +5,18 @@ using UnityEngine;
 public class NetworkBans
 {
 	public static List<NetworkBanned> bans;
+	public static Dictionary<String, String> bannedPlayers;
 
-	static NetworkBans()
-	{
+	static NetworkBans() {
 		NetworkBans.bans = new List<NetworkBanned>();
+		bannedPlayers = new Dictionary<string, string>();
 	}
 
-	public NetworkBans()
-	{
-	}
+	public NetworkBans() {	}
 
-	public static void ban(string name, string id)
-	{
+	public static void ban(string name, string id) {
 		NetworkBans.bans.Add(new NetworkBanned(name, id));
+		bannedPlayers.Add(id, name);
 		NetworkBans.save();
 	}
 
@@ -32,24 +31,31 @@ public class NetworkBans
 			{
 				string[] strArrays1 = Packer.unpack(strArrays[i], ':');
 				NetworkBans.bans.Add(new NetworkBanned(strArrays1[0], strArrays1[1]));
+				bannedPlayers.Add(strArrays1[1], strArrays1[0]); // ID, Name
 			}
+			
+			Logger.LogBan("Loaded " + strArrays.Length + " ban entry"); 
 		}
 	}
 
 	public static void save()
 	{
-		string empty = string.Empty;
+		string banString = string.Empty;
 		for (int i = 0; i < NetworkBans.bans.Count; i++)
 		{
-			empty = string.Concat(empty, NetworkBans.bans[i].name, ":");
-			empty = string.Concat(empty, NetworkBans.bans[i].id, ":;");
+			banString = string.Concat(banString, NetworkBans.bans[i].name, ":");
+			banString = string.Concat(banString, NetworkBans.bans[i].id, ":;");
 		}
-		PlayerPrefs.SetString("bans", empty);
+		PlayerPrefs.SetString("bans", banString);
 	}
 
-	public static void unban(int index)
-	{
+	public static void unban(int index) {
 		NetworkBans.bans.RemoveAt(index);
 		NetworkBans.save();
+	}
+	
+	public static Boolean isBanned(String steamId) {
+		String playerName = "";
+		return NetworkBans.bannedPlayers.TryGetValue(steamId, out playerName);
 	}
 }

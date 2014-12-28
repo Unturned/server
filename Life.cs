@@ -252,7 +252,17 @@ public class Life : MonoBehaviour
 			
 			this.saveAllVitality();
 			if (base.networkView.owner != Network.player) {
-				NetworkChat.sendAlert(base.GetComponent<Player>().name + " killed by " + this.death );
+				// Kill announce
+				String chatMessage = this.death.Replace("You", base.GetComponent<Player>().name );
+				base.networkView.RPC("tellChat", RPCMode.All, new object[] { 
+					"Combat log", 
+					"", 
+					"", 
+					chatMessage, 
+					21, // Gold
+					0, 
+					"-80" });
+				
 				base.networkView.RPC("tellDead", base.networkView.owner, new object[] { this.dead, this.death });
 			} else {
 				this.tellDead_Pizza(this.dead, this.death);
@@ -732,10 +742,6 @@ public class Life : MonoBehaviour
 
 	[RPC]
 	public void tellDead(bool setDead, string setDeath, NetworkMessageInfo info) {
-		if ( setDead ) {
-			NetworkChat.sendAlert(info.sender.ToString() + " meghalt. " + setDead);
-		}
-		
 		if (info.sender.ToString() == "0" || info.sender.ToString() == "-1")
 		{
 			this.tellDead_Pizza(setDead, setDeath);

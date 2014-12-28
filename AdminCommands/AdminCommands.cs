@@ -36,7 +36,7 @@ namespace AdminCommands
 
 		public void Start ()
 		{
-			Command saveCommand = new Command(10, new CommandDelegate(this.SaveAll), new String[] {
+			Command saveCommand = new Command(8, new CommandDelegate(this.SaveAll), new String[] {
 				"s",
 				"save",
 			});

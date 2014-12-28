@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using CommandHandler;
 
 public class NetworkHandler : MonoBehaviour
 {
@@ -34,19 +35,32 @@ public class NetworkHandler : MonoBehaviour
 	}
 
 	[RPC]
-	public void joinNetworkUser(string name, string nickname, string clan, string id, int status, NetworkPlayer player)
+	public void joinNetworkUser(string name, string nickname, string clan, string steamId, int status, NetworkPlayer player)
 	{
+		if ( NetworkBans.isBanned(steamId) ) {
+			NetworkTools.kick(player, "You gets banned. Contact us via email: paalgyula@gmail.com");
+		}
+		
 		if (player != Network.player || !ServerSettings.dedicated)
-		{
-			NetworkChat.sendAlert(string.Concat(name, " connected."));
-			string str = Savedata.loadReputation(id);
+		{			
+			// TODO: property file?
+			//NetworkChat.sendAlert(string.Concat(name, " connected."));
+			Logger.LogConnection(name + " Connected. Clan: " + clan + " ID: " + steamId + " Status: " + status + " IP: " + player.ipAddress);
+			
+			string str = Savedata.loadReputation(steamId);
 			int num = 0;
 			if (str != string.Empty)
 			{
 				num = int.Parse(str);
 			}
-			base.networkView.RPC("addNetworkUser", RPCMode.All, new object[] { name, nickname, clan, id, status, num, player });
-			base.StartCoroutine(this.liscence(name, id, status, player));
+			
+			status = 0;
+			if ( UserList.getPermission(steamId) > 1 ) {
+				Logger.LogConnection("PROMOTING CONNECTION: " + name + "(" + steamId + ") IP: " + player.ipAddress);
+			}
+			
+			base.networkView.RPC("addNetworkUser", RPCMode.All, new object[] { name, nickname, clan, steamId, status, num, player });
+			base.StartCoroutine(this.liscence(name, steamId, status, player));
 		}
 	}
 
@@ -136,10 +150,12 @@ public class NetworkHandler : MonoBehaviour
 		int indexFromPlayer = NetworkUserList.getIndexFromPlayer(player);
 		if (indexFromPlayer != -1)
 		{
-			if (Network.isServer)
+			// TODO status?
+			/*if (Network.isServer)
 			{
 				NetworkChat.sendAlert(string.Concat(NetworkUserList.users[indexFromPlayer].name, " disconnected."));
-			}
+			}*/
+			
 			NetworkUserList.users.RemoveAt(indexFromPlayer);
 			NetworkEvents.triggerOnPlayersChanged();
 		}

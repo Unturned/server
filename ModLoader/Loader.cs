@@ -30,11 +30,7 @@ namespace ModLoader
                 keepAlive = new GameObject();
                 UnityEngine.Object.DontDestroyOnLoad(Loader.keepAlive);
                 keepAlive.AddComponent<Loader>();
-
-
-            } 
-
-          
+            }          
         }
 
         

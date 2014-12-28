@@ -6,10 +6,6 @@ namespace CommandHandler {
 	public class BetterNetworkUser {
 		private static FieldInfo[] fields = typeof(NetworkUser).GetFields();
 		
-		public int permissionLevel {
-			get; set;
-		}
-		
 		/// <summary>
 		/// Returns the player name
 		/// </summary>

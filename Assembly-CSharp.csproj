@@ -982,11 +982,13 @@
     <Compile Include="ModLoader\Loader.cs" />
     <Compile Include="ModLoader\Reference.cs" />
     <Compile Include="ModLoader\UserList.cs" />
+    <Compile Include="Log\Logger.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Items\" />
     <Folder Include="Items\Weapons\" />
     <Folder Include="ModLoader\" />
+    <Folder Include="Log\" />
   </ItemGroup>
 </Project>

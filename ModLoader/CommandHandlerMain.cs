@@ -49,16 +49,12 @@ namespace CommandHandler
                     return;
                 }
             }
-            UserList.NetworkUsers.Add(new NetworkUser(serverName, "", "", "ServerID", 0, 0, Network.player));
+			
+            UserList.NetworkUsers.Add(new NetworkUser(serverName, "", "", "ServerID", 21, 80, Network.player));
         }
 
-
-
-
-        public void OnGUI()
-        {
-
-        }
+        public void OnGUI() {
+		}
 
         public void Update()
         {

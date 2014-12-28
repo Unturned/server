@@ -22,8 +22,7 @@ namespace ModLoader
             loadDefaultMods();
 
             if (previousObject == null)
-            previousObject = Loader.gameobject;
-
+				previousObject = Loader.gameobject;
         }
 
         private void Update()
