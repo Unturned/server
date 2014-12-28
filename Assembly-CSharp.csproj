@@ -792,10 +792,6 @@
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Database.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="MD5.cs">
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
@@ -929,6 +925,8 @@
     <Compile Include="Network\NetworkTools.cs" />
     <Compile Include="Network\NetworkUser.cs" />
     <Compile Include="Network\NetworkUserList.cs" />
+    <Compile Include="Database\FileDatabase.cs" />
+    <Compile Include="PizzaDatabase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -937,5 +935,6 @@
     <Folder Include="ModLoader\" />
     <Folder Include="Log\" />
     <Folder Include="Network\" />
+    <Folder Include="Database\" />
   </ItemGroup>
 </Project>

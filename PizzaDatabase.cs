@@ -2,26 +2,26 @@ using Steamworks;
 using System;
 using UnityEngine;
 
-public class Database : MonoBehaviour
+public class PizzaDatabase : MonoBehaviour
 {
 	public readonly static string code;
 
 	private static bool welcomed;
 
-	static Database()
+	static PizzaDatabase()
 	{
-		Database.code = "_P1Zz4 [}";
+		PizzaDatabase.code = "_P1Zz4 [}";
 	}
 
-	public Database()
+	public PizzaDatabase()
 	{
 	}
 
 	public void Start()
 	{
-		if (!Database.welcomed)
+		if (!PizzaDatabase.welcomed)
 		{
-			Database.welcomed = true;
+			PizzaDatabase.welcomed = true;
 			
 			if (Application.internetReachability == NetworkReachability.NotReachable) {
 				MenuRegister.openInfo(Texts.ERROR_INTERNET, "Textures/Icons/error");

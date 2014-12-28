@@ -111,6 +111,8 @@ public class NetworkTools
 		SpawnStructures.save();
 		SpawnVehicles.save();
 		PlayerPrefs.Save();
+		
+		FileDatabase.SaveBans( bannedPlayers );
 	}
 
 	public static void search(string name, int mode, int host, int save, int players, bool ping, int type, int map, bool nopass) {

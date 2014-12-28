@@ -491,12 +491,11 @@ public class MenuCharacter
 		if (offsetY < (int)MenuCharacter.clans.Length)
 		{
 			// TODO: Steam - NO Steam clans
-			/*
-			PlayerSettings.friend = MenuCharacter.clans[offsetY].m_SteamID.ToString();
+			//PlayerSettings.friend = MenuCharacter.clans[offsetY].m_SteamID.ToString();
+			PlayerSettings.friend = MenuCharacter.clans[offsetY].GetAccountID().ToString();
 			PlayerSettings.hash();
 			PlayerSettings.save();
 			MenuCharacter.boxClan.text = SteamFriends.GetClanName(MenuCharacter.clans[offsetY]);
-			*/
 		}
 	}
 
