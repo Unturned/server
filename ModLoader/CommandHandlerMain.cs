@@ -18,8 +18,7 @@ namespace CommandHandler
         Dictionary<String, int> userPermissions = new Dictionary<String, int>();
 
         public static bool usingHiddenChat = false;
-        public static string serverName = "GW-Systems admin v1.0";
-
+        public static string serverName = "ZombieLand Admin v1.1";
 
         public void Start() {
             IniFile tempIni;
@@ -197,24 +196,18 @@ namespace CommandHandler
         }
 
 
-        private String getNetworkChatFieldByNum(int num2)
-        {
-            try
-            {
+        private String getNetworkChatFieldByNum(int num2) {
+            try {
                 return networkChatfields[num2].GetValue(getNetworkChat()).ToString();
-            }
-            catch
-            {
+            } catch {
                 return "";
             }
-
-
         }
 
-        private NetworkChat getNetworkChat()
-        {         
+        private NetworkChat getNetworkChat() {         
             if (networkChat == null)
-            networkChat = UnityEngine.Object.FindObjectOfType(typeof(NetworkChat)) as NetworkChat;
+            	networkChat = UnityEngine.Object.FindObjectOfType(typeof(NetworkChat)) as NetworkChat;
+			
             return networkChat;
         }
 

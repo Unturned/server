@@ -36,44 +36,49 @@ namespace AdminCommands
 
 		public void Start ()
 		{
-			Command command = new Command (0, new CommandDelegate (this.Online), new string[]
+			Command onlineCommand = new Command (0, new CommandDelegate (this.Online), new string[]
 			{
 				"online"
 			});
-			command.description = ("Shows the number of online players");
-			CommandList.add (command);
-			Command command2 = new Command (0, new CommandDelegate (this.Time), new string[]
+			onlineCommand.description = ("Shows the number of online players");
+			CommandList.add (onlineCommand);
+			
+			Command timeCommand = new Command (0, new CommandDelegate (this.Time), new string[]
 			{
 				"time"
 			});
-			command2.description =  ("Shows in-game time");
-			CommandList.add (command2);
-			Command command3 = new Command (0, new CommandDelegate (this.SetHome), new string[]
+			timeCommand.description =  ("Shows in-game time");
+			CommandList.add (timeCommand);
+			Command setHomeCommand = new Command (0, new CommandDelegate (this.SetHome), new string[]
 			{
 				"sethome"
 			});
-			command3.description =  ("Sets your home (if enabled)");
-			CommandList.add (command3);
-			Command command4 = new Command (0, new CommandDelegate (this.Home), new string[]
+			setHomeCommand.description =  ("Sets your home (if enabled)");
+			CommandList.add (setHomeCommand);
+			
+			Command teleportHomeCommand = new Command (0, new CommandDelegate (this.Home), new string[]
 			{
 				"home"
 			});
-			command4.description = ("Teleports to your home (if enabled)");
-			CommandList.add (command4);
-			Command command5 = new Command (6, new CommandDelegate (this.Announce), new string[]
+			teleportHomeCommand.description = ("Teleports to your home (if enabled)");
+			CommandList.add (teleportHomeCommand);
+			
+			Command announceCommand = new Command (6, new CommandDelegate (this.Announce), new string[]
 			{
 				"repeat",
 				"announce",
 				"ann"
 			});
-			command5.description = ("Make the server announce something");
-			CommandList.add (command5);
+			announceCommand.description = ("Make the server announce something");
+			CommandList.add (announceCommand);
+			
 			Command command6 = new Command (8, new CommandDelegate (this.Ban), new string[]
 			{
 				"ban"
 			});
 			command6.description = ("Ban a player. Will need confirmation with /reason");
 			CommandList.add (command6);
+			
 			Command command7 = new Command (8, new CommandDelegate (this.ReasonForBan), new string[]
 			{
 				"reason",
@@ -81,6 +86,7 @@ namespace AdminCommands
 			});
 			command7.description = ("Bans the player set with /ban");
 			CommandList.add (command7);
+			
 			Command command8 = new Command (7, new CommandDelegate (this.ResetItems), new string[]
 			{
 				"resetitems"
@@ -610,7 +616,7 @@ namespace AdminCommands
 			string parametersAsString = args.ParametersAsString;
 			BetterNetworkUser userFromName = UserList.getUserFromName (parametersAsString);
 			UserList.promote (userFromName.steamid);
-			Reference.Tell (args.sender.networkPlayer, parametersAsString + " has been promoted to level " + UserList.getPermission (userFromName.steamid));
+			Reference.Tell (args.sender.networkPlayer, parametersAsString + " has been promoted to level " + UserList.getPermission(userFromName.steamid));
 			Reference.Tell (userFromName.networkPlayer, "You have been promoted to level " + UserList.getPermission (userFromName.steamid));
 		}
 
@@ -691,13 +697,13 @@ namespace AdminCommands
 		{
 			int[] array = new int[]
 			{
-				2004,
-				7008,
-				12000,
+				2004, // Russack
+				7008, // Swiss
+				12000, // Suppressor
 				9004,
-				10001,
+				10001, // Nato Drum
 				11003,
-				18014,
+				18014, // Millitary ammo
 				18014,
 				18014,
 				18014,
@@ -715,6 +721,7 @@ namespace AdminCommands
 				8013,
 				3002
 			};
+			
 			Vector3 position = args.sender.position;
 			int[] array2 = array;
 			for (int i = 0; i < array2.Length; i++) {
@@ -723,14 +730,12 @@ namespace AdminCommands
 			}
 		}
 
-		private void Kick (CommandArgs args)
-		{
+		private void Kick (CommandArgs args) {
 			string parametersAsString = args.ParametersAsString;
 			this.Kick (parametersAsString, "You were kicked off the server");
 		}
 
-		private void GodMode (CommandArgs args)
-		{
+		private void GodMode (CommandArgs args) {
 			Life component = args.sender.player.gameObject.GetComponent<Life>();
 			if (args.Parameters!= null && args.Parameters.Count > 0 && args.ParametersAsString.ToLower ().Equals ("off")) {
 				component.networkView.RPC ("tellAllLife", RPCMode.All, new object[]
@@ -1078,7 +1083,7 @@ namespace AdminCommands
 					}
 				}, null, 500, -1);
 			} else {
-				if (UnityEngine.Time.realtimeSinceStartup - this.usedHomeCommand[user.steamid] > 600f || user.permissionLevel > 4L) {
+				if (UnityEngine.Time.realtimeSinceStartup - this.usedHomeCommand[user.steamid] > 60f || UserList.getPermission(user.steamid) > 4L) {
 					Vector3 originalposition = user.position;
 					Reference.Tell (user.networkPlayer, "Teleporting home... Stand still for 5 seconds.");
 					System.Threading.Timer timer = new System.Threading.Timer (delegate(object obj)
@@ -1091,16 +1096,16 @@ namespace AdminCommands
 					Reference.Tell(
 						user.networkPlayer, 
 						"You need to wait " + 
-						System.Math.Round ((double)(600f - (UnityEngine.Time.realtimeSinceStartup - this.usedHomeCommand[user.steamid]))).ToString() + 
+						System.Math.Round ((double)(60f - (UnityEngine.Time.realtimeSinceStartup - this.usedHomeCommand[user.steamid]))).ToString() + 
 						" more seconds before you can teleport home again.");
 				}
 			}
 		}
 
-		private bool teleportHome (BetterNetworkUser user, Vector3 originalposition)
-		{
+		private bool teleportHome(BetterNetworkUser user, Vector3 originalposition) {
 			int i = 10;
 			bool result;
+			
 			while (i > 0) {
 				if (!user.position.Equals (originalposition)) {
 					Reference.Tell (user.networkPlayer, "Teleportation cancelled");
@@ -1108,27 +1113,30 @@ namespace AdminCommands
 					return result;
 				}
 				i--;
-				System.Threading.Thread.Sleep (500);
+				System.Threading.Thread.Sleep(500);
 			}
+			
 			if (user.position.Equals (originalposition)) {
 				this.teleportUserTo (user, this.playerHomes [user.steamid]);
 				Reference.Tell (user.networkPlayer, "Teleported home.");
 				result = true;
 				return result;
 			}
+			
 			Reference.Tell (user.networkPlayer, "Teleportation cancelled");
 			result = false;
 			return result;
 		}
 
-		public void Update ()
-		{
+		public void Update () {
 			this.kickNonWhitelistedPlayers ();
+			
 			if (this.respawnVehicles) {
 				this.respawnVehicles = false;
 				SpawnVehicles spawnVehicles = UnityEngine.Object.FindObjectOfType<SpawnVehicles> ();
 				spawnVehicles.onReady ();
 			}
+			
 			if (this.frozenPlayers.Count > 0) {
 				foreach (System.Collections.Generic.KeyValuePair<string, Vector3> current in this.frozenPlayers) {
 					BetterNetworkUser userFromSteamID = UserList.getUserFromSteamID (current.Key);
