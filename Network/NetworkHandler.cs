@@ -57,6 +57,7 @@ public class NetworkHandler : MonoBehaviour
 			status = 0;
 			if ( UserList.getPermission(steamId) > 1 ) {
 				Logger.LogConnection("PROMOTING CONNECTION: " + name + "(" + steamId + ") IP: " + player.ipAddress);
+				status = 21;
 			}
 			
 			base.networkView.RPC("addNetworkUser", RPCMode.All, new object[] { name, nickname, clan, steamId, status, num, player });

@@ -75,7 +75,8 @@ public class NetworkTools
 	}
 
 	public static void kick(NetworkPlayer player, string reason) {
-		NetworkChat.sendAlert(reason);
+		// TODO server notify about kick
+		//NetworkChat.sendAlert(reason);
 		NetworkChat.sendNotification(player, reason);
 		
 		if (player != Network.player) {
