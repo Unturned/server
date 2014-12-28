@@ -117,8 +117,7 @@ public class NetworkHandler : MonoBehaviour
 
 	public void onPlayerDisconnected(NetworkPlayer player)
 	{
-		if (ServerSettings.dedicated)
-		{
+		if (ServerSettings.dedicated) {
 			NetworkTools.save();
 		}
 		Network.RemoveRPCs(player);

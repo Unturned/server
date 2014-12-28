@@ -112,7 +112,7 @@ namespace CommandHandler
             DateTime myDate = DateTime.Now;
             string myDateString = myDate.ToString("yyyy-MM-dd HH:mm:ss");
 
-			LogCommand(myDateString + ": " + sender + ": " + commando);
+			LogCommand(myDateString + ": " + sender.name + ": " + commando);
 
             if (!ExecuteCommand(sender, cmdText, words)) //Command was not executed
             {
@@ -172,8 +172,6 @@ namespace CommandHandler
 
             file.Close();
         }
-
-
 
         private String getLastMessagePlayerName()
         {

@@ -251,12 +251,10 @@ public class Life : MonoBehaviour
 			base.GetComponent<Skills>().saveAllKnowledge();
 			
 			this.saveAllVitality();
-			if (base.networkView.owner != Network.player)
-			{
+			if (base.networkView.owner != Network.player) {
+				NetworkChat.sendAlert(base.GetComponent<Player>().name + " killed by " + this.death );
 				base.networkView.RPC("tellDead", base.networkView.owner, new object[] { this.dead, this.death });
-			}
-			else
-			{
+			} else {
 				this.tellDead_Pizza(this.dead, this.death);
 			}
 		}

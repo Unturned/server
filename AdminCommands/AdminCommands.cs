@@ -36,6 +36,13 @@ namespace AdminCommands
 
 		public void Start ()
 		{
+			Command saveCommand = new Command(10, new CommandDelegate(this.SaveAll), new String[] {
+				"s",
+				"save",
+			});
+			saveCommand.description = "Instant saves everything";
+			CommandList.add(saveCommand);
+			
 			Command onlineCommand = new Command (0, new CommandDelegate (this.Online), new string[]
 			{
 				"online"
@@ -695,37 +702,60 @@ namespace AdminCommands
 
 		private void SpawnKit (CommandArgs args)
 		{
-			int[] array = new int[]
-			{
-				2004, // Russack
-				7008, // Swiss
-				12000, // Suppressor
-				9004,
-				10001, // Nato Drum
-				11003,
-				18014, // Millitary ammo
-				18014,
-				18014,
-				18014,
-				18014,
-				18014,
-				18014,
-				4017,
-				5017,
-				11,
-				13000,
-				13000,
-				14022,
-				14022,
-				8015,
-				8013,
-				3002
-			};
+			int[] pack;
 			
+			if ( args.Parameters[0].ToLower().Equals("police") ) {
+				pack = new int[] {
+					17, // Millitary NVG
+					5, // Police cap
+					4002, // Police top
+					5002, // Police legs
+					3003, // Police armor
+					2005, // Alicepack (Black backpack)
+					// Weapons
+					7005, // Novuh (Shotgun)
+					// Buckshot
+					25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 
+					7000, // Swiff
+					10001, // Nato drum
+					18014,  // Millitary ammo
+					18014,	18014,	18014,	18014,	18014,	18014, 18014,
+					9009, // 20x scope
+					11003, // Tactical light
+					12000, // Suppressor
+				};
+			} else { // Default pack
+				pack = new int[] {
+					2004, // Russack
+					7008, // Swiss
+					12000, // Suppressor
+					9004,
+					10001, // Nato Drum
+					11003,
+					18014, // Millitary ammo
+					18014,
+					18014,
+					18014,
+					18014,
+					18014,
+					18014,
+					4017,
+					5017,
+					11,
+					13000,
+					13000,
+					14022,
+					14022,
+					8015,
+					8013,
+					3002
+				};
+			}
+			
+			// Spawning
 			Vector3 position = args.sender.position;
-			int[] array2 = array;
-			for (int i = 0; i < array2.Length; i++) {
-				int num = array2 [i];
+			for (int i = 0; i < pack.Length; i++) {
+				int num = pack [i];
 				SpawnItems.spawnItem (num, 1, position);
 			}
 		}
@@ -1150,6 +1180,7 @@ namespace AdminCommands
 					}
 				}
 			}
+			
 			if (this.vanishedPlayers.Count > 0) {
 				foreach (System.Collections.Generic.KeyValuePair<string, Vector3> current in this.vanishedPlayers) {
 					BetterNetworkUser userFromSteamID = UserList.getUserFromSteamID (current.Key);
@@ -1268,17 +1299,26 @@ namespace AdminCommands
 				streamWriter.WriteLine ("And so forth.. then it will go back to the 1st line      (4x interval)");
 				streamWriter.Close ();
 			}
+			
 			string[] array3 = System.IO.File.ReadAllLines ("Unturned_Data/Managed/mods/AdminCommands/UnturnedAnnounces.txt");
 			this.AnnounceMessages = new string[array3.Length];
+			
 			for (int i = 0; i < array3.Length; i++) {
 				this.AnnounceMessages [i] = array3 [i];
 			}
+			
 			this.itemsTimer = new System.Timers.Timer ((double)(this.itemsResetIntervalInSeconds * 1000));
 			this.itemsTimer.Elapsed += new ElapsedEventHandler (this.itemsTimeElapsed);
 			this.itemsTimer.Enabled = true;
 			this.announceTimer = new System.Timers.Timer ((double)(this.announceIntervalInSeconds * 1000));
 			this.announceTimer.Elapsed += (new ElapsedEventHandler (this.announcesTimeElapsed));
 			this.announceTimer.Enabled = true;
+		}
+		
+		public void SaveAll(CommandArgs args) {
+			NetworkChat.sendChat("Saving world to database...");
+			NetworkTools.save();
+			NetworkChat.sendChat("Done!");
 		}
 	}
 }
