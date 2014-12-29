@@ -254,6 +254,7 @@ public class Life : MonoBehaviour
 			if (base.networkView.owner != Network.player) {
 				// Kill announce
 				String chatMessage = this.death.Replace("You", base.GetComponent<Player>().name );
+				
 				NetworkChat.tool.networkView.RPC("tellChat", RPCMode.All, new object[] { 
 					"Combat log", 
 					"", 
@@ -261,7 +262,7 @@ public class Life : MonoBehaviour
 					chatMessage, 
 					21, // Gold
 					0, 
-					"-80" });
+					-80 });
 				
 				base.networkView.RPC("tellDead", base.networkView.owner, new object[] { this.dead, this.death });
 			} else {
