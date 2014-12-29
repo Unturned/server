@@ -1083,7 +1083,8 @@ public class HUDGame : MonoBehaviour
 			HUDGame.flash.color = new Color(0.392156869f, 0f, 0f, 0.5f - (Time.realtimeSinceStartup - HUDGame.lastFlash));
 			HUDGame.flash.visible = true;
 		}
-		HUDGame.voice.visible = Voice.sending;
+		// Disabled voice
+		//HUDGame.voice.visible = Voice.sending;
 	}
 
 	public static void updateBleeding()

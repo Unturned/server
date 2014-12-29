@@ -52,50 +52,6 @@
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="MoPhoGames.USpeak.Codec\ADPCMCodec.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MoPhoGames.USpeak.Codec\ICodec.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MoPhoGames.USpeak.Codec\MuLawCodec.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MoPhoGames.USpeak.Codec\SpeexCodec.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MoPhoGames.USpeak.Core\USpeakAudioClipCompressor.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MoPhoGames.USpeak.Core\USpeakAudioClipConverter.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MoPhoGames.USpeak.Core\USpeakFrameContainer.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MoPhoGames.USpeak.Core\Utils\USpeakPoolUtils.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MoPhoGames.USpeak.Core\USpeakSettingsData.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MoPhoGames.USpeak.Interface\ISpeechDataHandler.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MoPhoGames.USpeak.Interface\IUSpeakTalkController.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="ModLoader\BetterNetworkUser.cs" />
     <Compile Include="ModLoader\Command.cs" />
     <Compile Include="ModLoader\CommandHandlerMain.cs" />
@@ -154,7 +110,6 @@
     <Compile Include="Base\Coord2.cs" />
     <Compile Include="Base\DamageMultiplier.cs" />
     <Compile Include="Base\Dedicated.cs" />
-    <Compile Include="Base\DefaultTalkController.cs" />
     <Compile Include="Base\DyeColor.cs" />
     <Compile Include="Base\Electricity.cs" />
     <Compile Include="Base\ElectricTrap.cs" />
@@ -202,7 +157,6 @@
     <Compile Include="Base\Level.cs" />
     <Compile Include="Base\Life.cs" />
     <Compile Include="Base\LoadingScreen.cs" />
-    <Compile Include="Base\LocalUSpeakSender.cs" />
     <Compile Include="Base\LockedCrate.cs" />
     <Compile Include="Base\Look.cs" />
     <Compile Include="Base\Loot.cs" />
@@ -291,19 +245,11 @@
     <Compile Include="Base\ThreeDMode.cs" />
     <Compile Include="Base\Throw.cs" />
     <Compile Include="Base\Trap.cs" />
-    <Compile Include="Base\UnityNetworkExample.cs" />
-    <Compile Include="Base\UnityNetworkUSpeakSender.cs" />
     <Compile Include="Base\UnlockedDoor.cs" />
     <Compile Include="Base\Useable.cs" />
-    <Compile Include="Base\USpeakCodecManager.cs" />
-    <Compile Include="Base\USpeaker.cs" />
-    <Compile Include="Base\USpeakOwnerInfo.cs" />
-    <Compile Include="Base\USpeakPlayer.cs" />
-    <Compile Include="Base\USpeakUtilities.cs" />
     <Compile Include="Base\Vehicle.cs" />
     <Compile Include="Base\Vest.cs" />
     <Compile Include="Base\Viewmodel.cs" />
-    <Compile Include="Base\Voice.cs" />
     <Compile Include="Base\Zombie.cs" />
     <Compile Include="Base\Items\Weapons\Gun.cs" />
     <Compile Include="Base\Items\Weapons\Explosive.cs" />
