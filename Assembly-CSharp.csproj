@@ -131,19 +131,15 @@
     <Compile Include="Base\Animal.cs" />
     <Compile Include="Base\Animifier.cs" />
     <Compile Include="Base\ArmorStats.cs" />
-    <Compile Include="Base\Axe.cs" />
-    <Compile Include="Base\Backpack.cs" />
     <Compile Include="Base\BagSize.cs" />
     <Compile Include="Base\BandMode.cs" />
     <Compile Include="Base\Barricade.cs" />
     <Compile Include="Base\BarricadesRegion.cs" />
     <Compile Include="Base\BarricadeStats.cs" />
-    <Compile Include="Base\Bed.cs" />
     <Compile Include="Base\Bleed.cs" />
     <Compile Include="Base\Blueprint.cs" />
     <Compile Include="Base\Blueprints.cs" />
     <Compile Include="Base\Bumper.cs" />
-    <Compile Include="Base\Campfire.cs" />
     <Compile Include="Base\Chainsaw.cs" />
     <Compile Include="Base\Character.cs" />
     <Compile Include="Base\Chart.cs" />
@@ -156,11 +152,9 @@
     <Compile Include="Base\ConsumeableStats.cs" />
     <Compile Include="Base\Cooking.cs" />
     <Compile Include="Base\Coord2.cs" />
-    <Compile Include="Base\Crate.cs" />
     <Compile Include="Base\DamageMultiplier.cs" />
     <Compile Include="Base\Dedicated.cs" />
     <Compile Include="Base\DefaultTalkController.cs" />
-    <Compile Include="Base\Door.cs" />
     <Compile Include="Base\DyeColor.cs" />
     <Compile Include="Base\Electricity.cs" />
     <Compile Include="Base\ElectricTrap.cs" />
@@ -175,7 +169,6 @@
     <Compile Include="Base\Flashlight.cs" />
     <Compile Include="Base\Footsteps.cs" />
     <Compile Include="Base\GameSettings.cs" />
-    <Compile Include="Base\Gas.cs" />
     <Compile Include="Base\Generator.cs" />
     <Compile Include="Base\Gore.cs" />
     <Compile Include="Base\Graduate.cs" />
@@ -186,17 +179,6 @@
     <Compile Include="Base\HairStyles.cs" />
     <Compile Include="Base\Harvest.cs" />
     <Compile Include="Base\HarvestStats.cs" />
-    <Compile Include="Base\Hat.cs" />
-    <Compile Include="Base\HUDCharacter.cs" />
-    <Compile Include="Base\HUDCrafting.cs" />
-    <Compile Include="Base\HUDDedicated.cs" />
-    <Compile Include="Base\HUDEmote.cs" />
-    <Compile Include="Base\HUDGame.cs" />
-    <Compile Include="Base\HUDInteract.cs" />
-    <Compile Include="Base\HUDInventory.cs" />
-    <Compile Include="Base\HUDPause.cs" />
-    <Compile Include="Base\HUDPlayers.cs" />
-    <Compile Include="Base\HUDSkills.cs" />
     <Compile Include="Base\Images.cs" />
     <Compile Include="Base\InputSettings.cs" />
     <Compile Include="Base\Interact.cs" />
@@ -330,6 +312,24 @@
     <Compile Include="Base\Items\Weapons\Snare.cs" />
     <Compile Include="Base\Database.cs" />
     <Compile Include="DataHolder.FileDatabase\FileDatabase.cs" />
+    <Compile Include="Base\Items\Weapons\Axe.cs" />
+    <Compile Include="Base\Items\Crate.cs" />
+    <Compile Include="Base\Items\Backpack.cs" />
+    <Compile Include="Base\Items\Bed.cs" />
+    <Compile Include="Base\Items\Campfire.cs" />
+    <Compile Include="Base\Items\Door.cs" />
+    <Compile Include="Base\Items\Gas.cs" />
+    <Compile Include="Base\Items\Hat.cs" />
+    <Compile Include="Base.HUD\HUDCharacter.cs" />
+    <Compile Include="Base.HUD\HUDCrafting.cs" />
+    <Compile Include="Base.HUD\HUDDedicated.cs" />
+    <Compile Include="Base.HUD\HUDEmote.cs" />
+    <Compile Include="Base.HUD\HUDGame.cs" />
+    <Compile Include="Base.HUD\HUDInteract.cs" />
+    <Compile Include="Base.HUD\HUDInventory.cs" />
+    <Compile Include="Base.HUD\HUDPause.cs" />
+    <Compile Include="Base.HUD\HUDPlayers.cs" />
+    <Compile Include="Base.HUD\HUDSkills.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -338,5 +338,6 @@
     <Folder Include="Database\" />
     <Folder Include="Base\" />
     <Folder Include="DataHolder.FileDatabase\" />
+    <Folder Include="Base.HUD\" />
   </ItemGroup>
 </Project>
