@@ -110,6 +110,7 @@
     <Compile Include="Base\Coord2.cs" />
     <Compile Include="Base\DamageMultiplier.cs" />
     <Compile Include="Base\Dedicated.cs" />
+    <Compile Include="Base\DefaultTalkController.cs" />
     <Compile Include="Base\DyeColor.cs" />
     <Compile Include="Base\Electricity.cs" />
     <Compile Include="Base\ElectricTrap.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="Base\Level.cs" />
     <Compile Include="Base\Life.cs" />
     <Compile Include="Base\LoadingScreen.cs" />
+    <Compile Include="Base\LocalUSpeakSender.cs" />
     <Compile Include="Base\LockedCrate.cs" />
     <Compile Include="Base\Look.cs" />
     <Compile Include="Base\Loot.cs" />
@@ -250,6 +252,7 @@
     <Compile Include="Base\Vehicle.cs" />
     <Compile Include="Base\Vest.cs" />
     <Compile Include="Base\Viewmodel.cs" />
+    <Compile Include="Base\Voice.cs" />
     <Compile Include="Base\Zombie.cs" />
     <Compile Include="Base\Items\Weapons\Gun.cs" />
     <Compile Include="Base\Items\Weapons\Explosive.cs" />
@@ -276,14 +279,20 @@
     <Compile Include="Base.HUD\HUDPause.cs" />
     <Compile Include="Base.HUD\HUDPlayers.cs" />
     <Compile Include="Base.HUD\HUDSkills.cs" />
+    <Compile Include="Base.VoiceChat\UnityNetworkUSpeakSender.cs" />
+    <Compile Include="Base.VoiceChat\USpeakCodecManager.cs" />
+    <Compile Include="Base.VoiceChat\USpeaker.cs" />
+    <Compile Include="Base.VoiceChat\USpeakOwnerInfo.cs" />
+    <Compile Include="Base.VoiceChat\USpeakPlayer.cs" />
+    <Compile Include="Base.VoiceChat\USpeakUtilities.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="ModLoader\" />
     <Folder Include="Log\" />
-    <Folder Include="Database\" />
     <Folder Include="Base\" />
     <Folder Include="DataHolder.FileDatabase\" />
     <Folder Include="Base.HUD\" />
+    <Folder Include="Base.VoiceChat\" />
   </ItemGroup>
 </Project>
