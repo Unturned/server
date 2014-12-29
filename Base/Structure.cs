@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using CommandHandler;
 
 public class Structure : Useable
 {
@@ -17,19 +18,17 @@ public class Structure : Useable
 
 	private static RaycastHit hit;
 
-	public Structure()
-	{
-	}
-
 	[RPC]
-	public void askBuild(int slot_x, int slot_y, Vector3 position, int rotation, string state)
-	{
-		if (!base.GetComponent<Life>().dead)
-		{
-			Inventory component = base.GetComponent<Inventory>();
-			if (ItemType.getType(component.items[slot_x, slot_y].id) == 17)
-			{
-				SpawnStructures.placeStructure(component.items[slot_x, slot_y].id, position, rotation, state);
+	public void askBuild(int slot_x, int slot_y, Vector3 position, int rotation, string state) {
+		//UserList.getUserFromPlayer(base.GetComponent<NetworkPlayer>());ű
+		// TODO: disallowing build
+		return;
+		
+		if (!base.GetComponent<Life>().dead) { // Dead hack
+			Inventory inventory = base.GetComponent<Inventory>();
+						
+			if (ItemType.getType(inventory.items[slot_x, slot_y].id) == 17) {
+				SpawnStructures.placeStructure(inventory.items[slot_x, slot_y].id, position, rotation, state);
 			}
 		}
 	}
@@ -44,8 +43,7 @@ public class Structure : Useable
 		this.safe = false;
 	}
 
-	public override void dequip()
-	{
+	public override void dequip() {
 		UnityEngine.Object.Destroy(this.help);
 		Interact.hint = string.Empty;
 		Interact.icon = string.Empty;

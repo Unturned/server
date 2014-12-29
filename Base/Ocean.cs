@@ -77,11 +77,11 @@ public class Ocean : MonoBehaviour
 	public void Awake()
 	{
 		// TODO: sorry...
-		//Ocean.level = base.transform.position.y;
-		//this.water = null;//base.GetComponent<WaterBase>().;
-		//this.reflect = base.GetComponent<PlanarReflection>();
-		//this.apply();
-		//base.InvokeRepeating("cycle", 0f, 1f);
+		Ocean.level = base.transform.position.y;
+		this.water = base.GetComponent<WaterBase>().\u0831;
+		this.reflect = base.GetComponent<PlanarReflection>();
+		this.apply();
+		base.InvokeRepeating("cycle", 0f, 1f);
 	}
 
 	public void cycle()
@@ -90,6 +90,7 @@ public class Ocean : MonoBehaviour
 		{
 			// TODO: GUI Research for ocean
 			//this.reflect.clearColor = Camera.main.backgroundColor;
+			this.reflect.\u0005 = Camera.main.backgroundColor;
 		}
 		
 		if ((double)Sun.day < 0.05)

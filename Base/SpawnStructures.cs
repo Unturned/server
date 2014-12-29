@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using CommandHandler;
 
 public class SpawnStructures : MonoBehaviour
 {
@@ -12,52 +13,38 @@ public class SpawnStructures : MonoBehaviour
 
 	public static List<GameObject> models;
 
-	public SpawnStructures()
-	{
-	}
-
 	[RPC]
-	public void askAllStructures(NetworkPlayer player)
-	{
-		for (int i = 0; i < SpawnStructures.structures.Count; i++)
-		{
+	public void askAllStructures(NetworkPlayer player) {
+		for (int i = 0; i < SpawnStructures.structures.Count; i++) {
 			ServerStructure item = SpawnStructures.structures[i];
-			if (player != Network.player)
-			{
+			if (player != Network.player) {
 				base.networkView.RPC("createStructure", player, new object[] { item.id, item.position, item.rotation });
-			}
-			else
-			{
-				this.createStructurePleaseStopKuniiAlsoLetMeKnowIfYouWantToHelpWithAnticheatInVersion3(item.id, item.position, item.rotation);
+			} else {
+				this.createStructure(item.id, item.position, item.rotation);
 			}
 		}
 	}
 
 	[RPC]
-	public void createStructure(int id, Vector3 position, int rotation, NetworkMessageInfo info)
-	{
-		if (info.sender.ToString() == "0" || info.sender.ToString() == "-1")
-		{
-			this.createStructurePleaseStopKuniiAlsoLetMeKnowIfYouWantToHelpWithAnticheatInVersion3(id, position, rotation);
+	public void createStructure(int id, Vector3 position, int rotation, NetworkMessageInfo info) {
+		if (info.sender.ToString() == "0" || info.sender.ToString() == "-1") {
+			this.createStructure(id, position, rotation);
 		}
 	}
 
-	public void createStructurePleaseStopKuniiAlsoLetMeKnowIfYouWantToHelpWithAnticheatInVersion3(int id, Vector3 position, int rotation)
-	{
+	public void createStructure(int id, Vector3 position, int rotation) {
 		GameObject str = (GameObject)UnityEngine.Object.Instantiate(Resources.Load(string.Concat("Prefabs/Structures/", id)));
 		str.name = id.ToString();
 		str.transform.parent = SpawnStructures.model.transform;
 		str.transform.position = position;
 		str.transform.rotation = Quaternion.Euler(0f, (float)rotation, 0f);
 		SpawnStructures.models.Add(str);
-		if (StructureStats.isFoundation(id))
-		{
+		if (StructureStats.isFoundation(id)) {
 			Ground.clear(position, 5);
 		}
 	}
 
-	public static void damage(Vector3 position, int amount)
-	{
+	public static void damage(Vector3 position, int amount) {
 		int num = 0;
 		while (num < SpawnStructures.structures.Count)
 		{
@@ -81,8 +68,7 @@ public class SpawnStructures : MonoBehaviour
 	}
 
 	[RPC]
-	public void destroyStructure(int index)
-	{
+	public void destroyStructure(int index) {
 		if (SpawnStructures.models.Count > 0)
 		{
 			UnityEngine.Object.Destroy(SpawnStructures.models[index]);
@@ -94,18 +80,15 @@ public class SpawnStructures : MonoBehaviour
 		}
 	}
 
-	public void onReady()
-	{
+	public void onReady() {
 		SpawnStructures.tool = this;
 		SpawnStructures.model = GameObject.Find(Application.loadedLevelName).transform.FindChild("structures").gameObject;
 		SpawnStructures.structures = new List<ServerStructure>();
 		SpawnStructures.models = new List<GameObject>();
-		if (!Network.isServer)
-		{
+		if (!Network.isServer) {
 			base.networkView.RPC("askAllStructures", RPCMode.Server, new object[] { Network.player });
 		}
-		else
-		{
+		else {
 			string str = Savedata.loadStructures();
 			if (str != string.Empty)
 			{
@@ -125,7 +108,7 @@ public class SpawnStructures : MonoBehaviour
 						int.Parse(strArrays1[6]))
 					);
 					
-					this.createStructurePleaseStopKuniiAlsoLetMeKnowIfYouWantToHelpWithAnticheatInVersion3(
+					this.createStructure(
 						SpawnStructures.structures[SpawnStructures.structures.Count - 1].id,
 						SpawnStructures.structures[SpawnStructures.structures.Count - 1].position,
 						SpawnStructures.structures[SpawnStructures.structures.Count - 1].rotation

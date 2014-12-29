@@ -1,9 +1,8 @@
-using MoPhoGames.USpeak.Interface;
 using System;
 using UnityEngine;
 
 [AddComponentMenu("USpeak/Default Talk Controller")]
-public class DefaultTalkController : MonoBehaviour, IUSpeakTalkController
+public class DefaultTalkController : MonoBehaviour
 {
 	[HideInInspector]
 	[SerializeField]
