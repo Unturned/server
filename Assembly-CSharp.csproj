@@ -52,43 +52,7 @@
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Reputation.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Campfire.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Crate.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Door.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Point2.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MenuConfigure.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="RudeFilter.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SleekBox.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="MoPhoGames.USpeak.Codec\ADPCMCodec.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Animal.cs">
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
@@ -96,31 +60,7 @@
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SleekButton.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SleekContainer.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ElectricTrap.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MenuConnect.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="MoPhoGames.USpeak.Codec\MuLawCodec.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Clothes.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SleekDoc.cs">
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
@@ -128,167 +68,7 @@
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Generator.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="BandMode.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Loot.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SpeakerMode.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SendBehavior.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ThreeDMode.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Maps.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SleekField.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Axe.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Harvest.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MedicalStats.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Interactable.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Backpack.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Item.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MeleeStats.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SleekFrame.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="RayMasks.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SleekImage.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Lamp.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Skill.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SleekLabel.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SleekRadio.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MenuGraphics.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SkinColor.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="LockedCrate.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Note.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Equipment.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Barricade.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Trap.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="StructureStats.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="FancyAnimifier.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SleekRender.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="UnlockedDoor.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SleekSlider.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="USpeaker.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Texts.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Footsteps.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="MoPhoGames.USpeak.Core\USpeakAudioClipCompressor.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SleekWindow.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Bleed.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="BarricadesRegion.cs">
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
@@ -296,51 +76,7 @@
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ItemsRegion.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Gore.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MenuHost.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="USpeakCodecManager.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Zombie.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="MoPhoGames.USpeak.Core\USpeakFrameContainer.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Ground.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="AmmoStats.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Chainsaw.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Interact.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Chart.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ArmorStats.cs">
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
@@ -348,59 +84,7 @@
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SpawnAnimals.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="BagSize.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Consumeable.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="MoPhoGames.USpeak.Core\USpeakSettingsData.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Ocean.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Fertilizer.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Painter.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="LocalUSpeakSender.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Reflective.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Reflector.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="UnityNetworkExample.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="BarricadeStats.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="UnityNetworkUSpeakSender.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="DefaultTalkController.cs">
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
@@ -408,495 +92,10 @@
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Blueprint.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="MoPhoGames.USpeak.Interface\IUSpeakTalkController.cs">
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="MenuKeys.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="USpeakOwnerInfo.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SpawnBarricades.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="USpeakPlayer.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Flashlight.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MenuPlay.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="USpeakUtilities.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Sun.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ABridgeTooFar.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Blueprints.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ADayInTheSun.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Colors.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Chess.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Bumper.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Graduate.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ClientItem.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Gas.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MenuRegister.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Dedicated.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ConsumeableStats.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Level.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Vehicle.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="DamageMultiplier.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="DyeColor.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Passenger.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="AI.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ExplosiveStats.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="HairColor.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Inventory.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="FaceStyles.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="HairStyles.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="HarvestStats.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Images.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ItemAmount.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SpawnItems.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="HUDCharacter.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ItemAnimations.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="GunStats.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MenuServers.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SpawnPlayers.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Player.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Server.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ServerBarricade.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SpawnProjectiles.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="HUDCrafting.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ServerItem.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ServerStructure.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Steam.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SpawnResources.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Bed.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ItemDescription.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MenuSettings.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Life.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ItemEquipable.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="InputSettings.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MasterSettings.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SpawnStructures.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="HUDDedicated.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MenuSingleplayer.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="HUDEmote.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="PlayerSettings.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ServerSettings.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Coord2.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Orient2.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MenuTitle.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Look.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ItemName.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SpawnVehicles.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ChatType.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Cooking.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ItemSounds.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ItemStackable.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Movement.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Electricity.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ItemState.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Epoch.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ItemType.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Melee.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ExplosionTool.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Optic.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Pants.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="OwnerFinder.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Skills.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SleekDelegate.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Stance.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ItemWeight.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Viewmodel.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Pick.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="HUDGame.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Voice.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Flare.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Animifier.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Smoke.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Plant.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MD5.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="HUDInteract.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Packer.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Refillable.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Character.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Repair.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="InteractionInterface.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Shirt.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Savedata.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Sneaky.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="GameSettings.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="HUDInventory.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="GraphicsSettings.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="HUDPause.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Hat.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Jack.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="HUDPlayers.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Medicine.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="HUDSkills.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="LoadingScreen.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Structure.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Throw.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Useable.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Vest.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="MenuCharacter.cs">
-      <AutoGen>false</AutoGen>
-      <DesignTimeSharedInput>false</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Items\Weapons\Gun.cs" />
-    <Compile Include="Items\Weapons\Explosive.cs" />
-    <Compile Include="Items\Weapons\ExplosiveTrap.cs" />
-    <Compile Include="Items\Weapons\Grenade.cs" />
-    <Compile Include="Items\Weapons\Snare.cs" />
     <Compile Include="ModLoader\BetterNetworkUser.cs" />
     <Compile Include="ModLoader\Command.cs" />
     <Compile Include="ModLoader\CommandHandlerMain.cs" />
@@ -907,34 +106,237 @@
     <Compile Include="ModLoader\Reference.cs" />
     <Compile Include="ModLoader\UserList.cs" />
     <Compile Include="Log\Logger.cs" />
-    <Compile Include="Network\NetworkBanned.cs" />
-    <Compile Include="Network\NetworkBans.cs" />
-    <Compile Include="Network\NetworkChat.cs" />
-    <Compile Include="Network\NetworkEffects.cs" />
-    <Compile Include="Network\NetworkErrorDelegate.cs" />
-    <Compile Include="Network\NetworkEventDelegate.cs" />
-    <Compile Include="Network\NetworkEvents.cs" />
-    <Compile Include="Network\NetworkHandler.cs" />
-    <Compile Include="Network\NetworkInterpolation.cs" />
-    <Compile Include="Network\NetworkLoader.cs" />
-    <Compile Include="Network\NetworkManager.cs" />
-    <Compile Include="Network\NetworkMasterServer.cs" />
-    <Compile Include="Network\NetworkPlayerDelegate.cs" />
-    <Compile Include="Network\NetworkRegions.cs" />
-    <Compile Include="Network\NetworkSounds.cs" />
-    <Compile Include="Network\NetworkTools.cs" />
-    <Compile Include="Network\NetworkUser.cs" />
-    <Compile Include="Network\NetworkUserList.cs" />
-    <Compile Include="Database\FileDatabase.cs" />
-    <Compile Include="PizzaDatabase.cs" />
+    <Compile Include="Base\Network\NetworkBanned.cs" />
+    <Compile Include="Base\Network\NetworkBans.cs" />
+    <Compile Include="Base\Network\NetworkChat.cs" />
+    <Compile Include="Base\Network\NetworkEffects.cs" />
+    <Compile Include="Base\Network\NetworkErrorDelegate.cs" />
+    <Compile Include="Base\Network\NetworkEventDelegate.cs" />
+    <Compile Include="Base\Network\NetworkEvents.cs" />
+    <Compile Include="Base\Network\NetworkHandler.cs" />
+    <Compile Include="Base\Network\NetworkInterpolation.cs" />
+    <Compile Include="Base\Network\NetworkLoader.cs" />
+    <Compile Include="Base\Network\NetworkManager.cs" />
+    <Compile Include="Base\Network\NetworkMasterServer.cs" />
+    <Compile Include="Base\Network\NetworkPlayerDelegate.cs" />
+    <Compile Include="Base\Network\NetworkRegions.cs" />
+    <Compile Include="Base\Network\NetworkSounds.cs" />
+    <Compile Include="Base\Network\NetworkTools.cs" />
+    <Compile Include="Base\Network\NetworkUser.cs" />
+    <Compile Include="Base\Network\NetworkUserList.cs" />
+    <Compile Include="Base\ABridgeTooFar.cs" />
+    <Compile Include="Base\ADayInTheSun.cs" />
+    <Compile Include="Base\AI.cs" />
+    <Compile Include="Base\AmmoStats.cs" />
+    <Compile Include="Base\Animal.cs" />
+    <Compile Include="Base\Animifier.cs" />
+    <Compile Include="Base\ArmorStats.cs" />
+    <Compile Include="Base\Axe.cs" />
+    <Compile Include="Base\Backpack.cs" />
+    <Compile Include="Base\BagSize.cs" />
+    <Compile Include="Base\BandMode.cs" />
+    <Compile Include="Base\Barricade.cs" />
+    <Compile Include="Base\BarricadesRegion.cs" />
+    <Compile Include="Base\BarricadeStats.cs" />
+    <Compile Include="Base\Bed.cs" />
+    <Compile Include="Base\Bleed.cs" />
+    <Compile Include="Base\Blueprint.cs" />
+    <Compile Include="Base\Blueprints.cs" />
+    <Compile Include="Base\Bumper.cs" />
+    <Compile Include="Base\Campfire.cs" />
+    <Compile Include="Base\Chainsaw.cs" />
+    <Compile Include="Base\Character.cs" />
+    <Compile Include="Base\Chart.cs" />
+    <Compile Include="Base\ChatType.cs" />
+    <Compile Include="Base\Chess.cs" />
+    <Compile Include="Base\ClientItem.cs" />
+    <Compile Include="Base\Clothes.cs" />
+    <Compile Include="Base\Colors.cs" />
+    <Compile Include="Base\Consumeable.cs" />
+    <Compile Include="Base\ConsumeableStats.cs" />
+    <Compile Include="Base\Cooking.cs" />
+    <Compile Include="Base\Coord2.cs" />
+    <Compile Include="Base\Crate.cs" />
+    <Compile Include="Base\DamageMultiplier.cs" />
+    <Compile Include="Base\Dedicated.cs" />
+    <Compile Include="Base\DefaultTalkController.cs" />
+    <Compile Include="Base\Door.cs" />
+    <Compile Include="Base\DyeColor.cs" />
+    <Compile Include="Base\Electricity.cs" />
+    <Compile Include="Base\ElectricTrap.cs" />
+    <Compile Include="Base\Epoch.cs" />
+    <Compile Include="Base\Equipment.cs" />
+    <Compile Include="Base\ExplosionTool.cs" />
+    <Compile Include="Base\ExplosiveStats.cs" />
+    <Compile Include="Base\FaceStyles.cs" />
+    <Compile Include="Base\FancyAnimifier.cs" />
+    <Compile Include="Base\Fertilizer.cs" />
+    <Compile Include="Base\Flare.cs" />
+    <Compile Include="Base\Flashlight.cs" />
+    <Compile Include="Base\Footsteps.cs" />
+    <Compile Include="Base\GameSettings.cs" />
+    <Compile Include="Base\Gas.cs" />
+    <Compile Include="Base\Generator.cs" />
+    <Compile Include="Base\Gore.cs" />
+    <Compile Include="Base\Graduate.cs" />
+    <Compile Include="Base\GraphicsSettings.cs" />
+    <Compile Include="Base\Ground.cs" />
+    <Compile Include="Base\GunStats.cs" />
+    <Compile Include="Base\HairColor.cs" />
+    <Compile Include="Base\HairStyles.cs" />
+    <Compile Include="Base\Harvest.cs" />
+    <Compile Include="Base\HarvestStats.cs" />
+    <Compile Include="Base\Hat.cs" />
+    <Compile Include="Base\HUDCharacter.cs" />
+    <Compile Include="Base\HUDCrafting.cs" />
+    <Compile Include="Base\HUDDedicated.cs" />
+    <Compile Include="Base\HUDEmote.cs" />
+    <Compile Include="Base\HUDGame.cs" />
+    <Compile Include="Base\HUDInteract.cs" />
+    <Compile Include="Base\HUDInventory.cs" />
+    <Compile Include="Base\HUDPause.cs" />
+    <Compile Include="Base\HUDPlayers.cs" />
+    <Compile Include="Base\HUDSkills.cs" />
+    <Compile Include="Base\Images.cs" />
+    <Compile Include="Base\InputSettings.cs" />
+    <Compile Include="Base\Interact.cs" />
+    <Compile Include="Base\Interactable.cs" />
+    <Compile Include="Base\InteractionInterface.cs" />
+    <Compile Include="Base\Inventory.cs" />
+    <Compile Include="Base\Item.cs" />
+    <Compile Include="Base\ItemAmount.cs" />
+    <Compile Include="Base\ItemAnimations.cs" />
+    <Compile Include="Base\ItemDescription.cs" />
+    <Compile Include="Base\ItemEquipable.cs" />
+    <Compile Include="Base\ItemName.cs" />
+    <Compile Include="Base\ItemSounds.cs" />
+    <Compile Include="Base\ItemsRegion.cs" />
+    <Compile Include="Base\ItemStackable.cs" />
+    <Compile Include="Base\ItemState.cs" />
+    <Compile Include="Base\ItemType.cs" />
+    <Compile Include="Base\ItemWeight.cs" />
+    <Compile Include="Base\Jack.cs" />
+    <Compile Include="Base\Lamp.cs" />
+    <Compile Include="Base\Level.cs" />
+    <Compile Include="Base\Life.cs" />
+    <Compile Include="Base\LoadingScreen.cs" />
+    <Compile Include="Base\LocalUSpeakSender.cs" />
+    <Compile Include="Base\LockedCrate.cs" />
+    <Compile Include="Base\Look.cs" />
+    <Compile Include="Base\Loot.cs" />
+    <Compile Include="Base\Maps.cs" />
+    <Compile Include="Base\MasterSettings.cs" />
+    <Compile Include="Base\MD5.cs" />
+    <Compile Include="Base\MedicalStats.cs" />
+    <Compile Include="Base\Medicine.cs" />
+    <Compile Include="Base\Melee.cs" />
+    <Compile Include="Base\MeleeStats.cs" />
+    <Compile Include="Base\MenuCharacter.cs" />
+    <Compile Include="Base\MenuConfigure.cs" />
+    <Compile Include="Base\MenuConnect.cs" />
+    <Compile Include="Base\MenuGraphics.cs" />
+    <Compile Include="Base\MenuHost.cs" />
+    <Compile Include="Base\MenuKeys.cs" />
+    <Compile Include="Base\MenuPlay.cs" />
+    <Compile Include="Base\MenuRegister.cs" />
+    <Compile Include="Base\MenuServers.cs" />
+    <Compile Include="Base\MenuSettings.cs" />
+    <Compile Include="Base\MenuSingleplayer.cs" />
+    <Compile Include="Base\MenuTitle.cs" />
+    <Compile Include="Base\Movement.cs" />
+    <Compile Include="Base\Note.cs" />
+    <Compile Include="Base\Ocean.cs" />
+    <Compile Include="Base\Optic.cs" />
+    <Compile Include="Base\Orient2.cs" />
+    <Compile Include="Base\OwnerFinder.cs" />
+    <Compile Include="Base\Packer.cs" />
+    <Compile Include="Base\Painter.cs" />
+    <Compile Include="Base\Pants.cs" />
+    <Compile Include="Base\Passenger.cs" />
+    <Compile Include="Base\Pick.cs" />
+    <Compile Include="Base\Plant.cs" />
+    <Compile Include="Base\Player.cs" />
+    <Compile Include="Base\PlayerSettings.cs" />
+    <Compile Include="Base\Point2.cs" />
+    <Compile Include="Base\RayMasks.cs" />
+    <Compile Include="Base\Refillable.cs" />
+    <Compile Include="Base\Reflective.cs" />
+    <Compile Include="Base\Reflector.cs" />
+    <Compile Include="Base\Repair.cs" />
+    <Compile Include="Base\Reputation.cs" />
+    <Compile Include="Base\RudeFilter.cs" />
+    <Compile Include="Base\Savedata.cs" />
+    <Compile Include="Base\SendBehavior.cs" />
+    <Compile Include="Base\Server.cs" />
+    <Compile Include="Base\ServerBarricade.cs" />
+    <Compile Include="Base\ServerItem.cs" />
+    <Compile Include="Base\ServerSettings.cs" />
+    <Compile Include="Base\ServerStructure.cs" />
+    <Compile Include="Base\Shirt.cs" />
+    <Compile Include="Base\Skill.cs" />
+    <Compile Include="Base\Skills.cs" />
+    <Compile Include="Base\SkinColor.cs" />
+    <Compile Include="Base\SleekBox.cs" />
+    <Compile Include="Base\SleekButton.cs" />
+    <Compile Include="Base\SleekContainer.cs" />
+    <Compile Include="Base\SleekDelegate.cs" />
+    <Compile Include="Base\SleekDoc.cs" />
+    <Compile Include="Base\SleekField.cs" />
+    <Compile Include="Base\SleekFrame.cs" />
+    <Compile Include="Base\SleekImage.cs" />
+    <Compile Include="Base\SleekLabel.cs" />
+    <Compile Include="Base\SleekRadio.cs" />
+    <Compile Include="Base\SleekRender.cs" />
+    <Compile Include="Base\SleekSlider.cs" />
+    <Compile Include="Base\SleekWindow.cs" />
+    <Compile Include="Base\Smoke.cs" />
+    <Compile Include="Base\Sneaky.cs" />
+    <Compile Include="Base\SpawnAnimals.cs" />
+    <Compile Include="Base\SpawnBarricades.cs" />
+    <Compile Include="Base\SpawnItems.cs" />
+    <Compile Include="Base\SpawnPlayers.cs" />
+    <Compile Include="Base\SpawnProjectiles.cs" />
+    <Compile Include="Base\SpawnResources.cs" />
+    <Compile Include="Base\SpawnStructures.cs" />
+    <Compile Include="Base\SpawnVehicles.cs" />
+    <Compile Include="Base\SpeakerMode.cs" />
+    <Compile Include="Base\Stance.cs" />
+    <Compile Include="Base\Steam.cs" />
+    <Compile Include="Base\Structure.cs" />
+    <Compile Include="Base\StructureStats.cs" />
+    <Compile Include="Base\Sun.cs" />
+    <Compile Include="Base\Texts.cs" />
+    <Compile Include="Base\ThreeDMode.cs" />
+    <Compile Include="Base\Throw.cs" />
+    <Compile Include="Base\Trap.cs" />
+    <Compile Include="Base\UnityNetworkExample.cs" />
+    <Compile Include="Base\UnityNetworkUSpeakSender.cs" />
+    <Compile Include="Base\UnlockedDoor.cs" />
+    <Compile Include="Base\Useable.cs" />
+    <Compile Include="Base\USpeakCodecManager.cs" />
+    <Compile Include="Base\USpeaker.cs" />
+    <Compile Include="Base\USpeakOwnerInfo.cs" />
+    <Compile Include="Base\USpeakPlayer.cs" />
+    <Compile Include="Base\USpeakUtilities.cs" />
+    <Compile Include="Base\Vehicle.cs" />
+    <Compile Include="Base\Vest.cs" />
+    <Compile Include="Base\Viewmodel.cs" />
+    <Compile Include="Base\Voice.cs" />
+    <Compile Include="Base\Zombie.cs" />
+    <Compile Include="Base\Items\Weapons\Gun.cs" />
+    <Compile Include="Base\Items\Weapons\Explosive.cs" />
+    <Compile Include="Base\Items\Weapons\ExplosiveTrap.cs" />
+    <Compile Include="Base\Items\Weapons\Grenade.cs" />
+    <Compile Include="Base\Items\Weapons\Snare.cs" />
+    <Compile Include="Base\Database.cs" />
+    <Compile Include="DataHolder.FileDatabase\FileDatabase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Items\" />
-    <Folder Include="Items\Weapons\" />
     <Folder Include="ModLoader\" />
     <Folder Include="Log\" />
-    <Folder Include="Network\" />
     <Folder Include="Database\" />
+    <Folder Include="Base\" />
+    <Folder Include="DataHolder.FileDatabase\" />
   </ItemGroup>
 </Project>
