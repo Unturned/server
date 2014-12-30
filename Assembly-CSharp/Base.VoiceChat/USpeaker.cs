@@ -341,14 +341,8 @@ public class USpeaker : MonoBehaviour
 
 	private List<float[]> SplitArray(float[] array, int size)
 	{
-		float[] singleArray = null;
-		List<float[]> singleArrays = new List<float[]>();
-		for (int i = 0; i < (int)array.Length; i = i + (int)singleArray.Length)
-		{
-			singleArray = array.Skip<float>(i).Take<float>(size).ToArray<float>();
-			singleArrays.Add(singleArray);
-		}
-		return singleArrays;
+		// TODO: USpeaker kill HAHA 
+		return new List<float[]>();
 	}
 
 	[DebuggerHidden]

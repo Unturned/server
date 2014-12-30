@@ -334,10 +334,10 @@ public class MenuCharacter
 					num9++;
 				}
 				else
-				{*/
+				{
 					flag = true;
 					break;
-				//}
+				}*/
 			}
 			if (!flag)
 			{

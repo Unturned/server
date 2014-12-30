@@ -15,8 +15,6 @@ namespace CommandHandler
         public static String lastUsedCommand = "None";
         NetworkChat networkChat = UnityEngine.Object.FindObjectOfType(typeof(NetworkChat)) as NetworkChat;
 
-        Dictionary<String, int> userPermissions = new Dictionary<String, int>();
-
         public static bool usingHiddenChat = false;
         public static string serverName = "ZombieLand Admin v1.1";
 
@@ -101,7 +99,8 @@ namespace CommandHandler
             lastUsedCommand = commando.Trim();
             commando = commando.Remove(0, 1);
 
-            List<String> words = commando.Split(' ').ToList<String>();
+			String[] commandParams = commando.Split(' ');
+            List<string> words = commandParams.ToList<string>();
             string cmdText = words.First();
             words.RemoveAt(0);
             

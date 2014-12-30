@@ -17,6 +17,10 @@ namespace UnturnedTest
 			int c = 'ࣈ';
 			Console.WriteLine("Value: \\u{0:X02}", c);
 
+			// public ulong ࢑;
+			c = '࢑';
+			Console.WriteLine("m_SteamID: \\u{0:X02}", c);
+
 			NetworkConnectionError error = Network.InitializeServer(32, 8767, false);
 		}
 

@@ -19,7 +19,6 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
-    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -30,19 +29,6 @@
     <ErrorReport>prompt</ErrorReport>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System.Core" />
-    <Reference Include="System" />
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\libs\Assembly-CSharp-firstpass.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-UnityScript-firstpass">
-      <HintPath>..\libs\Assembly-UnityScript-firstpass.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>..\libs\UnityEngine.dll</HintPath>
-    </Reference>
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
       <AutoGen>false</AutoGen>
@@ -292,9 +278,20 @@
     <Folder Include="Base.VoiceChat\" />
     <Folder Include="GridManager\" />
   </ItemGroup>
-  <ProjectExtensions>
-    <MonoDevelop>
-      <Properties/>
-    </MonoDevelop>
-  </ProjectExtensions>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\libs\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-UnityScript-firstpass">
+      <HintPath>..\libs\Assembly-UnityScript-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\libs\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityScript.Lang">
+      <HintPath>..\libs\UnityScript.Lang.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System" />
+  </ItemGroup>
 </Project>

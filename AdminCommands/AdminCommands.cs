@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
-using System.Timers;
+using Timer = System.Timers.Timer;
 using UnityEngine;
 
 namespace AdminCommands
@@ -14,23 +14,23 @@ namespace AdminCommands
 	{
 		private int updater3 = 0;
 		public string lastUsedCommand = "none";
-		public System.Timers.Timer itemsTimer;
-		public System.Timers.Timer announceTimer;
+		public Timer itemsTimer;
+		public Timer announceTimer;
 		public int announceIndex = 0;
 		public int itemsResetIntervalInSeconds = 2700;
 		public int announceIntervalInSeconds = 600;
 		public string[] AnnounceMessages;
-		public System.Collections.Generic.List<string> WhitelistedSteamIDs = new System.Collections.Generic.List<string> ();
+		public List<string> WhitelistedSteamIDs = new System.Collections.Generic.List<string> ();
 		public bool usingWhitelist = false;
 		public bool showWhiteListKickMessages = true;
 		public bool usingGUI = true;
 		public bool usePlayerHomes = true;
 		public bool respawnVehicles = false;
-		private System.Collections.Generic.Dictionary<string, Vector3> frozenPlayers = new System.Collections.Generic.Dictionary<string, Vector3> ();
-		private System.Collections.Generic.Dictionary<string, Vector3> vanishedPlayers = new System.Collections.Generic.Dictionary<string, Vector3> ();
-		private System.Collections.Generic.Dictionary<string, float> usedHomeCommand = new System.Collections.Generic.Dictionary<string, float> ();
+		private Dictionary<string, Vector3> frozenPlayers = new System.Collections.Generic.Dictionary<string, Vector3> ();
+		private Dictionary<string, Vector3> vanishedPlayers = new System.Collections.Generic.Dictionary<string, Vector3> ();
+		private Dictionary<string, float> usedHomeCommand = new System.Collections.Generic.Dictionary<string, float> ();
 		public string bigAssStringWithBannedPlayerNamesAndSteamIDs = "";
-		private System.Collections.Generic.Dictionary<string, Vector3> playerHomes = new System.Collections.Generic.Dictionary<string, Vector3> ();
+		private Dictionary<string, Vector3> playerHomes = new System.Collections.Generic.Dictionary<string, Vector3> ();
 		private BetterNetworkUser userToBeBanned;
 		private static System.Random random = new System.Random ((int)System.DateTime.Now.Ticks);
 
