@@ -1,0 +1,300 @@
+<?xml version="1.0"?>
+<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{d48b790f-7af2-4019-812d-0af1a5140725}</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <OutputType>Library</OutputType>
+    <ProductVersion>10.0.0</ProductVersion>
+    <RootNamespace>AssemblyCSharp</RootNamespace>
+    <ReleaseVersion>1.0</ReleaseVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <Optimize>false</Optimize>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>pdbonly</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Core" />
+    <Reference Include="System" />
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\libs\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-UnityScript-firstpass">
+      <HintPath>..\libs\Assembly-UnityScript-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\libs\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <AutoGen>false</AutoGen>
+      <DesignTimeSharedInput>false</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ModLoader\BetterNetworkUser.cs" />
+    <Compile Include="ModLoader\Command.cs" />
+    <Compile Include="ModLoader\CommandHandlerMain.cs" />
+    <Compile Include="ModLoader\CommandList.cs" />
+    <Compile Include="ModLoader\Hook.cs" />
+    <Compile Include="ModLoader\Ini.cs" />
+    <Compile Include="ModLoader\Loader.cs" />
+    <Compile Include="ModLoader\Reference.cs" />
+    <Compile Include="ModLoader\UserList.cs" />
+    <Compile Include="Log\Logger.cs" />
+    <Compile Include="Base\Network\NetworkBanned.cs" />
+    <Compile Include="Base\Network\NetworkBans.cs" />
+    <Compile Include="Base\Network\NetworkChat.cs" />
+    <Compile Include="Base\Network\NetworkEffects.cs" />
+    <Compile Include="Base\Network\NetworkErrorDelegate.cs" />
+    <Compile Include="Base\Network\NetworkEventDelegate.cs" />
+    <Compile Include="Base\Network\NetworkEvents.cs" />
+    <Compile Include="Base\Network\NetworkHandler.cs" />
+    <Compile Include="Base\Network\NetworkInterpolation.cs" />
+    <Compile Include="Base\Network\NetworkLoader.cs" />
+    <Compile Include="Base\Network\NetworkManager.cs" />
+    <Compile Include="Base\Network\NetworkMasterServer.cs" />
+    <Compile Include="Base\Network\NetworkPlayerDelegate.cs" />
+    <Compile Include="Base\Network\NetworkRegions.cs" />
+    <Compile Include="Base\Network\NetworkSounds.cs" />
+    <Compile Include="Base\Network\NetworkTools.cs" />
+    <Compile Include="Base\Network\NetworkUser.cs" />
+    <Compile Include="Base\Network\NetworkUserList.cs" />
+    <Compile Include="Base\ABridgeTooFar.cs" />
+    <Compile Include="Base\ADayInTheSun.cs" />
+    <Compile Include="Base\AI.cs" />
+    <Compile Include="Base\AmmoStats.cs" />
+    <Compile Include="Base\Animal.cs" />
+    <Compile Include="Base\Animifier.cs" />
+    <Compile Include="Base\ArmorStats.cs" />
+    <Compile Include="Base\BagSize.cs" />
+    <Compile Include="Base\BandMode.cs" />
+    <Compile Include="Base\Barricade.cs" />
+    <Compile Include="Base\BarricadesRegion.cs" />
+    <Compile Include="Base\BarricadeStats.cs" />
+    <Compile Include="Base\Bleed.cs" />
+    <Compile Include="Base\Blueprint.cs" />
+    <Compile Include="Base\Blueprints.cs" />
+    <Compile Include="Base\Bumper.cs" />
+    <Compile Include="Base\Chainsaw.cs" />
+    <Compile Include="Base\Character.cs" />
+    <Compile Include="Base\Chart.cs" />
+    <Compile Include="Base\ChatType.cs" />
+    <Compile Include="Base\Chess.cs" />
+    <Compile Include="Base\ClientItem.cs" />
+    <Compile Include="Base\Clothes.cs" />
+    <Compile Include="Base\Colors.cs" />
+    <Compile Include="Base\Consumeable.cs" />
+    <Compile Include="Base\ConsumeableStats.cs" />
+    <Compile Include="Base\Cooking.cs" />
+    <Compile Include="Base\Coord2.cs" />
+    <Compile Include="Base\DamageMultiplier.cs" />
+    <Compile Include="Base\Dedicated.cs" />
+    <Compile Include="Base\DefaultTalkController.cs" />
+    <Compile Include="Base\DyeColor.cs" />
+    <Compile Include="Base\Electricity.cs" />
+    <Compile Include="Base\ElectricTrap.cs" />
+    <Compile Include="Base\Epoch.cs" />
+    <Compile Include="Base\Equipment.cs" />
+    <Compile Include="Base\ExplosionTool.cs" />
+    <Compile Include="Base\ExplosiveStats.cs" />
+    <Compile Include="Base\FaceStyles.cs" />
+    <Compile Include="Base\FancyAnimifier.cs" />
+    <Compile Include="Base\Fertilizer.cs" />
+    <Compile Include="Base\Flare.cs" />
+    <Compile Include="Base\Flashlight.cs" />
+    <Compile Include="Base\Footsteps.cs" />
+    <Compile Include="Base\GameSettings.cs" />
+    <Compile Include="Base\Generator.cs" />
+    <Compile Include="Base\Gore.cs" />
+    <Compile Include="Base\Graduate.cs" />
+    <Compile Include="Base\GraphicsSettings.cs" />
+    <Compile Include="Base\Ground.cs" />
+    <Compile Include="Base\GunStats.cs" />
+    <Compile Include="Base\HairColor.cs" />
+    <Compile Include="Base\HairStyles.cs" />
+    <Compile Include="Base\Harvest.cs" />
+    <Compile Include="Base\HarvestStats.cs" />
+    <Compile Include="Base\Images.cs" />
+    <Compile Include="Base\InputSettings.cs" />
+    <Compile Include="Base\Interact.cs" />
+    <Compile Include="Base\Interactable.cs" />
+    <Compile Include="Base\InteractionInterface.cs" />
+    <Compile Include="Base\Inventory.cs" />
+    <Compile Include="Base\Item.cs" />
+    <Compile Include="Base\ItemAmount.cs" />
+    <Compile Include="Base\ItemAnimations.cs" />
+    <Compile Include="Base\ItemDescription.cs" />
+    <Compile Include="Base\ItemEquipable.cs" />
+    <Compile Include="Base\ItemName.cs" />
+    <Compile Include="Base\ItemSounds.cs" />
+    <Compile Include="Base\ItemsRegion.cs" />
+    <Compile Include="Base\ItemStackable.cs" />
+    <Compile Include="Base\ItemState.cs" />
+    <Compile Include="Base\ItemType.cs" />
+    <Compile Include="Base\ItemWeight.cs" />
+    <Compile Include="Base\Jack.cs" />
+    <Compile Include="Base\Lamp.cs" />
+    <Compile Include="Base\Level.cs" />
+    <Compile Include="Base\Life.cs" />
+    <Compile Include="Base\LoadingScreen.cs" />
+    <Compile Include="Base\LocalUSpeakSender.cs" />
+    <Compile Include="Base\LockedCrate.cs" />
+    <Compile Include="Base\Look.cs" />
+    <Compile Include="Base\Loot.cs" />
+    <Compile Include="Base\Maps.cs" />
+    <Compile Include="Base\MasterSettings.cs" />
+    <Compile Include="Base\MD5.cs" />
+    <Compile Include="Base\MedicalStats.cs" />
+    <Compile Include="Base\Medicine.cs" />
+    <Compile Include="Base\Melee.cs" />
+    <Compile Include="Base\MeleeStats.cs" />
+    <Compile Include="Base\MenuCharacter.cs" />
+    <Compile Include="Base\MenuConfigure.cs" />
+    <Compile Include="Base\MenuConnect.cs" />
+    <Compile Include="Base\MenuGraphics.cs" />
+    <Compile Include="Base\MenuHost.cs" />
+    <Compile Include="Base\MenuKeys.cs" />
+    <Compile Include="Base\MenuPlay.cs" />
+    <Compile Include="Base\MenuRegister.cs" />
+    <Compile Include="Base\MenuServers.cs" />
+    <Compile Include="Base\MenuSettings.cs" />
+    <Compile Include="Base\MenuSingleplayer.cs" />
+    <Compile Include="Base\MenuTitle.cs" />
+    <Compile Include="Base\Movement.cs" />
+    <Compile Include="Base\Note.cs" />
+    <Compile Include="Base\Ocean.cs" />
+    <Compile Include="Base\Optic.cs" />
+    <Compile Include="Base\Orient2.cs" />
+    <Compile Include="Base\OwnerFinder.cs" />
+    <Compile Include="Base\Packer.cs" />
+    <Compile Include="Base\Painter.cs" />
+    <Compile Include="Base\Pants.cs" />
+    <Compile Include="Base\Passenger.cs" />
+    <Compile Include="Base\Pick.cs" />
+    <Compile Include="Base\Plant.cs" />
+    <Compile Include="Base\Player.cs" />
+    <Compile Include="Base\PlayerSettings.cs" />
+    <Compile Include="Base\Point2.cs" />
+    <Compile Include="Base\RayMasks.cs" />
+    <Compile Include="Base\Refillable.cs" />
+    <Compile Include="Base\Reflective.cs" />
+    <Compile Include="Base\Reflector.cs" />
+    <Compile Include="Base\Repair.cs" />
+    <Compile Include="Base\Reputation.cs" />
+    <Compile Include="Base\RudeFilter.cs" />
+    <Compile Include="Base\Savedata.cs" />
+    <Compile Include="Base\SendBehavior.cs" />
+    <Compile Include="Base\Server.cs" />
+    <Compile Include="Base\ServerBarricade.cs" />
+    <Compile Include="Base\ServerItem.cs" />
+    <Compile Include="Base\ServerSettings.cs" />
+    <Compile Include="Base\ServerStructure.cs" />
+    <Compile Include="Base\Shirt.cs" />
+    <Compile Include="Base\Skill.cs" />
+    <Compile Include="Base\Skills.cs" />
+    <Compile Include="Base\SkinColor.cs" />
+    <Compile Include="Base\SleekBox.cs" />
+    <Compile Include="Base\SleekButton.cs" />
+    <Compile Include="Base\SleekContainer.cs" />
+    <Compile Include="Base\SleekDelegate.cs" />
+    <Compile Include="Base\SleekDoc.cs" />
+    <Compile Include="Base\SleekField.cs" />
+    <Compile Include="Base\SleekFrame.cs" />
+    <Compile Include="Base\SleekImage.cs" />
+    <Compile Include="Base\SleekLabel.cs" />
+    <Compile Include="Base\SleekRadio.cs" />
+    <Compile Include="Base\SleekRender.cs" />
+    <Compile Include="Base\SleekSlider.cs" />
+    <Compile Include="Base\SleekWindow.cs" />
+    <Compile Include="Base\Smoke.cs" />
+    <Compile Include="Base\Sneaky.cs" />
+    <Compile Include="Base\SpawnAnimals.cs" />
+    <Compile Include="Base\SpawnBarricades.cs" />
+    <Compile Include="Base\SpawnItems.cs" />
+    <Compile Include="Base\SpawnPlayers.cs" />
+    <Compile Include="Base\SpawnProjectiles.cs" />
+    <Compile Include="Base\SpawnResources.cs" />
+    <Compile Include="Base\SpawnStructures.cs" />
+    <Compile Include="Base\SpawnVehicles.cs" />
+    <Compile Include="Base\SpeakerMode.cs" />
+    <Compile Include="Base\Stance.cs" />
+    <Compile Include="Base\Steam.cs" />
+    <Compile Include="Base\Structure.cs" />
+    <Compile Include="Base\StructureStats.cs" />
+    <Compile Include="Base\Sun.cs" />
+    <Compile Include="Base\Texts.cs" />
+    <Compile Include="Base\ThreeDMode.cs" />
+    <Compile Include="Base\Throw.cs" />
+    <Compile Include="Base\Trap.cs" />
+    <Compile Include="Base\UnlockedDoor.cs" />
+    <Compile Include="Base\Useable.cs" />
+    <Compile Include="Base\Vehicle.cs" />
+    <Compile Include="Base\Vest.cs" />
+    <Compile Include="Base\Viewmodel.cs" />
+    <Compile Include="Base\Voice.cs" />
+    <Compile Include="Base\Zombie.cs" />
+    <Compile Include="Base\Items\Weapons\Gun.cs" />
+    <Compile Include="Base\Items\Weapons\Explosive.cs" />
+    <Compile Include="Base\Items\Weapons\ExplosiveTrap.cs" />
+    <Compile Include="Base\Items\Weapons\Grenade.cs" />
+    <Compile Include="Base\Items\Weapons\Snare.cs" />
+    <Compile Include="DataHolder.FileDatabase\FileDatabase.cs" />
+    <Compile Include="Base\Items\Weapons\Axe.cs" />
+    <Compile Include="Base\Items\Crate.cs" />
+    <Compile Include="Base\Items\Backpack.cs" />
+    <Compile Include="Base\Items\Bed.cs" />
+    <Compile Include="Base\Items\Campfire.cs" />
+    <Compile Include="Base\Items\Door.cs" />
+    <Compile Include="Base\Items\Gas.cs" />
+    <Compile Include="Base\Items\Hat.cs" />
+    <Compile Include="Base.HUD\HUDCharacter.cs" />
+    <Compile Include="Base.HUD\HUDCrafting.cs" />
+    <Compile Include="Base.HUD\HUDDedicated.cs" />
+    <Compile Include="Base.HUD\HUDEmote.cs" />
+    <Compile Include="Base.HUD\HUDGame.cs" />
+    <Compile Include="Base.HUD\HUDInteract.cs" />
+    <Compile Include="Base.HUD\HUDInventory.cs" />
+    <Compile Include="Base.HUD\HUDPause.cs" />
+    <Compile Include="Base.HUD\HUDPlayers.cs" />
+    <Compile Include="Base.HUD\HUDSkills.cs" />
+    <Compile Include="Base.VoiceChat\UnityNetworkUSpeakSender.cs" />
+    <Compile Include="Base.VoiceChat\USpeakCodecManager.cs" />
+    <Compile Include="Base.VoiceChat\USpeaker.cs" />
+    <Compile Include="Base.VoiceChat\USpeakOwnerInfo.cs" />
+    <Compile Include="Base.VoiceChat\USpeakPlayer.cs" />
+    <Compile Include="Base.VoiceChat\USpeakUtilities.cs" />
+    <Compile Include="Database.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="ModLoader\" />
+    <Folder Include="Log\" />
+    <Folder Include="Base\" />
+    <Folder Include="DataHolder.FileDatabase\" />
+    <Folder Include="Base.HUD\" />
+    <Folder Include="Base.VoiceChat\" />
+    <Folder Include="GridManager\" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties/>
+    </MonoDevelop>
+  </ProjectExtensions>
+</Project>

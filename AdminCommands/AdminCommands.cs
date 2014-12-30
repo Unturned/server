@@ -343,11 +343,10 @@ namespace AdminCommands
 			}
 		}
 
-		private void ReasonForBan (CommandArgs args)
-		{
+		private void ReasonForBan (CommandArgs args) {
 			string parametersAsString = args.ParametersAsString;
 			if (args.Parameters.Count > 0) {
-				this.Ban (this.userToBeBanned, parametersAsString);
+				this.Ban(this.userToBeBanned, parametersAsString, args.sender);
 			}
 		}
 
@@ -927,9 +926,13 @@ namespace AdminCommands
 			}, null, 2000, -1);
 		}
 
-		private void Ban (BetterNetworkUser userToBeBanned, string reason)
-		{
-			NetworkTools.ban (userToBeBanned.networkPlayer, userToBeBanned.name, userToBeBanned.steamid, reason);
+		private void Ban (BetterNetworkUser userToBeBanned, string reason, BetterNetworkUser bannedBy) {
+			NetworkTools.ban( 
+			                 userToBeBanned.networkPlayer, 
+			                 userToBeBanned.name, 
+			                 userToBeBanned.steamid, 
+			                 reason,
+			                 bannedBy.steamid);
 		}
 
 		public void announcesTimeElapsed (object sender, ElapsedEventArgs e)
