@@ -935,7 +935,7 @@ namespace AdminCommands
 			                 bannedBy.steamid);
 		}
 
-		public void announcesTimeElapsed (object sender, ElapsedEventArgs e)
+		public void announcesTimeElapsed (object sender)
 		{
 			this.announceNext ();
 		}
@@ -961,7 +961,7 @@ namespace AdminCommands
 			this.announceTimer.Start ();
 		}
 
-		private void itemsTimeElapsed (object sender, ElapsedEventArgs e)
+		private void itemsTimeElapsed (object sender)
 		{
 			this.resetItems ();
 		}
@@ -1303,19 +1303,20 @@ namespace AdminCommands
 				streamWriter.Close ();
 			}
 			
-			string[] array3 = System.IO.File.ReadAllLines ("Unturned_Data/Managed/mods/AdminCommands/UnturnedAnnounces.txt");
+			string[] array3 = File.ReadAllLines("Unturned_Data/Managed/mods/AdminCommands/UnturnedAnnounces.txt");
 			this.AnnounceMessages = new string[array3.Length];
 			
 			for (int i = 0; i < array3.Length; i++) {
 				this.AnnounceMessages [i] = array3 [i];
 			}
-			
-			this.itemsTimer = new System.Timers.Timer ((double)(this.itemsResetIntervalInSeconds * 1000));
-			this.itemsTimer.Elapsed += new ElapsedEventHandler (this.itemsTimeElapsed);
-			this.itemsTimer.Enabled = true;
-			this.announceTimer = new System.Timers.Timer ((double)(this.announceIntervalInSeconds * 1000));
-			this.announceTimer.Elapsed += (new ElapsedEventHandler (this.announcesTimeElapsed));
-			this.announceTimer.Enabled = true;
+
+			// TODO: announcer rewrite
+			//this.itemsTimer = new System.Timers.Timer ((double)(this.itemsResetIntervalInSeconds * 1000));
+			//this.itemsTimer.Elapsed += new EventHandler (this.itemsTimeElapsed);
+			this.itemsTimer.Enabled = false;
+			//this.announceTimer = new System.Timers.Timer ((double)(this.announceIntervalInSeconds * 1000));
+			//this.announceTimer.Elapsed += new EventHandler (this.announcesTimeElapsed);
+			this.announceTimer.Enabled = false;
 		}
 		
 		public void SaveAll(CommandArgs args) {

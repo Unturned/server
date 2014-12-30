@@ -43,8 +43,6 @@ public class NetworkHandler : MonoBehaviour
 		
 		if (player != Network.player || !ServerSettings.dedicated)
 		{			
-			// TODO: property file?
-			//NetworkChat.sendAlert(string.Concat(name, " connected."));
 			Logger.LogConnection(name + " Connected. Clan: " + clan + " ID: " + steamId + " Status: " + status + " IP: " + player.ipAddress);
 			
 			string str = Savedata.loadReputation(steamId);

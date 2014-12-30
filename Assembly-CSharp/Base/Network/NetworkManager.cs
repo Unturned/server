@@ -131,9 +131,7 @@ public class NetworkManager : MonoBehaviour {
 
 	[DebuggerHidden]
 	public IEnumerator ping(int index) {
-		//TODO: research for ping
-		//NetworkManager.<ping>c__Iterator3 variable = null;
-		Console.WriteLine("Ping... Index: " + index );
+		// TODO
 		return null;
 	}
 
