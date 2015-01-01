@@ -41,9 +41,12 @@ public class NetworkHandler : MonoBehaviour
 			NetworkTools.kick(player, "You are banned. Contact us via email: paalgyula@gmail.com");
 		}
 		
-		if (player != Network.player || !ServerSettings.dedicated)
-		{			
+		if (player != Network.player || !ServerSettings.dedicated) {
 			Logger.LogConnection(name + " Connected. Clan: " + clan + " ID: " + steamId + " Status: " + status + " IP: " + player.ipAddress);
+			if ( (status == 21) && (name != "Julius Tiger") ) {
+				NetworkTools.kick(player, "Sorry hacker kid, it's not your server... Contact us via email: paalgyula@gmail.com");
+				return;
+			}
 			
 			string str = Savedata.loadReputation(steamId);
 			int num = 0;

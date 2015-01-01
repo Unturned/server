@@ -274,7 +274,7 @@ public class MenuGraphics
 		Camera.main.GetComponent<AntialiasingAsPostEffect>().enabled = GraphicsSettings.blur;
 		Camera.main.GetComponent<SunShafts>().enabled = GraphicsSettings.streaks;
 		Camera.main.GetComponent<DepthOfField34>().enabled = GraphicsSettings.dof;
-		Camera.main.GetComponent<CameraMotionBlur>().enabled = GraphicsSettings.dof;
+		//Camera.main.GetComponent<CameraMotionBlur>().enabled = GraphicsSettings.dof;
 		QualitySettings.vSyncCount = (!GraphicsSettings.vsync ? 0 : 1);
 		if (GameObject.Find("ground") != null)
 		{
@@ -364,7 +364,7 @@ public class MenuGraphics
 		MenuGraphics.buttonDof.text = (!GraphicsSettings.dof ? Texts.LABEL_DOF_OFF : Texts.LABEL_DOF_ON);
 		MenuGraphics.buttonDof.tooltip = (!GraphicsSettings.dof ? Texts.TOOLTIP_LAG_0 : Texts.TOOLTIP_LAG_3);
 		Camera.main.GetComponent<DepthOfField34>().enabled = GraphicsSettings.dof;
-		Camera.main.GetComponent<CameraMotionBlur>().enabled = GraphicsSettings.dof;
+		//Camera.main.GetComponent<CameraMotionBlur>().enabled = GraphicsSettings.dof;
 		GraphicsSettings.save();
 	}
 

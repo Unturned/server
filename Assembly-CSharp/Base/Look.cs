@@ -72,7 +72,7 @@ public class Look : MonoBehaviour
 		base.GetComponent<BloomAndLensFlares> ().enabled = GraphicsSettings.bloom;
 		base.GetComponent<AntialiasingAsPostEffect> ().enabled = GraphicsSettings.blur;
 		base.GetComponent<DepthOfField34> ().enabled = GraphicsSettings.dof;
-		base.GetComponent<CameraMotionBlur> ().enabled = GraphicsSettings.dof;
+		//base.GetComponent<CameraMotionBlur> ().enabled = GraphicsSettings.dof;
 		Look.view.GetComponent<AntialiasingAsPostEffect> ().enabled = GraphicsSettings.blur;
 		base.GetComponent<SunShafts> ().enabled = GraphicsSettings.streaks;
 		//base.GetComponent<SunShafts>().sunTransform = GameObject.Find("day").transform;

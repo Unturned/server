@@ -256,10 +256,10 @@ public class Life : MonoBehaviour
 				String chatMessage = this.death.Replace("You", base.GetComponent<Player>().name );
 				
 				NetworkChat.tool.networkView.RPC("tellChat", RPCMode.All, new object[] { 
-					"Combat log", 
+					chatMessage,
 					"", 
 					"", 
-					chatMessage, 
+					" ", //chatMessage,
 					21, // Gold
 					0, 
 					-80 });

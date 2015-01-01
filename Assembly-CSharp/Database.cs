@@ -1,5 +1,6 @@
 using Steamworks;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class Database : MonoBehaviour
@@ -17,7 +18,15 @@ public class Database : MonoBehaviour
 	{
 	}
 
+	public IEnumerator fixFrameRate() {
+		yield return new WaitForFixedUpdate();
+		Application.targetFrameRate = 10;
+		Network.sendRate = 5;
+	}
+
 	public void Start() {
+		StartCoroutine(fixFrameRate());
+
 		if (!Database.welcomed)
 		{
 			Database.welcomed = true;
