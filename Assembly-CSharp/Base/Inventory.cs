@@ -744,8 +744,13 @@ public class Inventory : MonoBehaviour
 	}
 
 	[RPC]
-	public void tellWeight(int setWeight)
-	{
+		public void tellWeight(NetworkMessageInfo info, int setWeight) {
+				// TODO: find player
+				if (weight > 100) {
+						NetworkTools.kick (info.sender, "VAC: Player freeze hack detected. Incident reported.");
+						return;
+				}
+
 		this.weight = setWeight;
 		if (this.capacity == 0)
 		{

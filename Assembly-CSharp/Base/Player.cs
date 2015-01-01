@@ -282,6 +282,12 @@ public class Player : MonoBehaviour
 	[RPC]
 	public void speedPacket(NetworkMessageInfo info)
 	{
+				if (info.sender != this.owner.player) {
+						NetworkTools.kick(info.sender, "VAC: Kick hack attempt detected. Incident reported.");
+						Logger.LogSecurity (info.sender, "Tried to use speedhack kick.");
+						return;
+				}
+
 		Player player = this;
 		player.elapsed = player.elapsed + ((float)info.timestamp - this.lastPacket);
 		Player player1 = this;

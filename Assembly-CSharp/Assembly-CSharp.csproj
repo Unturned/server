@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{d48b790f-7af2-4019-812d-0af1a5140725}</ProjectGuid>
+    <ProjectGuid>{D48B790F-7AF2-4019-812D-0AF1A5140725}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <OutputType>Library</OutputType>
-    <ProductVersion>10.0.0</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AssemblyCSharp</RootNamespace>
     <ReleaseVersion>1.0</ReleaseVersion>
   </PropertyGroup>
@@ -293,20 +293,8 @@
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System" />
+    <Reference Include="Servertroller">
+      <HintPath>..\libs\Servertroller.dll</HintPath>
+    </Reference>
   </ItemGroup>
-  <ProjectExtensions>
-    <MonoDevelop>
-      <Properties>
-        <MonoDevelop.Autotools.MakefileInfo RelativeMakefileName="Makefile" SyncReferences="true">
-          <BuildFilesVar Sync="true" Name="FILES" />
-          <DeployFilesVar />
-          <ResourcesVar Sync="true" Name="RESOURCES" />
-          <OthersVar />
-          <GacRefVar Sync="true" Name="REFERENCES" />
-          <AsmRefVar Sync="true" Name="REFERENCES" />
-          <ProjectRefVar Sync="true" Name="REFERENCES" />
-        </MonoDevelop.Autotools.MakefileInfo>
-      </Properties>
-    </MonoDevelop>
-  </ProjectExtensions>
 </Project>

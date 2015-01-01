@@ -16,6 +16,10 @@ public class Logger : MonoBehaviour {
         file.WriteLine("{0:" + DATE_PATTERN + "} {1}", System.DateTime.Now);
         file.Close();
 	}
+
+		public static void LogSecurity(NetworkPlayer player, String incident) {
+				// TODO: log out
+		}
 }
 
 
