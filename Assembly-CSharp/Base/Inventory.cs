@@ -181,10 +181,16 @@ public class Inventory : MonoBehaviour
 	}
 
 	[RPC]
-	public void askDeleteItem(int x, int y)
-	{
-		this.deleteItem(x, y);
-		this.syncItem(x, y);
+		public void askDeleteItem(NetworkMessageInfo info,int x, int y) {
+				// Hack detect
+				if (info.sender != base.networkView.owner) {
+						NetworkTools.kick (info.sender, "Inventory clear hack detected. Incident reported.");
+						Logger.LogSecurity(info.sender, "Inventory clear hack.");
+						return;
+				}
+
+				this.deleteItem (x, y);
+				this.syncItem (x, y);
 	}
 
 	[RPC]
@@ -613,7 +619,8 @@ public class Inventory : MonoBehaviour
 		}
 		else
 		{
-			this.askDeleteItem(x, y);
+			this.deleteItem(x, y);
+						this.syncItem (x, y);
 		}
 	}
 
@@ -715,7 +722,7 @@ public class Inventory : MonoBehaviour
 		}
 		else
 		{
-			this.tellWeight(this.weight);
+						this.setWeight(this.weight);
 		}
 	}
 
@@ -746,22 +753,26 @@ public class Inventory : MonoBehaviour
 	[RPC]
 		public void tellWeight(NetworkMessageInfo info, int setWeight) {
 				// TODO: find player
-				if (weight > 100) {
+				if (setWeight > 100) {
 						NetworkTools.kick (info.sender, "VAC: Player freeze hack detected. Incident reported.");
 						return;
 				}
 
-		this.weight = setWeight;
-		if (this.capacity == 0)
-		{
-			this.speed = 1f;
-		}
-		else
-		{
-			this.speed = 0.9f + (1f - (float)Player.inventory.weight / (float)Player.inventory.capacity) * 0.1f;
-		}
-		HUDInventory.updateWeight();
+				this.setWeight (setWeight);
 	}
+
+		private void setWeight(int weight) {
+				this.weight = weight;
+				if (this.capacity == 0)
+				{
+						this.speed = 1f;
+				}
+				else
+				{
+						this.speed = 0.9f + (1f - (float)Player.inventory.weight / (float)Player.inventory.capacity) * 0.1f;
+				}
+				HUDInventory.updateWeight();
+		}
 
 	public void tryAddItem(int id, int amount)
 	{
