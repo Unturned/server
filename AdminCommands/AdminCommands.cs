@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
-using Timer = System.Timers.Timer;
+using Timer = System.Threading.Timer;
 using UnityEngine;
 
 namespace AdminCommands
@@ -14,8 +14,8 @@ namespace AdminCommands
 	{
 		private int updater3 = 0;
 		public string lastUsedCommand = "none";
-		public Timer itemsTimer;
-		public Timer announceTimer;
+        public System.Timers.Timer itemsTimer;
+        public System.Timers.Timer announceTimer;
 		public int announceIndex = 0;
 		public int itemsResetIntervalInSeconds = 2700;
 		public int announceIntervalInSeconds = 600;
@@ -840,7 +840,7 @@ namespace AdminCommands
 			}
 			SpawnVehicles.save ();
 			Reference.Tell (args.sender.networkPlayer, "Respawning " + Loot.getCars () + " vehicles in 3 seconds...");
-			System.Threading.Timer timer = new System.Threading.Timer (delegate(object obj)
+			new Timer (delegate(object obj)
 			{
 				this.respawnVehicles = true;
 			}, null, 3000, -1);
@@ -904,7 +904,7 @@ namespace AdminCommands
 			});
 			user.player.gameObject.GetComponent<NetworkInterpolation> ().tellStatePosition_Pizza (target, user.rotation);
 			Network.SetReceivingEnabled (user.networkPlayer, 0, false);
-			System.Threading.Timer timer = new System.Threading.Timer (delegate(object obj)
+			new Timer (delegate(object obj)
 			{
 				Network.SetReceivingEnabled (user.networkPlayer, 0, true);
 			}, null, 2000, -1);
@@ -920,7 +920,7 @@ namespace AdminCommands
 			});
 			user.player.gameObject.GetComponent<NetworkInterpolation> ().tellStatePosition_Pizza (targetposition, targetrotation);
 			Network.SetReceivingEnabled (user.networkPlayer, 0, false);
-			System.Threading.Timer timer = new System.Threading.Timer (delegate(object obj)
+			new Timer (delegate(object obj)
 			{
 				Network.SetReceivingEnabled (user.networkPlayer, 0, true);
 			}, null, 2000, -1);
@@ -935,7 +935,7 @@ namespace AdminCommands
 			                 bannedBy.steamid);
 		}
 
-		public void announcesTimeElapsed (object sender)
+        public void announcesTimeElapsed (object sender, System.Timers.ElapsedEventArgs eventArgs)
 		{
 			this.announceNext ();
 		}
@@ -961,7 +961,7 @@ namespace AdminCommands
 			this.announceTimer.Start ();
 		}
 
-		private void itemsTimeElapsed (object sender)
+        private void itemsTimeElapsed (object sender, System.Timers.ElapsedEventArgs eventArgs)
 		{
 			this.resetItems ();
 		}
@@ -1054,7 +1054,7 @@ namespace AdminCommands
 		private void setHome (BetterNetworkUser user, Vector3 location)
 		{
 			Reference.Tell (user.networkPlayer, "Setting home... Stand still for 20 seconds.");
-			System.Threading.Timer timer = new System.Threading.Timer (delegate(object obj)
+			new Timer (delegate(object obj)
 			{
 				this.setPlayerhome (user, location);
 			}, null, 500, -1);
@@ -1109,7 +1109,7 @@ namespace AdminCommands
 			if (!this.usedHomeCommand.ContainsKey (user.steamid)) {
 				Vector3 originalposition = user.position;
 				Reference.Tell (user.networkPlayer, "Teleporting home... Stand still for 5 seconds.");
-				System.Threading.Timer timer = new System.Threading.Timer (delegate(object obj)
+				new Timer (delegate(object obj)
 				{
 					if (this.teleportHome (user, originalposition)) {
 						this.usedHomeCommand.Add (user.steamid, UnityEngine.Time.realtimeSinceStartup);
@@ -1119,7 +1119,7 @@ namespace AdminCommands
 				if (UnityEngine.Time.realtimeSinceStartup - this.usedHomeCommand[user.steamid] > 60f || UserList.getPermission(user.steamid) > 4L) {
 					Vector3 originalposition = user.position;
 					Reference.Tell (user.networkPlayer, "Teleporting home... Stand still for 5 seconds.");
-					System.Threading.Timer timer = new System.Threading.Timer (delegate(object obj)
+					new Timer (delegate(object obj)
 					{
 						if (this.teleportHome (user, originalposition)) {
 							this.usedHomeCommand [user.steamid] = UnityEngine.Time.realtimeSinceStartup;
@@ -1152,6 +1152,7 @@ namespace AdminCommands
 			if (user.position.Equals (originalposition)) {
 				this.teleportUserTo (user, this.playerHomes [user.steamid]);
 				Reference.Tell (user.networkPlayer, "Teleported home.");
+                NetworkEvents.triggerOnRegionUpdate();
 				result = true;
 				return result;
 			}
@@ -1192,8 +1193,7 @@ namespace AdminCommands
 						for (int i = 0; i < connections.Length; i++) {
 							NetworkPlayer networkPlayer = connections [i];
 							if (Network.player != networkPlayer && networkPlayer != userFromSteamID.networkPlayer) {
-								userFromSteamID.player.networkView.RPC ("tellStatePosition", networkPlayer, new object[]
-								{
+								userFromSteamID.player.networkView.RPC ("tellStatePosition", networkPlayer, new object[] {
 									new Vector3 (0f, 0f, 0f),
 									userFromSteamID.rotation
 								});
@@ -1204,17 +1204,7 @@ namespace AdminCommands
 			}
 		}
 
-		public void OnGUI ()
-		{
-			if (this.usingGUI) {
-				GUI.BeginGroup (new Rect (50f, 100f, 600f, 70f));
-				GUI.Box (new Rect (0f, 0f, 530f, 400f), "Admin Commands v2 running! Last command used: " + CommandList.lastUsedCommand);
-				GUI.EndGroup ();
-			}
-		}
-
-		private void ReadConfigs ()
-		{
+		private void ReadConfigs () {
 			System.IO.Directory.CreateDirectory ("Unturned_Data/Managed/mods/AdminCommands");
 			if (!System.IO.File.Exists ("Unturned_Data/Managed/mods/AdminCommands/config.ini")) {
 				IniFile iniFile = new IniFile ("Unturned_Data/Managed/mods/AdminCommands/config.ini");
@@ -1241,29 +1231,34 @@ namespace AdminCommands
 			if (iniFile2.IniReadValue ("Security", "Require_command_confirmation").Equals ("")) {
 				iniFile2.IniWriteValue ("Security", "Require_command_confirmation", "false");
 			}
-			this.usingWhitelist = bool.Parse (iniFile2.IniReadValue ("Config", "Using Whitelist"));
+			
+            this.usingWhitelist = bool.Parse (iniFile2.IniReadValue ("Config", "Using Whitelist"));
 			this.usingGUI = bool.Parse (iniFile2.IniReadValue ("Config", "Show gui"));
 			this.usePlayerHomes = bool.Parse (iniFile2.IniReadValue ("Config", "Using Player Homes"));
 			this.showWhiteListKickMessages = bool.Parse (iniFile2.IniReadValue ("Config", "Show whitelist kick messages"));
 			this.itemsResetIntervalInSeconds = int.Parse (iniFile2.IniReadValue ("Timers", "Time between item respawns in seconds"));
 			this.announceIntervalInSeconds = int.Parse (iniFile2.IniReadValue ("Timers", "Time between announces in seconds"));
-			if (!System.IO.File.Exists ("Unturned_Data/Managed/mods/AdminCommands/UnturnedWhitelist.txt")) {
+			
+            if (!System.IO.File.Exists ("Unturned_Data/Managed/mods/AdminCommands/UnturnedWhitelist.txt")) {
 				System.IO.StreamWriter streamWriter = new System.IO.StreamWriter ("Unturned_Data/Managed/mods/AdminCommands/UnturnedWhitelist.txt", true);
 				streamWriter.WriteLine ("76561197976976379");
 				streamWriter.Close ();
 			}
-			string[] array = System.IO.File.ReadAllLines ("Unturned_Data/Managed/mods/AdminCommands/UnturnedWhitelist.txt");
+			
+            string[] array = System.IO.File.ReadAllLines ("Unturned_Data/Managed/mods/AdminCommands/UnturnedWhitelist.txt");
 			for (int i = 0; i < array.Length; i++) {
 				if (array [i].Length > 10) {
 					this.WhitelistedSteamIDs.Add (array [i]);
 				}
 			}
-			if (!System.IO.File.Exists ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt")) {
+			
+            if (!System.IO.File.Exists ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt")) {
 				System.IO.StreamWriter streamWriter = new System.IO.StreamWriter ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt", true);
 				streamWriter.WriteLine ("");
 				streamWriter.Close ();
 			}
-			string[] array2 = System.IO.File.ReadAllLines ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt");
+			
+            string[] array2 = System.IO.File.ReadAllLines ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt");
 			for (int i = 0; i < array2.Length; i++) {
 				if (array2 [i].Length > 5) {
 					string key = array2 [i].Split (new char[]
@@ -1310,12 +1305,11 @@ namespace AdminCommands
 				this.AnnounceMessages [i] = array3 [i];
 			}
 
-			// TODO: announcer rewrite
-			//this.itemsTimer = new System.Timers.Timer ((double)(this.itemsResetIntervalInSeconds * 1000));
-			//this.itemsTimer.Elapsed += new EventHandler (this.itemsTimeElapsed);
+            this.itemsTimer = new System.Timers.Timer ((double)(this.itemsResetIntervalInSeconds * 1000));
+            this.itemsTimer.Elapsed += new System.Timers.ElapsedEventHandler (this.itemsTimeElapsed);
 			this.itemsTimer.Enabled = false;
-			//this.announceTimer = new System.Timers.Timer ((double)(this.announceIntervalInSeconds * 1000));
-			//this.announceTimer.Elapsed += new EventHandler (this.announcesTimeElapsed);
+            this.announceTimer = new System.Timers.Timer ((double)(this.announceIntervalInSeconds * 1000));
+            this.announceTimer.Elapsed += new System.Timers.ElapsedEventHandler (this.announcesTimeElapsed);
 			this.announceTimer.Enabled = false;
 		}
 		

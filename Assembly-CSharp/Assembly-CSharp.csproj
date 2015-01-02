@@ -10,6 +10,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AssemblyCSharp</RootNamespace>
     <ReleaseVersion>1.0</ReleaseVersion>
+    <UseMSBuildEngine>False</UseMSBuildEngine>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>..\bin\Debug\</OutputPath>
@@ -64,9 +65,7 @@
     <Compile Include="Base\Network\NetworkUserList.cs" />
     <Compile Include="Base\ABridgeTooFar.cs" />
     <Compile Include="Base\ADayInTheSun.cs" />
-    <Compile Include="Base\AI.cs" />
     <Compile Include="Base\AmmoStats.cs" />
-    <Compile Include="Base\Animal.cs" />
     <Compile Include="Base\Animifier.cs" />
     <Compile Include="Base\ArmorStats.cs" />
     <Compile Include="Base\BagSize.cs" />
@@ -145,7 +144,6 @@
     <Compile Include="Base\Look.cs" />
     <Compile Include="Base\Loot.cs" />
     <Compile Include="Base\Maps.cs" />
-    <Compile Include="Base\MasterSettings.cs" />
     <Compile Include="Base\MD5.cs" />
     <Compile Include="Base\MedicalStats.cs" />
     <Compile Include="Base\Medicine.cs" />
@@ -235,7 +233,6 @@
     <Compile Include="Base\Vest.cs" />
     <Compile Include="Base\Viewmodel.cs" />
     <Compile Include="Base\Voice.cs" />
-    <Compile Include="Base\Zombie.cs" />
     <Compile Include="Base\Items\Weapons\Gun.cs" />
     <Compile Include="Base\Items\Weapons\Explosive.cs" />
     <Compile Include="Base\Items\Weapons\ExplosiveTrap.cs" />
@@ -267,6 +264,10 @@
     <Compile Include="Base.VoiceChat\USpeakPlayer.cs" />
     <Compile Include="Base.VoiceChat\USpeakUtilities.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="Base\Npc\AI.cs" />
+    <Compile Include="Base\Npc\Animal.cs" />
+    <Compile Include="Base\Npc\Zombie.cs" />
+    <Compile Include="Base\Base\MasterSettings.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -277,6 +278,8 @@
     <Folder Include="Base.HUD\" />
     <Folder Include="Base.VoiceChat\" />
     <Folder Include="GridManager\" />
+    <Folder Include="Base\Npc\" />
+    <Folder Include="Base\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp-firstpass">

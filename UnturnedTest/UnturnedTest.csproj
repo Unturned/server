@@ -6,11 +6,10 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{05A7C246-D78A-4EE8-8E47-D120254615BD}</ProjectGuid>
-    <OutputType>Module</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>UnturnedTest</RootNamespace>
     <AssemblyName>UnturnedTest</AssemblyName>
     <ReleaseVersion>1.0</ReleaseVersion>
-    <CodePage>65001</CodePage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

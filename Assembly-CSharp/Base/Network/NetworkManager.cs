@@ -129,16 +129,6 @@ public class NetworkManager : MonoBehaviour {
 		HUDGame.openError(text, icon);
 	}
 
-	[DebuggerHidden]
-	public IEnumerator ping(int index) {
-		// TODO
-		return null;
-	}
-
-	public void pingServer(int index) {
-		base.StartCoroutine( this.ping(index) );
-	}
-
 	public void Start() {
 		Network.minimumAllocatableViewIDs = 512;
 		NetworkManager.tool = this;
