@@ -291,13 +291,10 @@
     <Reference Include="UnityEngine">
       <HintPath>..\libs\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="UnityScript.Lang">
-      <HintPath>..\libs\UnityScript.Lang.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System" />
-    <Reference Include="Servertroller">
-      <HintPath>..\libs\Servertroller.dll</HintPath>
+    <Reference Include="SinHack">
+      <HintPath>..\libs\SinHack.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

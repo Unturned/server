@@ -48,7 +48,6 @@ public class MenuTitle
 
 	public MenuTitle()
 	{
-		int num;
 		MenuTitle.container = new SleekContainer()
 		{
 			position = new Coord2(0, 0, 1f, 0f),
@@ -67,15 +66,17 @@ public class MenuTitle
 			position = new Coord2(0, 110, 0f, 0f),
 			size = new Coord2(0, 40, 1f, 0f)
 		};
-		SteamUserStats.GetStat("items", out num);
+		
+        int num = 0;
+        //SteamUserStats.GetStat("items", out num);
 		int num1 = 0;
-		SteamUserStats.GetStat("resources", out num1);
+		//SteamUserStats.GetStat("resources", out num1);
 		int num2 = 0;
-		SteamUserStats.GetStat("animalkills", out num2);
+		//SteamUserStats.GetStat("animalkills", out num2);
 		int num3 = 0;
-		SteamUserStats.GetStat("zombiekills", out num3);
+		//SteamUserStats.GetStat("zombiekills", out num3);
 		int num4 = 0;
-		SteamUserStats.GetStat("playerkills", out num4);
+		//SteamUserStats.GetStat("playerkills", out num4);
 		MenuTitle.marquee_0.text = string.Concat(new object[] { num1, " Resources Mined    ", num, " Items Taken    ", num2, " Animals Hunted    ", num3, " Zombies Killed    ", num4, " Players Murdered" });
 		MenuTitle.buttonTitle.addFrame(MenuTitle.marquee_0);
 		MenuTitle.labelTitle = new SleekLabel()
@@ -242,7 +243,7 @@ public class MenuTitle
 
 	public static void usedBugs(SleekFrame frame)
 	{
-		SteamFriends.ActivateGameOverlayToWebPage("http://steamcommunity.com/app/304930/discussions/1/");
+		//SteamFriends.ActivateGameOverlayToWebPage("http://steamcommunity.com/app/304930/discussions/1/");
 	}
 
 	public static void usedCharacter(SleekFrame frame)
@@ -259,7 +260,7 @@ public class MenuTitle
 
 	public static void usedGold(SleekFrame frame)
 	{
-		SteamFriends.ActivateGameOverlayToStore(Steam.APP_ID, EOverlayToStoreFlag.k_EOverlayToStoreFlag_None);
+		//SteamFriends.ActivateGameOverlayToStore(Steam.APP_ID, EOverlayToStoreFlag.k_EOverlayToStoreFlag_None);
 	}
 
 	public static void usedPlay(SleekFrame frame)
@@ -275,11 +276,11 @@ public class MenuTitle
 
 	public static void usedTitle(SleekFrame frame)
 	{
-		SteamFriends.ActivateGameOverlayToWebPage("http://steamcommunity.com/app/304930/announcements");
+		//SteamFriends.ActivateGameOverlayToWebPage("http://steamcommunity.com/app/304930/announcements");
 	}
 
 	public static void usedWiki(SleekFrame frame)
 	{
-		SteamFriends.ActivateGameOverlayToWebPage("http://unturned-bunker.wikia.com/wiki/");
+		//SteamFriends.ActivateGameOverlayToWebPage("http://unturned-bunker.wikia.com/wiki/");
 	}
 }

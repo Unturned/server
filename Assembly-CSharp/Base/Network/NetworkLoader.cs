@@ -59,8 +59,7 @@ public class NetworkLoader : MonoBehaviour
 	public void tellState(int map, bool pvp, bool save, string version, int time, int seconds, int mode)
 	{
 		Network.isMessageQueueRunning = false;
-		if (ServerSettings.version != version || mode == 3 && PlayerSettings.status != 21)
-		{
+		if (ServerSettings.version != version || mode == 3 && PlayerSettings.status != 21) {
 			NetworkChat.notification = "Sorry: Version Mismatch";
 			NetworkTools.disconnect();
 		}

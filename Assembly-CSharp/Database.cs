@@ -25,7 +25,7 @@ public class Database : MonoBehaviour
 	}
 
 	public void Start() {
-		StartCoroutine(fixFrameRate());
+        StartCoroutine(fixFrameRate());
 
 		if (!Database.welcomed)
 		{
@@ -38,10 +38,10 @@ public class Database : MonoBehaviour
 			} else if (SteamApps.BIsVACBanned()) {
 				MenuRegister.openInfo(Texts.ERROR_BANNED, "Textures/Icons/error");
 			} else {
-				PlayerSettings.user = SteamFriends.GetPersonaName();
+                PlayerSettings.user = SteamFriends.GetPersonaName();
 				
 				if (!Application.isEditor) {
-					PlayerSettings.id = SteamUser.GetSteamID().ToString();
+                    PlayerSettings.id = SteamUser.GetSteamID().ToString();
 				} else {
 					PlayerSettings.id = "Editor";
 				}
@@ -52,10 +52,10 @@ public class Database : MonoBehaviour
 					MenuRegister.openInfo(Texts.ERROR_INTERNET, "Textures/Icons/error");
 				} else {
 					if (Epoch.serverTime == -1) {
-						Epoch.serverTime = (int)(SteamUtils.GetServerRealTime() - 1401854099);
+                        Epoch.serverTime = (int)0;//(SteamUtils.GetServerRealTime() - 1401854099);
 					}
 					
-					ServerSettings.cycle = (int)(SteamUtils.GetServerRealTime() - 1401854099);
+                    ServerSettings.cycle = (int)0;//(SteamUtils.GetServerRealTime() - 1401854099);
 					ServerSettings.offset = 0f;
 					ServerSettings.time = (int)((float)ServerSettings.cycle % Sun.COURSE);
 					Sun.tick = 0f;

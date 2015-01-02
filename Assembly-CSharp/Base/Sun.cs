@@ -96,8 +96,10 @@ public class Sun : MonoBehaviour
 		base.light.shadowBias = 0.1f;
 	}
 
-	public void cycle()
-	{
+	public void cycle() {
+        // TODO: write cycle stop to config
+        return;
+
 		ServerSettings.offset = ServerSettings.offset + (Time.realtimeSinceStartup - Sun.lastTick);
 		Sun.tick = Sun.tick + (Time.realtimeSinceStartup - Sun.lastTick);
 		Sun.lastTick = Time.realtimeSinceStartup;
