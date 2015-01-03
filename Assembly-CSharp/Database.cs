@@ -1,4 +1,4 @@
-using Steamworks;
+//using Steamworks;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -31,24 +31,10 @@ public class Database : MonoBehaviour
 		{
 			Database.welcomed = true;
 			
-			if (Application.internetReachability == NetworkReachability.NotReachable) {
-				MenuRegister.openInfo(Texts.ERROR_INTERNET, "Textures/Icons/error");
-			} else if (!Steam.initialized || !SteamAPI.IsSteamRunning()) {
-				MenuRegister.openInfo(Texts.ERROR_STEAMWORKS, "Textures/Icons/error");
-			} else if (SteamApps.BIsVACBanned()) {
-				MenuRegister.openInfo(Texts.ERROR_BANNED, "Textures/Icons/error");
-			} else {
-                PlayerSettings.user = SteamFriends.GetPersonaName();
-				
-				if (!Application.isEditor) {
-                    PlayerSettings.id = SteamUser.GetSteamID().ToString();
-				} else {
-					PlayerSettings.id = "Editor";
-				}
-				
-				//PlayerSettings.status = (!SteamApps.BIsSubscribedApp(new AppId_t(306460)) ? 0 : 21);
+				PlayerSettings.id = "Server";
 				PlayerSettings.status = 21;
-				if (PlayerSettings.id == string.Empty) {
+				
+                if (PlayerSettings.id == string.Empty) {
 					MenuRegister.openInfo(Texts.ERROR_INTERNET, "Textures/Icons/error");
 				} else {
 					if (Epoch.serverTime == -1) {
@@ -62,16 +48,9 @@ public class Database : MonoBehaviour
 					Sun.lastTick = Time.realtimeSinceStartup;
 					Sun.tool.cycle();
 					
-					if (PlayerPrefs.GetInt("played2") != 0) {
-						MenuRegister.openError("Welcome back to Unturned!", "Textures/Icons/go");
-					} else {
-						PlayerPrefs.SetInt("played2", 1);
-						MenuRegister.openError("Welcome to Unturned!", "Textures/Icons/go");
-					}
-					
 					MenuRegister.close();
 				}
-			}
+			
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using Steamworks;
 using System;
 using UnityEngine;
 
@@ -57,11 +56,6 @@ public class Consumeable : Useable
 			}
 			base.GetComponent<Life>().rest(ConsumeableStats.getStamina(Equipment.id));
 			HUDGame.drug = HUDGame.drug + (float)ConsumeableStats.getDrug(Equipment.id);
-			if (ConsumeableStats.getSickness(Equipment.id) >= 20)
-			{
-				SteamUserStats.SetAchievement("trueguts");
-				SteamUserStats.StoreStats();
-			}
 			Equipment.use();
 		}
 	}

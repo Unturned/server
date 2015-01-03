@@ -1,4 +1,3 @@
-using Steamworks;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,9 +26,7 @@ public class MenuCharacter
 
 	public static SleekButton[] buttonHair;
 
-	public static CSteamID[] clans;
-
-	public static SleekSlider sliderClans;
+    public static SleekSlider sliderClans;
 
 	public static SleekField fieldNickname;
 
@@ -315,30 +312,12 @@ public class MenuCharacter
 		};
 		MenuCharacter.fieldNickname.addFrame(MenuCharacter.nicknameHint);
 		PlayerSettings.hash();
-		MenuCharacter.clans = new CSteamID[SteamFriends.GetClanCount()];
-		for (int m = 0; m < (int)MenuCharacter.clans.Length; m++)
-		{
-			MenuCharacter.clans[m] = SteamFriends.GetClanByIndex(m);
-		}
 		ulong num8 = (ulong)0;
 		if (PlayerSettings.friend != string.Empty)
 		{
 			num8 = ulong.Parse(PlayerSettings.friend);
 			bool flag = false;
 			int num9 = 0;
-			while (num9 < (int)MenuCharacter.clans.Length)
-			{
-				// TODO: steam ID
-				/*if (MenuCharacter.clans[num9].m_SteamID != num8)
-				{
-					num9++;
-				}
-				else
-				{
-					flag = true;
-					break;
-				}*/
-			}
 			if (!flag)
 			{
 				num8 = (ulong)0;
@@ -358,7 +337,7 @@ public class MenuCharacter
 		}
 		else
 		{
-			MenuCharacter.boxClan.text = SteamFriends.GetClanName(new CSteamID(num8));
+			
 		}
 		MenuCharacter.fieldNickname.addFrame(MenuCharacter.boxClan);
 		MenuCharacter.buttonNoclan = new SleekButton()
@@ -369,47 +348,8 @@ public class MenuCharacter
 		};
 		MenuCharacter.buttonNoclan.onUsed += new SleekDelegate(MenuCharacter.usedNoclan);
 		MenuCharacter.fieldNickname.addFrame(MenuCharacter.buttonNoclan);
-		if ((int)MenuCharacter.clans.Length != 0)
-		{
-			for (int n = 0; n < 7; n++)
-			{
-				SleekButton clanName = new SleekButton()
-				{
-					position = new Coord2(0, 100 + n * 50, 0f, 0f),
-					size = new Coord2(0, 40, 1f, 0f)
-				};
-				if (n >= (int)MenuCharacter.clans.Length)
-				{
-					clanName.visible = false;
-				}
-				else
-				{
-					clanName.text = SteamFriends.GetClanName(MenuCharacter.clans[n]);
-				}
-				clanName.onUsed += new SleekDelegate(MenuCharacter.usedClan);
-				MenuCharacter.fieldNickname.addFrame(clanName);
-			}
-			MenuCharacter.sliderClans = new SleekSlider()
-			{
-				position = new Coord2(10, 100, 1f, 0f),
-				size = new Coord2(10, 340, 0f, 0f),
-				orientation = Orient2.VERTICAL
-			};
-			MenuCharacter.sliderClans.onUsed += new SleekDelegate(MenuCharacter.usedSliderClans);
-			if ((int)MenuCharacter.clans.Length >= 7)
-			{
-				MenuCharacter.offset = (int)Mathf.Ceil((float)((int)MenuCharacter.clans.Length - 7) * MenuCharacter.sliderClans.state);
-				MenuCharacter.sliderClans.scale = 7f / (float)((int)MenuCharacter.clans.Length);
-			}
-			else
-			{
-				MenuCharacter.offset = 0;
-				MenuCharacter.sliderClans.scale = 1f;
-			}
-			MenuCharacter.fieldNickname.addFrame(MenuCharacter.sliderClans);
-		}
-		else
-		{
+		
+		
 			SleekButton sleekButton2 = new SleekButton()
 			{
 				position = new Coord2(0, 100, 0f, 0f),
@@ -417,7 +357,6 @@ public class MenuCharacter
 				text = "Sorry: No Groups"
 			};
 			MenuCharacter.fieldNickname.addFrame(sleekButton2);
-		}
 		MenuCharacter.buttonBack = new SleekButton()
 		{
 			position = new Coord2(10, -50, 0f, 1f),
@@ -488,15 +427,7 @@ public class MenuCharacter
 	public static void usedClan(SleekFrame frame)
 	{
 		int offsetY = (frame.position.offset_y - 100) / 50 + MenuCharacter.offset;
-		if (offsetY < (int)MenuCharacter.clans.Length)
-		{
-			// TODO: Steam - NO Steam clans
-			//PlayerSettings.friend = MenuCharacter.clans[offsetY].m_SteamID.ToString();
-			PlayerSettings.friend = MenuCharacter.clans[offsetY].GetAccountID().ToString();
-			PlayerSettings.hash();
-			PlayerSettings.save();
-			MenuCharacter.boxClan.text = SteamFriends.GetClanName(MenuCharacter.clans[offsetY]);
-		}
+		
 	}
 
 	public static void usedClanTab(SleekFrame frame)
@@ -617,23 +548,9 @@ public class MenuCharacter
 
 	public static void usedSliderClans(SleekFrame frame)
 	{
-		if ((int)MenuCharacter.clans.Length >= 7)
-		{
-			MenuCharacter.offset = (int)Mathf.Ceil((float)((int)MenuCharacter.clans.Length - 7) * MenuCharacter.sliderClans.state);
-			MenuCharacter.sliderClans.scale = 7f / (float)((int)MenuCharacter.clans.Length);
-		}
-		else
-		{
+		
 			MenuCharacter.offset = 0;
 			MenuCharacter.sliderClans.scale = 1f;
-		}
-		for (int i = 0; i < 7; i++)
-		{
-			if (i + MenuCharacter.offset < (int)MenuCharacter.clans.Length)
-			{
-				((SleekButton)MenuCharacter.fieldNickname.children[3 + i]).text = SteamFriends.GetClanName(MenuCharacter.clans[i + MenuCharacter.offset]);
-			}
-		}
 	}
 
 	public static void wear()

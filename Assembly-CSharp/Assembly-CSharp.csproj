@@ -63,8 +63,6 @@
     <Compile Include="Base\Network\NetworkTools.cs" />
     <Compile Include="Base\Network\NetworkUser.cs" />
     <Compile Include="Base\Network\NetworkUserList.cs" />
-    <Compile Include="Base\ABridgeTooFar.cs" />
-    <Compile Include="Base\ADayInTheSun.cs" />
     <Compile Include="Base\AmmoStats.cs" />
     <Compile Include="Base\Animifier.cs" />
     <Compile Include="Base\ArmorStats.cs" />
@@ -81,7 +79,6 @@
     <Compile Include="Base\Character.cs" />
     <Compile Include="Base\Chart.cs" />
     <Compile Include="Base\ChatType.cs" />
-    <Compile Include="Base\Chess.cs" />
     <Compile Include="Base\ClientItem.cs" />
     <Compile Include="Base\Clothes.cs" />
     <Compile Include="Base\Colors.cs" />
@@ -108,7 +105,6 @@
     <Compile Include="Base\GameSettings.cs" />
     <Compile Include="Base\Generator.cs" />
     <Compile Include="Base\Gore.cs" />
-    <Compile Include="Base\Graduate.cs" />
     <Compile Include="Base\GraphicsSettings.cs" />
     <Compile Include="Base\Ground.cs" />
     <Compile Include="Base\GunStats.cs" />
@@ -293,8 +289,5 @@
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System" />
-    <Reference Include="SinHack">
-      <HintPath>..\libs\SinHack.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>
