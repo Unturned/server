@@ -1,4 +1,3 @@
-using Steamworks;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -147,57 +146,21 @@ public class Player : MonoBehaviour
 	[RPC]
 	public void collectedResource()
 	{
-		int num = 0;
-		SteamUserStats.GetStat("resources", out num);
-		num++;
-		SteamUserStats.SetStat("resources", num);
-		SteamUserStats.StoreStats();
-		if (num == 500)
-		{
-			SteamUserStats.IndicateAchievementProgress("outdoorsman", 500, 1000);
-		}
 	}
 
 	[RPC]
 	public void killedAnimal()
 	{
-		int num = 0;
-		SteamUserStats.GetStat("animalkills", out num);
-		num++;
-		SteamUserStats.SetStat("animalkills", num);
-		SteamUserStats.StoreStats();
-		if (num == 50)
-		{
-			SteamUserStats.IndicateAchievementProgress("hunter", 50, 100);
-		}
 	}
 
 	[RPC]
 	public void killedPlayer()
 	{
-		int num = 0;
-		SteamUserStats.GetStat("playerkills", out num);
-		num++;
-		SteamUserStats.SetStat("playerkills", num);
-		SteamUserStats.StoreStats();
-		if (num == 50)
-		{
-			SteamUserStats.IndicateAchievementProgress("crimesagainsthumanity", 50, 100);
-		}
 	}
 
 	[RPC]
 	public void killedZombie()
 	{
-		int num = 0;
-		SteamUserStats.GetStat("zombiekills", out num);
-		num++;
-		SteamUserStats.SetStat("zombiekills", num);
-		SteamUserStats.StoreStats();
-		if (num == 500)
-		{
-			SteamUserStats.IndicateAchievementProgress("crimesagainstzombanity", 500, 1000);
-		}
 	}
 
 	public void LateUpdate()
@@ -418,15 +381,6 @@ public class Player : MonoBehaviour
 	[RPC]
 	public void tookItem()
 	{
-		int num = 0;
-		SteamUserStats.GetStat("items", out num);
-		num++;
-		SteamUserStats.SetStat("items", num);
-		SteamUserStats.StoreStats();
-		if (num == 500)
-		{
-			SteamUserStats.IndicateAchievementProgress("hoarder", 500, 1000);
-		}
 	}
 
 	public void Update()

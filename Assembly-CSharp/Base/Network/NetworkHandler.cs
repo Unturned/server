@@ -1,4 +1,3 @@
-using Steamworks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -178,19 +177,6 @@ public class NetworkHandler : MonoBehaviour
 			{
 				NetworkUserList.users[num].reputation = reputation;
 				break;
-			}
-		}
-		if (player == Network.player)
-		{
-			if (reputation > 70)
-			{
-				SteamUserStats.SetAchievement("hero");
-				SteamUserStats.StoreStats();
-			}
-			else if (reputation < -70)
-			{
-				SteamUserStats.SetAchievement("bandit");
-				SteamUserStats.StoreStats();
 			}
 		}
 	}

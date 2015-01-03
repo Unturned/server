@@ -1,4 +1,3 @@
-using Steamworks;
 using System;
 using UnityEngine;
 
@@ -243,11 +242,6 @@ public class Skills : MonoBehaviour
 	{
 		this.experience = setExperience;
 		HUDSkills.updateExperience();
-		if (this.experience >= 10000)
-		{
-			SteamUserStats.SetAchievement("knowledgeable");
-			SteamUserStats.StoreStats();
-		}
 	}
 
 	[RPC]
@@ -257,8 +251,6 @@ public class Skills : MonoBehaviour
 		HUDSkills.updateLevel(index);
 		if (this.skills[index].level == this.skills[index].maxLevel)
 		{
-			SteamUserStats.SetAchievement("skilled");
-			bool flag = true;
 			int num = 0;
 			while (num < (int)this.skills.Length)
 			{
@@ -268,15 +260,9 @@ public class Skills : MonoBehaviour
 				}
 				else
 				{
-					flag = false;
 					break;
 				}
 			}
-			if (flag)
-			{
-				SteamUserStats.SetAchievement("experienced");
-			}
-			SteamUserStats.StoreStats();
 		}
 	}
 
