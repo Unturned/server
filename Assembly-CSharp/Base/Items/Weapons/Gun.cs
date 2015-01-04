@@ -329,12 +329,8 @@ public class Gun : Useable
 		}
 		Gun.aiming = false;
 		Gun.dualrender = false;
-		HUDGame.crosshair = false;
 		Look.fov = 0f;
 		Look.zoom.farClipPlane = 0.17f;
-		HUDGame.cursor = true;
-		HUDGame.crosshair = false;
-		HUDGame.locked = false;
 		this.infoBox.@remove();
 		this.buttonMagazine.@remove();
 		this.buttonTactical.@remove();
@@ -367,43 +363,36 @@ public class Gun : Useable
 		}
 		Gun.aiming = false;
 		Gun.dualrender = false;
-		HUDGame.crosshair = true;
 		Gun.spread = 0f;
-		HUDGame.cursor = false;
 		Viewmodel.play("equip");
 		this.infoBox = new SleekBox()
 		{
 			position = new Coord2(-210, 10, 1f, 0f),
 			size = new Coord2(200, 40, 0f, 0f)
 		};
-		HUDGame.container.addFrame(this.infoBox);
 		this.buttonMagazine = new SleekButton()
 		{
 			size = new Coord2(200, 40, 0f, 0f)
 		};
 		this.buttonMagazine.onUsed += new SleekDelegate(this.usedMagazine);
-		HUDGame.container.addFrame(this.buttonMagazine);
 		this.buttonMagazine.visible = false;
 		this.buttonTactical = new SleekButton()
 		{
 			size = new Coord2(200, 40, 0f, 0f)
 		};
 		this.buttonTactical.onUsed += new SleekDelegate(this.usedTactical);
-		HUDGame.container.addFrame(this.buttonTactical);
 		this.buttonTactical.visible = false;
 		this.buttonBarrel = new SleekButton()
 		{
 			size = new Coord2(200, 40, 0f, 0f)
 		};
 		this.buttonBarrel.onUsed += new SleekDelegate(this.usedBarrel);
-		HUDGame.container.addFrame(this.buttonBarrel);
 		this.buttonBarrel.visible = false;
 		this.buttonSight = new SleekButton()
 		{
 			size = new Coord2(200, 40, 0f, 0f)
 		};
 		this.buttonSight.onUsed += new SleekDelegate(this.usedSight);
-		HUDGame.container.addFrame(this.buttonSight);
 		this.buttonSight.visible = false;
 		this.attach();
 	}
@@ -1051,7 +1040,6 @@ public class Gun : Useable
 			if (!Gun.aiming && !this.sprinting && !this.reloading && !this.cocking && !this.attaching)
 			{
 				Gun.aiming = true;
-				HUDGame.crosshair = false;
 				if (this.firetype == 2)
 				{
 					NetworkSounds.askSound(string.Concat("Sounds/Items/", ItemSounds.getSource(Equipment.id), "/aim"), base.transform.position, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
@@ -1062,13 +1050,11 @@ public class Gun : Useable
 		else if (Gun.aiming)
 		{
 			Gun.aiming = false;
-			HUDGame.crosshair = true;
 			Viewmodel.play("stopAim");
 		}
 		else if (!this.sprinting && !this.reloading && !this.cocking && !this.attaching)
 		{
 			Gun.aiming = true;
-			HUDGame.crosshair = false;
 			if (this.firetype == 2)
 			{
 				NetworkSounds.askSound(string.Concat("Sounds/Items/", ItemSounds.getSource(Equipment.id), "/aim"), base.transform.position, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
@@ -1082,7 +1068,6 @@ public class Gun : Useable
 		if (this.attaching)
 		{
 			this.attaching = false;
-			HUDGame.locked = false;
 			this.buttonMagazine.visible = false;
 			this.buttonTactical.visible = false;
 			this.buttonBarrel.visible = false;
@@ -1104,7 +1089,6 @@ public class Gun : Useable
 		if (!InputSettings.aimToggle && Gun.aiming)
 		{
 			Gun.aiming = false;
-			HUDGame.crosshair = true;
 			Viewmodel.play("stopAim");
 		}
 	}
@@ -1245,7 +1229,6 @@ public class Gun : Useable
 							GameObject owner = OwnerFinder.getOwner(Gun.hit.collider.gameObject);
 							if (owner != null && owner.GetComponent<Player>() != null && owner.GetComponent<Player>().action != 4 && (PlayerSettings.friend == string.Empty || PlayerSettings.friendHash != owner.GetComponent<Player>().owner.friend))
 							{
-								HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 								if (!Network.isServer)
 								{
 									base.networkView.RPC("stabPlayer", RPCMode.Server, new object[] { owner.GetComponent<Player>().owner.id, limb });
@@ -1263,7 +1246,6 @@ public class Gun : Useable
 						GameObject gameObject = OwnerFinder.getOwner(Gun.hit.collider.gameObject);
 						if (gameObject != null && !gameObject.GetComponent<AI>().dead)
 						{
-							HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 							if (!Network.isServer)
 							{
 								base.networkView.RPC("stabAnimal", RPCMode.Server, new object[] { gameObject.networkView.viewID, num });
@@ -1432,7 +1414,6 @@ public class Gun : Useable
 		if (Input.GetKeyDown(InputSettings.attachmentKey) && !this.sprinting && !this.reloading && !this.cocking && !this.firing && !Gun.aiming && Screen.lockCursor)
 		{
 			this.attaching = true;
-			HUDGame.locked = true;
 			if (this.magazinePoint != null)
 			{
 				this.buttonMagazine.visible = true;
@@ -1742,7 +1723,6 @@ public class Gun : Useable
 							}
 							if (Gun.hit.collider.tag == "Barricade")
 							{
-								HUDGame.lastStructmarker = Time.realtimeSinceStartup;
 								if (!Network.isServer)
 								{
 									base.networkView.RPC("shootBarricade", RPCMode.Server, new object[] { Equipment.equipped.x, Equipment.equipped.y, Gun.hit.collider.transform.parent.position });
@@ -1754,7 +1734,6 @@ public class Gun : Useable
 							}
 							else if (Gun.hit.collider.tag == "Structure")
 							{
-								HUDGame.lastStructmarker = Time.realtimeSinceStartup;
 								if (!Network.isServer)
 								{
 									base.networkView.RPC("shootStructure", RPCMode.Server, new object[] { Equipment.equipped.x, Equipment.equipped.y, Gun.hit.collider.transform.parent.position });
@@ -1772,7 +1751,6 @@ public class Gun : Useable
 									GameObject owner1 = OwnerFinder.getOwner(Gun.hit.collider.gameObject);
 									if (owner1 != null && owner1.GetComponent<Player>() != null && owner1.GetComponent<Player>().action != 4 && (PlayerSettings.friend == string.Empty || PlayerSettings.friendHash != owner1.GetComponent<Player>().owner.friend))
 									{
-										HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 										if (!Network.isServer)
 										{
 											base.networkView.RPC("shootPlayer", RPCMode.Server, new object[] { Equipment.equipped.x, Equipment.equipped.y, owner1.GetComponent<Player>().owner.id, limb1 });
@@ -1798,7 +1776,6 @@ public class Gun : Useable
 								GameObject gameObject1 = OwnerFinder.getOwner(Gun.hit.collider.gameObject);
 								if (gameObject1 != null && !gameObject1.GetComponent<AI>().dead)
 								{
-									HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 									if (!Network.isServer)
 									{
 										base.networkView.RPC("shootAnimal", RPCMode.Server, new object[] { Equipment.equipped.x, Equipment.equipped.y, gameObject1.networkView.viewID, limb2 });
@@ -1842,7 +1819,6 @@ public class Gun : Useable
 							}
 							else
 							{
-								HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 								if (!Network.isServer)
 								{
 									base.networkView.RPC("shootVehicle", RPCMode.Server, new object[] { Equipment.equipped.x, Equipment.equipped.y, Gun.hit.collider.networkView.viewID });
@@ -1912,13 +1888,11 @@ public class Gun : Useable
 					if (this.firetype == 2)
 					{
 						Gun.aiming = false;
-						HUDGame.crosshair = true;
 						Viewmodel.play("stopAim");
 					}
 					else if (this.firetype == 1)
 					{
 						Gun.aiming = false;
-						HUDGame.crosshair = true;
 						this.cocking = true;
 						this.lastCock = Time.realtimeSinceStartup;
 						Viewmodel.play("cock");

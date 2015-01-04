@@ -258,7 +258,7 @@ public class Pick : Useable
 					{
 						if (Pick.hit.collider.name.Substring(0, 4) == "rock")
 						{
-							HUDGame.lastHitmarker = Time.realtimeSinceStartup;
+							//HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 							int num = int.Parse(Pick.hit.collider.transform.parent.name.Substring(Pick.hit.collider.transform.parent.name.IndexOf("_") + 1));
 							if (!Network.isServer)
 							{
@@ -272,7 +272,7 @@ public class Pick : Useable
 					}
 					else if (Pick.hit.collider.tag == "Barricade")
 					{
-						HUDGame.lastStructmarker = Time.realtimeSinceStartup;
+						//HUDGame.lastStructmarker = Time.realtimeSinceStartup;
 						if (!Network.isServer)
 						{
 							base.networkView.RPC("swingBarricade", RPCMode.Server, new object[] { Pick.hit.collider.transform.parent.position, this.lastStrong });
@@ -284,7 +284,7 @@ public class Pick : Useable
 					}
 					else if (Pick.hit.collider.tag == "Structure")
 					{
-						HUDGame.lastStructmarker = Time.realtimeSinceStartup;
+						//HUDGame.lastStructmarker = Time.realtimeSinceStartup;
 						if (!Network.isServer)
 						{
 							base.networkView.RPC("swingStructure", RPCMode.Server, new object[] { Pick.hit.collider.transform.parent.position, this.lastStrong });
@@ -300,7 +300,7 @@ public class Pick : Useable
 						GameObject owner = OwnerFinder.getOwner(Pick.hit.collider.gameObject);
 						if (owner != null && owner.GetComponent<Player>().action != 4 && (PlayerSettings.friend == string.Empty || PlayerSettings.friendHash != owner.GetComponent<Player>().owner.friend))
 						{
-							HUDGame.lastHitmarker = Time.realtimeSinceStartup;
+							//HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 							if (!Network.isServer)
 							{
 								base.networkView.RPC("swingPlayer", RPCMode.Server, new object[] { owner.GetComponent<Player>().owner.id, limb, this.lastStrong });
@@ -317,7 +317,7 @@ public class Pick : Useable
 						GameObject gameObject = OwnerFinder.getOwner(Pick.hit.collider.gameObject);
 						if (gameObject != null && !gameObject.GetComponent<AI>().dead)
 						{
-							HUDGame.lastHitmarker = Time.realtimeSinceStartup;
+							//HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 							if (!Network.isServer)
 							{
 								base.networkView.RPC("swingAnimal", RPCMode.Server, new object[] { gameObject.networkView.viewID, limb1, this.lastStrong });
@@ -330,7 +330,7 @@ public class Pick : Useable
 					}
 					else if (Pick.hit.collider.tag == "Vehicle" && Pick.hit.collider.GetComponent<Vehicle>().health > 0 && ServerSettings.pvp)
 					{
-						HUDGame.lastHitmarker = Time.realtimeSinceStartup;
+						//HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 						if (!Network.isServer)
 						{
 							base.networkView.RPC("swingVehicle", RPCMode.Server, new object[] { Pick.hit.collider.networkView.viewID, this.lastStrong });

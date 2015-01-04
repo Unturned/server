@@ -66,7 +66,6 @@ public class Clothes : MonoBehaviour
 			}
 			base.networkView.RPC("tellBackpack", RPCMode.All, new object[] { setBackpack });
 			PlayerPrefs.SetInt(string.Concat("lastBackpack_", PlayerSettings.id), Sneaky.sneak(setBackpack));
-			HUDCharacter.updateItems();
 			NetworkSounds.askSound("Sounds/Clothes/zipper", base.transform.position, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
 		}
 	}
@@ -75,10 +74,8 @@ public class Clothes : MonoBehaviour
 	{
 		if (setHat != -1 || this.hat != -1)
 		{
-			Sun.setVision(setHat, HUDGame.nvg);
 			base.networkView.RPC("tellHat", RPCMode.All, new object[] { setHat });
 			PlayerPrefs.SetInt(string.Concat("lastHat_", PlayerSettings.id), Sneaky.sneak(setHat));
-			HUDCharacter.updateItems();
 			NetworkSounds.askSound("Sounds/Clothes/sleeve", base.transform.position, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
 		}
 	}
@@ -88,7 +85,6 @@ public class Clothes : MonoBehaviour
 		base.networkView.RPC("tellItem", RPCMode.All, new object[] { setItem, setState });
 		PlayerPrefs.SetInt(string.Concat("lastItem_", PlayerSettings.id), Sneaky.sneak(setItem));
 		PlayerPrefs.SetString(string.Concat("lastState_", PlayerSettings.id), Sneaky.sneak(setState));
-		HUDCharacter.updateItems();
 	}
 
 	public void changePants(int setPants)
@@ -97,7 +93,6 @@ public class Clothes : MonoBehaviour
 		{
 			base.networkView.RPC("tellPants", RPCMode.All, new object[] { setPants });
 			PlayerPrefs.SetInt(string.Concat("lastPants_", PlayerSettings.id), Sneaky.sneak(setPants));
-			HUDCharacter.updateItems();
 			NetworkSounds.askSound("Sounds/Clothes/sleeve", base.transform.position, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
 		}
 	}
@@ -108,7 +103,6 @@ public class Clothes : MonoBehaviour
 		{
 			base.networkView.RPC("tellShirt", RPCMode.All, new object[] { setShirt });
 			PlayerPrefs.SetInt(string.Concat("lastShirt_", PlayerSettings.id), Sneaky.sneak(setShirt));
-			HUDCharacter.updateItems();
 			NetworkSounds.askSound("Sounds/Clothes/sleeve", base.transform.position, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
 		}
 	}
@@ -119,7 +113,6 @@ public class Clothes : MonoBehaviour
 		{
 			base.networkView.RPC("tellVest", RPCMode.All, new object[] { setVest });
 			PlayerPrefs.SetInt(string.Concat("lastVest_", PlayerSettings.id), Sneaky.sneak(setVest));
-			HUDCharacter.updateItems();
 			NetworkSounds.askSound("Sounds/Clothes/zipper", base.transform.position, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
 		}
 	}
@@ -210,18 +203,12 @@ public class Clothes : MonoBehaviour
 		}
 		else
 		{
-			if (ServerSettings.mode != 3)
-			{
-				this.shirt = -1;
-				this.pants = -1;
-				this.hat = -1;
-			}
-			else
-			{
-				this.shirt = 4000;
-				this.pants = 5000;
-				this.hat = 0;
-			}
+            // TODO: write it to property/database
+            // Spawn in fancy suit
+			this.shirt = 4000;
+			this.pants = 5000;
+			this.hat = 0;
+
 			this.backpack = -1;
 			this.vest = -1;
 		}
@@ -300,19 +287,6 @@ public class Clothes : MonoBehaviour
 			this.character.hairColor = this.hairColor;
 			this.character.arm = this.arm;
 			this.character.wear();
-		}
-		if (base.networkView.isMine)
-		{
-			Sun.setVision(this.hat, HUDGame.nvg);
-			Viewmodel.wear();
-			PlayerPrefs.SetInt(string.Concat("lastShirt_", PlayerSettings.id), Sneaky.sneak(this.shirt));
-			PlayerPrefs.SetInt(string.Concat("lastPants_", PlayerSettings.id), Sneaky.sneak(this.pants));
-			PlayerPrefs.SetInt(string.Concat("lastHat_", PlayerSettings.id), Sneaky.sneak(this.hat));
-			PlayerPrefs.SetInt(string.Concat("lastBackpack_", PlayerSettings.id), Sneaky.sneak(this.backpack));
-			PlayerPrefs.SetInt(string.Concat("lastVest_", PlayerSettings.id), Sneaky.sneak(this.vest));
-			PlayerPrefs.SetInt(string.Concat("lastItem_", PlayerSettings.id), Sneaky.sneak(-1));
-			PlayerPrefs.SetString(string.Concat("lastState_", PlayerSettings.id), Sneaky.sneak(string.Empty));
-			HUDCharacter.updateItems();
 		}
 	}
 

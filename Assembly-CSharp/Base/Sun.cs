@@ -300,17 +300,6 @@ public class Sun : MonoBehaviour
 		{
 			this.lastSpook = Time.realtimeSinceStartup;
 		}
-		if (HUDGame.drugged && (double)UnityEngine.Random.@value > 0.6 && Time.realtimeSinceStartup - this.lastSpook > 6f)
-		{
-			int num = UnityEngine.Random.Range(0, 6);
-			while (num == this.spook)
-			{
-				num = UnityEngine.Random.Range(0, 6);
-			}
-			this.spook = num;
-			this.lastSpook = Time.realtimeSinceStartup;
-			base.audio.PlayOneShot((AudioClip)Resources.Load(string.Concat("Sounds/Spooky/spooky_", this.spook)), 0.5f);
-		}
 	}
 
 	public static string getTime()

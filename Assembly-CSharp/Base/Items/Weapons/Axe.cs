@@ -258,7 +258,6 @@ public class Axe : Useable
 					{
 						if (Axe.hit.collider.name.Substring(0, 4) != "rock")
 						{
-							HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 							int num = int.Parse(Axe.hit.collider.transform.parent.name.Substring(Axe.hit.collider.transform.parent.name.IndexOf("_") + 1));
 							if (!Network.isServer)
 							{
@@ -272,7 +271,6 @@ public class Axe : Useable
 					}
 					else if (Axe.hit.collider.tag == "Barricade")
 					{
-						HUDGame.lastStructmarker = Time.realtimeSinceStartup;
 						if (!Network.isServer)
 						{
 							base.networkView.RPC("swingBarricade", RPCMode.Server, new object[] { Axe.hit.collider.transform.parent.position, this.lastStrong });
@@ -284,7 +282,6 @@ public class Axe : Useable
 					}
 					else if (Axe.hit.collider.tag == "Structure")
 					{
-						HUDGame.lastStructmarker = Time.realtimeSinceStartup;
 						if (!Network.isServer)
 						{
 							base.networkView.RPC("swingStructure", RPCMode.Server, new object[] { Axe.hit.collider.transform.parent.position, this.lastStrong });
@@ -300,7 +297,6 @@ public class Axe : Useable
 						GameObject owner = OwnerFinder.getOwner(Axe.hit.collider.gameObject);
 						if (owner != null && owner.GetComponent<Player>().action != 4 && (PlayerSettings.friend == string.Empty || PlayerSettings.friendHash != owner.GetComponent<Player>().owner.friend))
 						{
-							HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 							if (!Network.isServer)
 							{
 								base.networkView.RPC("swingPlayer", RPCMode.Server, new object[] { owner.GetComponent<Player>().owner.id, limb, this.lastStrong });
@@ -317,7 +313,6 @@ public class Axe : Useable
 						GameObject gameObject = OwnerFinder.getOwner(Axe.hit.collider.gameObject);
 						if (gameObject != null && !gameObject.GetComponent<AI>().dead)
 						{
-							HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 							if (!Network.isServer)
 							{
 								base.networkView.RPC("swingAnimal", RPCMode.Server, new object[] { gameObject.networkView.viewID, limb1, this.lastStrong });
@@ -330,7 +325,6 @@ public class Axe : Useable
 					}
 					else if (Axe.hit.collider.tag == "Vehicle" && Axe.hit.collider.GetComponent<Vehicle>().health > 0 && ServerSettings.pvp)
 					{
-						HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 						if (!Network.isServer)
 						{
 							base.networkView.RPC("swingVehicle", RPCMode.Server, new object[] { Axe.hit.collider.networkView.viewID, this.lastStrong });

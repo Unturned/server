@@ -55,7 +55,6 @@ public class Consumeable : Useable
 				this.askConsume();
 			}
 			base.GetComponent<Life>().rest(ConsumeableStats.getStamina(Equipment.id));
-			HUDGame.drug = HUDGame.drug + (float)ConsumeableStats.getDrug(Equipment.id);
 			Equipment.use();
 		}
 	}

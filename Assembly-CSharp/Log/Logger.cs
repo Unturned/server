@@ -19,7 +19,7 @@ public class Logger : MonoBehaviour {
 
     public static void LogSecurity(NetworkPlayer player, String incident) {
         NetworkUser user = NetworkUserList.getUserFromPlayer(player);
-        StreamWriter file = new StreamWriter(@"Unturned_Data/Security.txt", true);
+        StreamWriter file = new StreamWriter(@"Unturned_Data/Incident.txt", true);
 
         file.WriteLine("{0:" + DATE_PATTERN + "} User: {1} ({2}) IP: {3} {4}",
             System.DateTime.Now,
@@ -29,6 +29,7 @@ public class Logger : MonoBehaviour {
             incident
         );
 
+        file.Flush();
         file.Close();
     }
 }

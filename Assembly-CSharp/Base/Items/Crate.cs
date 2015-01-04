@@ -25,7 +25,7 @@ public class Crate : Interactable
 		this.items = InteractionInterface.getCrateItems(int.Parse(base.transform.parent.name), Sneaky.expose(this.state));
 		if (Interact.edit == base.gameObject)
 		{
-			HUDInteract.crate(int.Parse(base.transform.parent.name), this.items);
+			//HUDInteract.crate(int.Parse(base.transform.parent.name), this.items);
 		}
 	}
 
@@ -36,7 +36,7 @@ public class Crate : Interactable
 
 	public override void trigger()
 	{
-		HUDInteract.crate(int.Parse(base.transform.parent.name), this.items);
+		//HUDInteract.crate(int.Parse(base.transform.parent.name), this.items);
 		Interact.interact(base.gameObject);
 	}
 }

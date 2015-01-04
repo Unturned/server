@@ -30,11 +30,11 @@ public class Item : Interactable
 		}
 		else if (num == 1)
 		{
-			HUDGame.openError(Texts.ERROR_NO_SPACE, "Textures/Icons/errror");
+			//HUDGame.openError(Texts.ERROR_NO_SPACE, "Textures/Icons/errror");
 		}
 		else if (num == 2)
 		{
-			HUDGame.openError(Texts.ERROR_NO_WEIGHT, "Textures/Icons/errror");
+			//HUDGame.openError(Texts.ERROR_NO_WEIGHT, "Textures/Icons/errror");
 		}
 	}
 }

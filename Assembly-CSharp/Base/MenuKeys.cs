@@ -87,7 +87,7 @@ public class MenuKeys
 		}
 		else
 		{
-			HUDPause.container.addFrame(MenuKeys.container);
+			//HUDPause.container.addFrame(MenuKeys.container);
 		}
 		MenuKeys.container.visible = false;
 		MenuKeys.buttonOther = new SleekButton()
@@ -552,7 +552,7 @@ public class MenuKeys
 		else
 		{
 			MenuKeys.close();
-			HUDPause.closeMini();
+			//HUDPause.closeMini();
 		}
 	}
 

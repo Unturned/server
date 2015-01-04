@@ -57,7 +57,7 @@ public class MenuGraphics
 		}
 		else
 		{
-			HUDPause.container.addFrame(MenuGraphics.container);
+			//HUDPause.container.addFrame(MenuGraphics.container);
 		}
 		MenuGraphics.container.visible = false;
 		MenuGraphics.buttonFullscreen = new SleekButton()
@@ -328,7 +328,7 @@ public class MenuGraphics
 		else
 		{
 			MenuGraphics.close();
-			HUDPause.closeMini();
+			//HUDPause.closeMini();
 		}
 	}
 

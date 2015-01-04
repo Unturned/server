@@ -32,8 +32,6 @@ public class Interact : MonoBehaviour
 	public static void interact(GameObject model)
 	{
 		Interact.edit = model;
-		HUDGame.interacting = true;
-		HUDInventory.openInteract();
 	}
 
 	public void Start()
@@ -46,9 +44,7 @@ public class Interact : MonoBehaviour
 	{
 		if (Interact.edit != null && (Input.GetKeyDown(InputSettings.interactKey) || (Interact.edit.transform.position - Player.model.transform.position).magnitude > 4f))
 		{
-			HUDGame.interacting = false;
 			Interact.edit = null;
-			HUDInventory.close();
 		}
 		if (GraphicsSettings.dof)
 		{
@@ -78,7 +74,6 @@ public class Interact : MonoBehaviour
 					}
 					Interact.focus = null;
 					Interact.material = null;
-					HUDGame.setHint(Interact.hint, null, Color.white, Color.white, Interact.icon);
 				}
 				else if (Interact.hit.collider.tag == "Enemy")
 				{
@@ -91,11 +86,11 @@ public class Interact : MonoBehaviour
 					NetworkUser component = OwnerFinder.getOwner(Interact.hit.collider.gameObject).GetComponent<Player>().owner;
 					if (!(PlayerSettings.friendHash != string.Empty) || !(component.friend == PlayerSettings.friendHash) || !(component.nickname != string.Empty))
 					{
-						HUDGame.setHint(component.name, null, (component.status != 21 ? Color.white : Colors.GOLD), (component.status != 21 ? Color.white : Colors.GOLD), Reputation.getIcon(component.reputation));
+						//HUDGame.setHint(component.name, null, (component.status != 21 ? Color.white : Colors.GOLD), (component.status != 21 ? Color.white : Colors.GOLD), Reputation.getIcon(component.reputation));
 					}
 					else
 					{
-						HUDGame.setHint(string.Concat(component.name, " [", component.nickname, "]"), null, (component.status != 21 ? Color.white : Colors.GOLD), (component.status != 21 ? Color.white : Colors.GOLD), Reputation.getIcon(component.reputation));
+                        //HUDGame.setHint(string.Concat(component.name, " [", component.nickname, "]"), null, (component.status != 21 ? Color.white : Colors.GOLD), (component.status != 21 ? Color.white : Colors.GOLD), Reputation.getIcon(component.reputation));
 					}
 				}
 				else if (Interact.hit.distance >= 3f)
@@ -106,7 +101,7 @@ public class Interact : MonoBehaviour
 					}
 					Interact.focus = null;
 					Interact.material = null;
-					HUDGame.setHint(Interact.hint, null, Color.white, Color.white, Interact.icon);
+					//HUDGame.setHint(Interact.hint, null, Color.white, Color.white, Interact.icon);
 				}
 				else
 				{
@@ -119,7 +114,7 @@ public class Interact : MonoBehaviour
 						}
 						Interact.focus = null;
 						Interact.material = null;
-						HUDGame.setHint(Interact.hint, null, Color.white, Color.white, Interact.icon);
+						//HUDGame.setHint(Interact.hint, null, Color.white, Color.white, Interact.icon);
 					}
 					else
 					{
@@ -171,7 +166,7 @@ public class Interact : MonoBehaviour
 						}
 						if (Interact.interactable.hint() != string.Empty)
 						{
-							HUDGame.setHint(string.Concat(new object[] { Interact.interactable.hint(), " [", InputSettings.interactKey, "]" }), (Interact.focus.transform.FindChild("focus") == null ? Interact.focus : Interact.focus.transform.FindChild("focus").gameObject), Color.white, Color.white, Interact.interactable.icon());
+							//HUDGame.setHint(string.Concat(new object[] { Interact.interactable.hint(), " [", InputSettings.interactKey, "]" }), (Interact.focus.transform.FindChild("focus") == null ? Interact.focus : Interact.focus.transform.FindChild("focus").gameObject), Color.white, Color.white, Interact.interactable.icon());
 						}
 					}
 				}
@@ -184,7 +179,7 @@ public class Interact : MonoBehaviour
 				}
 				Interact.focus = null;
 				Interact.material = null;
-				HUDGame.setHint(Interact.hint, null, Color.white, Color.white, Interact.icon);
+				//HUDGame.setHint(Interact.hint, null, Color.white, Color.white, Interact.icon);
 			}
 			if (Input.GetKeyDown(InputSettings.interactKey) && !Player.life.dead && Interact.focus != null && Interact.interactable.hint() != string.Empty && Screen.lockCursor)
 			{
@@ -204,7 +199,7 @@ public class Interact : MonoBehaviour
 			Interact.focus = null;
 			Interact.material = null;
 			Interact.interactable = null;
-			HUDGame.setHint(string.Concat("Exit [", InputSettings.interactKey, "] - Seats [F1-6]"), null, Color.white, Color.white, string.Empty);
+			//HUDGame.setHint(string.Concat("Exit [", InputSettings.interactKey, "] - Seats [F1-6]"), null, Color.white, Color.white, string.Empty);
 		}
 	}
 }

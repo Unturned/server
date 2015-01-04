@@ -242,7 +242,7 @@ public class Chainsaw : Useable
 				{
 					if (Chainsaw.hit.collider.name.Substring(0, 4) != "rock")
 					{
-						HUDGame.lastHitmarker = Time.realtimeSinceStartup;
+						//HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 						int num = int.Parse(Chainsaw.hit.collider.transform.parent.name.Substring(Chainsaw.hit.collider.transform.parent.name.IndexOf("_") + 1));
 						if (!Network.isServer)
 						{
@@ -256,7 +256,7 @@ public class Chainsaw : Useable
 				}
 				else if (Chainsaw.hit.collider.tag == "Barricade")
 				{
-					HUDGame.lastStructmarker = Time.realtimeSinceStartup;
+					//HUDGame.lastStructmarker = Time.realtimeSinceStartup;
 					if (!Network.isServer)
 					{
 						base.networkView.RPC("swingBarricade", RPCMode.Server, new object[] { Chainsaw.hit.collider.transform.parent.position });
@@ -268,7 +268,7 @@ public class Chainsaw : Useable
 				}
 				else if (Chainsaw.hit.collider.tag == "Structure")
 				{
-					HUDGame.lastStructmarker = Time.realtimeSinceStartup;
+					//HUDGame.lastStructmarker = Time.realtimeSinceStartup;
 					if (!Network.isServer)
 					{
 						base.networkView.RPC("swingStructure", RPCMode.Server, new object[] { Chainsaw.hit.collider.transform.parent.position });
@@ -284,7 +284,7 @@ public class Chainsaw : Useable
 					GameObject owner = OwnerFinder.getOwner(Chainsaw.hit.collider.gameObject);
 					if (owner != null && owner.GetComponent<Player>().action != 4 && (PlayerSettings.friend == string.Empty || PlayerSettings.friendHash != owner.GetComponent<Player>().owner.friend))
 					{
-						HUDGame.lastHitmarker = Time.realtimeSinceStartup;
+						//HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 						if (!Network.isServer)
 						{
 							base.networkView.RPC("swingPlayer", RPCMode.Server, new object[] { owner.GetComponent<Player>().owner.id, limb });
@@ -301,7 +301,7 @@ public class Chainsaw : Useable
 					GameObject gameObject = OwnerFinder.getOwner(Chainsaw.hit.collider.gameObject);
 					if (gameObject != null && !gameObject.GetComponent<AI>().dead)
 					{
-						HUDGame.lastHitmarker = Time.realtimeSinceStartup;
+						//HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 						if (!Network.isServer)
 						{
 							base.networkView.RPC("swingAnimal", RPCMode.Server, new object[] { gameObject.networkView.viewID, limb1 });
@@ -314,7 +314,7 @@ public class Chainsaw : Useable
 				}
 				else if (Chainsaw.hit.collider.tag == "Vehicle" && Chainsaw.hit.collider.GetComponent<Vehicle>().health > 0 && ServerSettings.pvp)
 				{
-					HUDGame.lastHitmarker = Time.realtimeSinceStartup;
+					//HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 					if (!Network.isServer)
 					{
 						base.networkView.RPC("swingVehicle", RPCMode.Server, new object[] { Chainsaw.hit.collider.networkView.viewID });

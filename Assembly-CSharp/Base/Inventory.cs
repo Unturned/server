@@ -497,7 +497,7 @@ public class Inventory : MonoBehaviour {
 
     public void sendDrag(int x_0, int y_0, int x_1, int y_1, bool all) {
         if (x_0 == x_1 && y_0 == y_1) {
-            HUDInventory.updateItems();
+            //HUDInventory.updateItems();
         }
         else if (!Network.isServer) {
             base.networkView.RPC("askDrag", RPCMode.Server, new object[] { x_0, y_0, x_1, y_1, all });
@@ -561,8 +561,8 @@ public class Inventory : MonoBehaviour {
                 this.items[i, j] = new ClientItem(-1, 0, string.Empty);
             }
         }
-        HUDInventory.resize(this.width, this.height);
-        HUDInventory.updateWeight();
+        //HUDInventory.resize(this.width, this.height);
+        //HUDInventory.updateWeight();
     }
 
     public void syncWeight() {
@@ -585,8 +585,8 @@ public class Inventory : MonoBehaviour {
         this.items[x, y].id = id;
         this.items[x, y].amount = amount;
         this.items[x, y].state = state;
-        HUDInventory.updateItems();
-        HUDCrafting.updateItems();
+        //HUDInventory.updateItems();
+        //HUDCrafting.updateItems();
     }
 
     [RPC]
@@ -613,7 +613,7 @@ public class Inventory : MonoBehaviour {
         else {
             this.speed = 0.9f + (1f - (float)Player.inventory.weight / (float)Player.inventory.capacity) * 0.1f;
         }
-        HUDInventory.updateWeight();
+        //HUDInventory.updateWeight();
     }
 
     public void tryAddItem(int id, int amount) {

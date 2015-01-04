@@ -48,7 +48,7 @@ public class Medicine : Useable
 				this.askHeal();
 			}
 			base.GetComponent<Life>().rest(MedicalStats.getStamina(Equipment.id));
-			HUDGame.pain = HUDGame.pain + (float)MedicalStats.getPain(Equipment.id);
+			//HUDGame.pain = HUDGame.pain + (float)MedicalStats.getPain(Equipment.id);
 			Equipment.use();
 		}
 	}

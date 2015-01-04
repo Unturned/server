@@ -690,13 +690,11 @@ public class Vehicle : Interactable
 					position = new Coord2(-155, -150, 0.5f, 1f),
 					size = new Coord2(150, 40, 0f, 0f)
 				};
-				HUDGame.container.addFrame(this.speedMeter);
 				this.fuelMeter = new SleekBox()
 				{
 					position = new Coord2(5, -150, 0.5f, 1f),
 					size = new Coord2(150, 40, 0f, 0f)
 				};
-				HUDGame.container.addFrame(this.fuelMeter);
 				this.fuelBar = new SleekImage()
 				{
 					position = new Coord2(50, 10, 0f, 0f),

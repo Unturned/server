@@ -166,7 +166,7 @@ public class Movement : MonoBehaviour
 				{
 					if (Player.life.stamina < 10 - (int)(Player.skills.endurance() * 10f))
 					{
-						HUDGame.openError("Sorry: Not Enough Energy", "Textures/Icons/error");
+						//HUDGame.openError("Sorry: Not Enough Energy", "Textures/Icons/error");
 					}
 					else
 					{

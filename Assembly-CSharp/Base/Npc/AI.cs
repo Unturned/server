@@ -75,7 +75,7 @@ public class AI : MonoBehaviour
 
 	public void respawn()
 	{
-		SpawnAnimals.respawn(base.gameObject);
+		SpawnAnimals.Respawn(base.gameObject);
 	}
 
 	public virtual void setupClient()

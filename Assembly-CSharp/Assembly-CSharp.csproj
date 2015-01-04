@@ -205,14 +205,6 @@
     <Compile Include="Base\SleekWindow.cs" />
     <Compile Include="Base\Smoke.cs" />
     <Compile Include="Base\Sneaky.cs" />
-    <Compile Include="Base\SpawnAnimals.cs" />
-    <Compile Include="Base\SpawnBarricades.cs" />
-    <Compile Include="Base\SpawnItems.cs" />
-    <Compile Include="Base\SpawnPlayers.cs" />
-    <Compile Include="Base\SpawnProjectiles.cs" />
-    <Compile Include="Base\SpawnResources.cs" />
-    <Compile Include="Base\SpawnStructures.cs" />
-    <Compile Include="Base\SpawnVehicles.cs" />
     <Compile Include="Base\SpeakerMode.cs" />
     <Compile Include="Base\Stance.cs" />
     <Compile Include="Base\Steam.cs" />
@@ -243,16 +235,6 @@
     <Compile Include="Base\Items\Door.cs" />
     <Compile Include="Base\Items\Gas.cs" />
     <Compile Include="Base\Items\Hat.cs" />
-    <Compile Include="Base.HUD\HUDCharacter.cs" />
-    <Compile Include="Base.HUD\HUDCrafting.cs" />
-    <Compile Include="Base.HUD\HUDDedicated.cs" />
-    <Compile Include="Base.HUD\HUDEmote.cs" />
-    <Compile Include="Base.HUD\HUDGame.cs" />
-    <Compile Include="Base.HUD\HUDInteract.cs" />
-    <Compile Include="Base.HUD\HUDInventory.cs" />
-    <Compile Include="Base.HUD\HUDPause.cs" />
-    <Compile Include="Base.HUD\HUDPlayers.cs" />
-    <Compile Include="Base.HUD\HUDSkills.cs" />
     <Compile Include="Base.VoiceChat\UnityNetworkUSpeakSender.cs" />
     <Compile Include="Base.VoiceChat\USpeakCodecManager.cs" />
     <Compile Include="Base.VoiceChat\USpeaker.cs" />
@@ -264,6 +246,14 @@
     <Compile Include="Base\Npc\Animal.cs" />
     <Compile Include="Base\Npc\Zombie.cs" />
     <Compile Include="Base\Base\MasterSettings.cs" />
+    <Compile Include="Base.Spawns\SpawnAnimals.cs" />
+    <Compile Include="Base.Spawns\SpawnBarricades.cs" />
+    <Compile Include="Base.Spawns\SpawnItems.cs" />
+    <Compile Include="Base.Spawns\SpawnPlayers.cs" />
+    <Compile Include="Base.Spawns\SpawnProjectiles.cs" />
+    <Compile Include="Base.Spawns\SpawnResources.cs" />
+    <Compile Include="Base.Spawns\SpawnStructures.cs" />
+    <Compile Include="Base.Spawns\SpawnVehicles.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -271,11 +261,11 @@
     <Folder Include="Log\" />
     <Folder Include="Base\" />
     <Folder Include="DataHolder.FileDatabase\" />
-    <Folder Include="Base.HUD\" />
     <Folder Include="Base.VoiceChat\" />
     <Folder Include="GridManager\" />
     <Folder Include="Base\Npc\" />
     <Folder Include="Base\Base\" />
+    <Folder Include="Base.Spawns\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp-firstpass">

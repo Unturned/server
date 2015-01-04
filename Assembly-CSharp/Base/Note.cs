@@ -29,7 +29,7 @@ public class Note : Interactable
 
 	public override void trigger()
 	{
-		HUDInteract.note(Sneaky.expose(this.state));
+		//HUDInteract.note(Sneaky.expose(this.state));
 		Interact.interact(base.gameObject);
 	}
 

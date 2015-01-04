@@ -416,7 +416,6 @@ public class Equipment : MonoBehaviour
 						GameObject owner = OwnerFinder.getOwner(Equipment.hit.collider.gameObject);
 						if (owner != null && owner.GetComponent<Player>().action != 4 && (PlayerSettings.friend == string.Empty || PlayerSettings.friendHash != owner.GetComponent<Player>().owner.friend))
 						{
-							HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 							if (!Network.isServer)
 							{
 								base.networkView.RPC("punchPlayer", RPCMode.Server, new object[] { owner.GetComponent<Player>().owner.id, limb });
@@ -433,7 +432,6 @@ public class Equipment : MonoBehaviour
 						GameObject gameObject = OwnerFinder.getOwner(Equipment.hit.collider.gameObject);
 						if (gameObject != null && !gameObject.GetComponent<AI>().dead)
 						{
-							HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 							if (!Network.isServer)
 							{
 								base.networkView.RPC("punchAnimal", RPCMode.Server, new object[] { gameObject.networkView.viewID, limb1 });

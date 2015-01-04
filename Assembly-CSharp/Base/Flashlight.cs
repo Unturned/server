@@ -221,7 +221,6 @@ public class Flashlight : Useable
 					GameObject owner = OwnerFinder.getOwner(Flashlight.hit.collider.gameObject);
 					if (owner != null && owner.GetComponent<Player>().action != 4 && (PlayerSettings.friend == string.Empty || PlayerSettings.friendHash != owner.GetComponent<Player>().owner.friend))
 					{
-						HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 						if (!Network.isServer)
 						{
 							base.networkView.RPC("swingPlayer", RPCMode.Server, new object[] { owner.GetComponent<Player>().owner.id, limb });
@@ -238,7 +237,6 @@ public class Flashlight : Useable
 					GameObject gameObject = OwnerFinder.getOwner(Flashlight.hit.collider.gameObject);
 					if (gameObject != null && !gameObject.GetComponent<AI>().dead)
 					{
-						HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 						if (!Network.isServer)
 						{
 							base.networkView.RPC("swingAnimal", RPCMode.Server, new object[] { gameObject.networkView.viewID, num });

@@ -17,8 +17,6 @@ public class NetworkManager : MonoBehaviour {
 	public static void error(string text, string icon, NetworkPlayer player) {
 		if (player != Network.player) {
 			NetworkManager.tool.networkView.RPC("openError", player, new object[] { text, icon });
-		} else {
-			NetworkManager.tool.openError(text, icon);
 		}
 	}
 
@@ -72,8 +70,6 @@ public class NetworkManager : MonoBehaviour {
 				ServerSettings.passworded = true;
 				int.TryParse(commandLineArgs[i].Substring(9, commandLineArgs[i].Length - 9), out maxPlayers);
 			}
-			
-			Loader.hook();
 		}
 	}
 
@@ -109,6 +105,9 @@ public class NetworkManager : MonoBehaviour {
 		if (base.name == "network" && Application.loadedLevel == 0) {
 			UnityEngine.Object.Destroy(base.gameObject);
 		}
+
+        // Registering loader
+        Loader.hook();
 	}
 
 	public void OnPlayerConnected(NetworkPlayer player) {
@@ -122,11 +121,6 @@ public class NetworkManager : MonoBehaviour {
 	public void OnServerInitialized() {
 		NetworkEvents.triggerOnHosted();
 		Console.WriteLine("Server initialized...");
-	}
-
-	[RPC]
-	public void openError(string text, string icon) {
-		HUDGame.openError(text, icon);
 	}
 
 	public void Start() {

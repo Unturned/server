@@ -1307,16 +1307,17 @@ namespace AdminCommands
 
             this.itemsTimer = new System.Timers.Timer ((double)(this.itemsResetIntervalInSeconds * 1000));
             this.itemsTimer.Elapsed += new System.Timers.ElapsedEventHandler (this.itemsTimeElapsed);
-			this.itemsTimer.Enabled = false;
+			this.itemsTimer.Enabled = true;
             this.announceTimer = new System.Timers.Timer ((double)(this.announceIntervalInSeconds * 1000));
             this.announceTimer.Elapsed += new System.Timers.ElapsedEventHandler (this.announcesTimeElapsed);
-			this.announceTimer.Enabled = false;
+			this.announceTimer.Enabled = true;
 		}
 		
 		public void SaveAll(CommandArgs args) {
 			NetworkChat.sendChat("Saving world to database...");
-			NetworkTools.save();
-			NetworkChat.sendChat("Done!");
+            NetworkTools.save();
+            System.GC.Collect();
+            System.GC.WaitForPendingFinalizers();
 		}
 	}
 }

@@ -173,7 +173,6 @@ public class Repair : Useable
 					GameObject owner = OwnerFinder.getOwner(Repair.hit.collider.gameObject);
 					if (owner != null && owner.GetComponent<Player>().action != 4 && (PlayerSettings.friend == string.Empty || PlayerSettings.friendHash != owner.GetComponent<Player>().owner.friend))
 					{
-						HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 						if (!Network.isServer)
 						{
 							base.networkView.RPC("swingPlayer", RPCMode.Server, new object[] { owner.GetComponent<Player>().owner.id, limb });
@@ -190,7 +189,6 @@ public class Repair : Useable
 					GameObject gameObject = OwnerFinder.getOwner(Repair.hit.collider.gameObject);
 					if (gameObject != null && !gameObject.GetComponent<AI>().dead)
 					{
-						HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 						if (!Network.isServer)
 						{
 							base.networkView.RPC("swingAnimal", RPCMode.Server, new object[] { gameObject.networkView.viewID, num });
@@ -203,7 +201,6 @@ public class Repair : Useable
 				}
 				else if (Repair.hit.collider.tag == "Vehicle" && Repair.hit.collider.GetComponent<Vehicle>().health < Repair.hit.collider.GetComponent<Vehicle>().maxHealth && !Repair.hit.collider.GetComponent<Vehicle>().exploded)
 				{
-					HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 					if (!Network.isServer)
 					{
 						base.networkView.RPC("swingVehicle", RPCMode.Server, new object[] { Repair.hit.collider.networkView.viewID });

@@ -243,7 +243,7 @@ public class Melee : Useable
 					}
 					if (Melee.hit.collider.tag == "Barricade")
 					{
-						HUDGame.lastStructmarker = Time.realtimeSinceStartup;
+						//HUDGame.lastStructmarker = Time.realtimeSinceStartup;
 						if (!Network.isServer)
 						{
 							base.networkView.RPC("swingBarricade", RPCMode.Server, new object[] { Melee.hit.collider.transform.parent.position, this.lastStrong });
@@ -255,7 +255,7 @@ public class Melee : Useable
 					}
 					else if (Melee.hit.collider.tag == "Structure")
 					{
-						HUDGame.lastStructmarker = Time.realtimeSinceStartup;
+						//HUDGame.lastStructmarker = Time.realtimeSinceStartup;
 						if (!Network.isServer)
 						{
 							base.networkView.RPC("swingStructure", RPCMode.Server, new object[] { Melee.hit.collider.transform.parent.position, this.lastStrong });
@@ -271,7 +271,7 @@ public class Melee : Useable
 						GameObject owner = OwnerFinder.getOwner(Melee.hit.collider.gameObject);
 						if (owner != null && owner.GetComponent<Player>().action != 4 && (PlayerSettings.friend == string.Empty || PlayerSettings.friendHash != owner.GetComponent<Player>().owner.friend))
 						{
-							HUDGame.lastHitmarker = Time.realtimeSinceStartup;
+							//HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 							if (!Network.isServer)
 							{
 								base.networkView.RPC("swingPlayer", RPCMode.Server, new object[] { owner.GetComponent<Player>().owner.id, limb, this.lastStrong });
@@ -288,7 +288,7 @@ public class Melee : Useable
 						GameObject gameObject = OwnerFinder.getOwner(Melee.hit.collider.gameObject);
 						if (gameObject != null && !gameObject.GetComponent<AI>().dead)
 						{
-							HUDGame.lastHitmarker = Time.realtimeSinceStartup;
+							//HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 							if (!Network.isServer)
 							{
 								base.networkView.RPC("swingAnimal", RPCMode.Server, new object[] { gameObject.networkView.viewID, num, this.lastStrong });
@@ -301,7 +301,7 @@ public class Melee : Useable
 					}
 					else if (Melee.hit.collider.tag == "Vehicle" && Melee.hit.collider.GetComponent<Vehicle>().health > 0 && ServerSettings.pvp)
 					{
-						HUDGame.lastHitmarker = Time.realtimeSinceStartup;
+						//HUDGame.lastHitmarker = Time.realtimeSinceStartup;
 						if (!Network.isServer)
 						{
 							base.networkView.RPC("swingVehicle", RPCMode.Server, new object[] { Melee.hit.collider.networkView.viewID, this.lastStrong });

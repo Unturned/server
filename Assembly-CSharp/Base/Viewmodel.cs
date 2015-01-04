@@ -139,11 +139,6 @@ public class Viewmodel : MonoBehaviour
 			Viewmodel.model.transform.localPosition = new Vector3(0f, -0.25f - Mathf.Abs(Look.rear) * 2f, Look.rear);
 			Viewmodel.model.transform.localRotation = Quaternion.Euler(Viewmodel.swayRoll, -Look.yaw + 90f, -Look.pitch);
 		}
-		
-		if (!HUDGame.painkilled && Player.life.health < 25) {
-			Transform vector3 = Viewmodel.model.transform;
-			vector3.localPosition = vector3.localPosition + new Vector3(UnityEngine.Random.Range(-0.005f, 0.005f) * (1f - (float)Player.life.health / 25f), UnityEngine.Random.Range(-0.005f, 0.005f) * (1f - (float)Player.life.health / 25f), 0f);
-		}
 	}
 
 	public static void wear()

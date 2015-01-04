@@ -259,62 +259,13 @@ public class NetworkChat : MonoBehaviour
 		NetworkChat.status_0 = status;
 		NetworkChat.type_0 = type;
 		NetworkChat.reputation_0 = reputation;
-		if (!Network.isServer || !ServerSettings.dedicated)
-		{
-			HUDGame.updateChat();
-		}
-		else
-		{
-			HUDDedicated.updateChat();
-		}
 	}
 
 	[RPC]
-	public void tellNotification(string text)
-	{
+	public void tellNotification(string text) {
 		NetworkChat.notification = text;
 	}
 
-	public void Update()
-	{
-		if (!NetworkChat.chatting)
-		{
-			if (Input.GetKeyDown(InputSettings.chatKey))
-			{
-				NetworkChat.mode = 0;
-				if (!Network.isServer || !ServerSettings.dedicated)
-				{
-					HUDGame.updateChat();
-				}
-				else
-				{
-					HUDDedicated.updateChat();
-				}
-			}
-			else if (Input.GetKeyDown(InputSettings.localKey))
-			{
-				NetworkChat.mode = 1;
-				if (!Network.isServer || !ServerSettings.dedicated)
-				{
-					HUDGame.updateChat();
-				}
-				else
-				{
-					HUDDedicated.updateChat();
-				}
-			}
-			else if (Input.GetKeyDown(InputSettings.clanKey) && PlayerSettings.friend != string.Empty)
-			{
-				NetworkChat.mode = 2;
-				if (!Network.isServer || !ServerSettings.dedicated)
-				{
-					HUDGame.updateChat();
-				}
-				else
-				{
-					HUDDedicated.updateChat();
-				}
-			}
-		}
+	public void Update() {
 	}
 }

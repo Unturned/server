@@ -57,11 +57,10 @@ public class Skills : MonoBehaviour
 
 	public void learn(int amount)
 	{
-		if (ServerSettings.mode == 3)
-		{
-			amount = amount * 2;
-		}
-		Skills skill = this;
+		// TODO: default XP amount
+        amount = amount * 2;
+		
+        Skills skill = this;
 		skill.experience = skill.experience + amount;
 		NetworkManager.error(string.Concat("+", amount, " Experience"), "Textures/Icons/experience", base.networkView.owner);
 		this.syncExperience();
@@ -203,7 +202,6 @@ public class Skills : MonoBehaviour
 	{
 		if (base.networkView.isMine)
 		{
-			HUDSkills.updateSkills();
 			this.load();
 		}
 	}
@@ -241,14 +239,12 @@ public class Skills : MonoBehaviour
 	public void tellExperience(int setExperience)
 	{
 		this.experience = setExperience;
-		HUDSkills.updateExperience();
 	}
 
 	[RPC]
 	public void tellLevel(int index, int setLevel)
 	{
 		this.skills[index].level = setLevel;
-		HUDSkills.updateLevel(index);
 		if (this.skills[index].level == this.skills[index].maxLevel)
 		{
 			int num = 0;

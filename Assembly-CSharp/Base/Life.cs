@@ -176,7 +176,7 @@ public class Life : MonoBehaviour
 		{
 			if (base.networkView.isMine && amount > 3)
 			{
-				HUDGame.lastFlash = Time.realtimeSinceStartup;
+				//HUDGame.lastFlash = Time.realtimeSinceStartup;
 				Look.swayRoll = Look.swayRoll + (float)UnityEngine.Random.Range(-10, 10);
 			}
 			Life life = this;
@@ -351,7 +351,6 @@ public class Life : MonoBehaviour
 		{
 			this.stamina = 100;
 		}
-		HUDGame.updateStamina();
 	}
 
 	public void exhaust(int amount)
@@ -365,7 +364,6 @@ public class Life : MonoBehaviour
 			{
 				this.stamina = 0;
 			}
-			HUDGame.updateStamina();
 		}
 	}
 
@@ -717,28 +715,18 @@ public class Life : MonoBehaviour
 		this.dead = false;
 		this.death = string.Empty;
 		this.stamina = 100;
-		HUDGame.updateHealth();
-		HUDGame.updateFood();
-		HUDGame.updateWater();
-		HUDGame.updateSickness();
-		HUDGame.updateBleeding();
-		HUDGame.updateBones();
-		HUDGame.updateDead();
-		HUDGame.updateStamina();
 	}
 
 	[RPC]
 	public void tellBleeding(bool setBleeding)
 	{
 		this.bleeding = setBleeding;
-		HUDGame.updateBleeding();
 	}
 
 	[RPC]
 	public void tellBones(bool setBones)
 	{
 		this.bones = setBones;
-		HUDGame.updateBones();
 	}
 
 	[RPC]
@@ -753,14 +741,12 @@ public class Life : MonoBehaviour
 	{
 		this.dead = setDead;
 		this.death = setDeath;
-		HUDGame.updateDead();
 	}
 
 	[RPC]
 	public void tellFood(int setFood)
 	{
 		this.food = setFood;
-		HUDGame.updateFood();
 	}
 
 	[RPC]
@@ -776,11 +762,9 @@ public class Life : MonoBehaviour
 	{
 		if (setHealth < this.health - 5)
 		{
-			HUDGame.lastFlash = Time.realtimeSinceStartup;
 			Look.swayRoll = Look.swayRoll + (float)UnityEngine.Random.Range(-10, 10);
 		}
 		this.health = setHealth;
-		HUDGame.updateHealth();
 	}
 
 	[RPC]
@@ -793,14 +777,12 @@ public class Life : MonoBehaviour
 	public void tellSickness(int setSickness)
 	{
 		this.sickness = setSickness;
-		HUDGame.updateSickness();
 	}
 
 	[RPC]
 	public void tellWater(int setWater)
 	{
 		this.water = setWater;
-		HUDGame.updateWater();
 	}
 
 	public void Update()
@@ -889,7 +871,6 @@ public class Life : MonoBehaviour
 			this.lastStaminaTick = Time.realtimeSinceStartup;
 			Life life = this;
 			life.stamina = life.stamina + 1;
-			HUDGame.updateStamina();
 		}
 	}
 }

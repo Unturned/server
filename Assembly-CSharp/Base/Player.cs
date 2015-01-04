@@ -395,10 +395,10 @@ public class Player : MonoBehaviour
 			{
 				this.action = 4;
 			}
-			else if (HUDInventory.state)
+			/*else if (HUDInventory.state)
 			{
 				this.action = 2;
-			}
+			}*/
 			else if (Movement.isClimbing)
 			{
 				this.action = 5;

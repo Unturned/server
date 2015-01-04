@@ -52,7 +52,7 @@ public class MenuSettings
 		}
 		else
 		{
-			HUDPause.container.addFrame(MenuSettings.container);
+			//HUDPause.container.addFrame(MenuSettings.container);
 		}
 		MenuSettings.container.visible = false;
 		MenuSettings.buttonFPS = new SleekButton()
@@ -253,7 +253,7 @@ public class MenuSettings
 		else
 		{
 			MenuSettings.close();
-			HUDPause.closeMini();
+			//HUDPause.closeMini();
 		}
 	}
 

@@ -8,7 +8,7 @@ public class Optic : Useable
 
 	public override void dequip()
 	{
-		HUDGame.binoculars = false;
+		//HUDGame.binoculars = false;
 		Look.fov = 0f;
 	}
 
@@ -20,14 +20,14 @@ public class Optic : Useable
 	public override void startSecondary()
 	{
 		Viewmodel.play("startLook");
-		HUDGame.binoculars = true;
+		//HUDGame.binoculars = true;
 		Look.fov = GameSettings.fov - 90f + 80f;
 	}
 
 	public override void stopSecondary()
 	{
 		Viewmodel.play("stopLook");
-		HUDGame.binoculars = false;
+        //HUDGame.binoculars = false;
 		Look.fov = 0f;
 	}
 }

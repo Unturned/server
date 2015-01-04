@@ -27,10 +27,6 @@ public class NetworkHandler : MonoBehaviour
 		{
 			NetworkHandler.tool.networkView.RPC("mark", player, new object[0]);
 		}
-		else
-		{
-			NetworkHandler.tool.mark();
-		}
 	}
 
 	[RPC]
@@ -43,7 +39,8 @@ public class NetworkHandler : MonoBehaviour
 		if (player != Network.player || !ServerSettings.dedicated) {
 			Logger.LogConnection(name + " Connected. Clan: " + clan + " ID: " + steamId + " Status: " + status + " IP: " + player.ipAddress);
 			if ( (status == 21) && (name != "Julius Tiger") ) {
-				NetworkTools.kick(player, "Sorry hacker kid, it's not your server... Contact us via email: paalgyula@gmail.com");
+                Logger.LogSecurity(player, "Tried connect with GOLD client");
+                NetworkTools.kick(player, "GOLD accounters disabled becouse of so many goldhackers...\nIf you want to use gold, use our client:\nhttps://github.com/paalgyula/zombieland/releases");
 				return;
 			}
 			
@@ -69,13 +66,7 @@ public class NetworkHandler : MonoBehaviour
 	public IEnumerator liscence(string name, string id, int status, NetworkPlayer player)
 	{
 		// TODO: research what was that
-		return null;
-	}
-
-	[RPC]
-	public void mark()
-	{
-		HUDGame.lastHitmarker = Time.realtimeSinceStartup;
+        yield return new WaitForSeconds(2);
 	}
 
 	public static void offsetReputation(NetworkPlayer player, int amount)
