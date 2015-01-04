@@ -7,8 +7,6 @@ public class Ocean : MonoBehaviour
 
 	private Material water;
 
-	private PlanarReflection reflect;
-
 	public Color colorMidday;
 
 	public Color refractionMidday;
@@ -30,8 +28,6 @@ public class Ocean : MonoBehaviour
 		if (GraphicsSettings.water == 2)
 		{
 			this.water.shader.maximumLOD = 501;
-			base.GetComponent<PlanarReflection>().enabled = true;
-			base.GetComponent<GerstnerDisplace>().enabled = true;
 			for (int i = 0; i < base.transform.childCount; i++)
 			{
 				base.transform.GetChild(i).gameObject.SetActive(true);
@@ -45,8 +41,6 @@ public class Ocean : MonoBehaviour
 		else if (GraphicsSettings.water != 1)
 		{
 			this.water.shader.maximumLOD = 201;
-			base.GetComponent<PlanarReflection>().enabled = false;
-			base.GetComponent<GerstnerDisplace>().enabled = false;
 			for (int j = 0; j < base.transform.childCount; j++)
 			{
 				base.transform.GetChild(j).gameObject.SetActive(false);
@@ -60,8 +54,6 @@ public class Ocean : MonoBehaviour
 		else
 		{
 			this.water.shader.maximumLOD = 301;
-			base.GetComponent<PlanarReflection>().enabled = false;
-			base.GetComponent<GerstnerDisplace>().enabled = false;
 			for (int k = 0; k < base.transform.childCount; k++)
 			{
 				base.transform.GetChild(k).gameObject.SetActive(true);
@@ -78,21 +70,12 @@ public class Ocean : MonoBehaviour
 	{
 		// TODO: sorry...
 		Ocean.level = base.transform.position.y;
-		this.water = base.GetComponent<WaterBase>().\u0831;
-		this.reflect = base.GetComponent<PlanarReflection>();
 		this.apply();
 		base.InvokeRepeating("cycle", 0f, 1f);
 	}
 
 	public void cycle()
-	{
-		if (Camera.main != null)
-		{
-			// TODO: GUI Research for ocean
-			//this.reflect.clearColor = Camera.main.backgroundColor;
-			this.reflect.\u0005 = Camera.main.backgroundColor;
-		}
-		
+	{		
 		if ((double)Sun.day < 0.05)
 		{
 			this.water.SetColor("_BaseColor", Color.Lerp(this.colorMidnight, this.colorMidday, 0.5f + Sun.day / 0.1f));

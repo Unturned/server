@@ -214,7 +214,6 @@ public class Sun : MonoBehaviour
 			RenderSettings.fogColor = Camera.main.backgroundColor;
 			if (GraphicsSettings.streaks)
 			{
-				Camera.main.GetComponent<SunShafts>().\u08c8 = base.light.color;
 			}
 			if (Look.zoom != null)
 			{
@@ -334,28 +333,16 @@ public class Sun : MonoBehaviour
 		if (id != 1 && id != 17 && Sun.vision != -1 || !on)
 		{
 			Sun.vision = -1;
-			Camera.main.GetComponent<Vignetting>().enabled = false;
-			Camera.main.GetComponent<GrayscaleEffect>().enabled = false;
-			Look.view.GetComponent<GrayscaleEffect>().enabled = false;
-			Look.zoom.GetComponent<GrayscaleEffect>().enabled = false;
 			Sun.tool.cycle();
 		}
 		else if (id == 1 && Sun.vision != 0)
 		{
 			Sun.vision = 0;
-			Camera.main.GetComponent<Vignetting>().enabled = true;
-			Camera.main.GetComponent<GrayscaleEffect>().enabled = false;
-			Look.view.GetComponent<GrayscaleEffect>().enabled = false;
-			Look.zoom.GetComponent<GrayscaleEffect>().enabled = false;
 			Sun.tool.cycle();
 		}
 		else if (id == 17 && Sun.vision != 1)
 		{
 			Sun.vision = 1;
-			Camera.main.GetComponent<Vignetting>().enabled = true;
-			Camera.main.GetComponent<GrayscaleEffect>().enabled = true;
-			Look.view.GetComponent<GrayscaleEffect>().enabled = true;
-			Look.zoom.GetComponent<GrayscaleEffect>().enabled = true;
 			Sun.tool.cycle();
 		}
 	}

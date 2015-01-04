@@ -56,8 +56,6 @@ public class Look : MonoBehaviour
 		Look.lean = 0f;
 	}
 
-	private SunShafts s;
-
 	public void Start ()
 	{
 		Look.fov = 0f;
@@ -68,17 +66,6 @@ public class Look : MonoBehaviour
 		float[] singleArray = new float[] { Single.MaxValue, Single.MaxValue, Single.MaxValue, Single.MaxValue, Single.MaxValue, Single.MaxValue, Single.MaxValue, Single.MaxValue, 300f + GraphicsSettings.distance * 600f, 300f + GraphicsSettings.distance * 600f, Single.MaxValue, 75f + GraphicsSettings.distance * 150f, 20f + GraphicsSettings.distance * 40f, 300f + GraphicsSettings.distance * 600f, 300f + GraphicsSettings.distance * 600f, 300f + GraphicsSettings.distance * 600f, 300f + GraphicsSettings.distance * 600f, 75f + GraphicsSettings.distance * 150f, 300f + GraphicsSettings.distance * 600f, 300f + GraphicsSettings.distance * 600f, 75f + GraphicsSettings.distance * 150f, 300f + GraphicsSettings.distance * 600f, 20f + GraphicsSettings.distance * 40f, Single.MaxValue, 75f + GraphicsSettings.distance * 150f, Single.MaxValue, 75f + GraphicsSettings.distance * 150f, Single.MaxValue, Single.MaxValue, Single.MaxValue, Single.MaxValue, Single.MaxValue };
 		base.camera.layerCullDistances = singleArray;
 		Look.zoom.layerCullDistances = singleArray;
-		base.GetComponent<SSAOEffect> ().enabled = GraphicsSettings.ssao;
-		base.GetComponent<BloomAndLensFlares> ().enabled = GraphicsSettings.bloom;
-		base.GetComponent<AntialiasingAsPostEffect> ().enabled = GraphicsSettings.blur;
-		base.GetComponent<DepthOfField34> ().enabled = GraphicsSettings.dof;
-		//base.GetComponent<CameraMotionBlur> ().enabled = GraphicsSettings.dof;
-		Look.view.GetComponent<AntialiasingAsPostEffect> ().enabled = GraphicsSettings.blur;
-		base.GetComponent<SunShafts> ().enabled = GraphicsSettings.streaks;
-		//base.GetComponent<SunShafts>().sunTransform = GameObject.Find("day").transform;
-		//Look.view.GetComponent<AntialiasingAsPostEffect>().enabled = GraphicsSettings.blur;
-		//Look.zoom.GetComponent<AntialiasingAsPostEffect>().enabled = GraphicsSettings.blur;
-		//Look.zoom.GetComponent<CameraMotionBlur>().enabled = GraphicsSettings.dof;
 		Look.lean = 0f;
 		Look.rear = 0f;
 		Quaternion quaternion = base.transform.parent.parent.rotation;
@@ -264,7 +251,6 @@ public class Look : MonoBehaviour
 		}
 		if (Screen.lockCursor != this.lastLock) {
 			this.lastLock = Screen.lockCursor;
-			base.GetComponent<Blur> ().enabled = !Screen.lockCursor;
 		}
 		if (GraphicsSettings.dof) {
 			// TODO: DISABLE DOF

@@ -269,11 +269,6 @@ public class MenuGraphics
 		{
 			QualitySettings.SetQualityLevel(1);
 		}
-		Camera.main.GetComponent<SSAOEffect>().enabled = GraphicsSettings.ssao;
-		Camera.main.GetComponent<BloomAndLensFlares>().enabled = GraphicsSettings.bloom;
-		Camera.main.GetComponent<AntialiasingAsPostEffect>().enabled = GraphicsSettings.blur;
-		Camera.main.GetComponent<SunShafts>().enabled = GraphicsSettings.streaks;
-		Camera.main.GetComponent<DepthOfField34>().enabled = GraphicsSettings.dof;
 		//Camera.main.GetComponent<CameraMotionBlur>().enabled = GraphicsSettings.dof;
 		QualitySettings.vSyncCount = (!GraphicsSettings.vsync ? 0 : 1);
 		if (GameObject.Find("ground") != null)
@@ -337,7 +332,6 @@ public class MenuGraphics
 		GraphicsSettings.bloom = !GraphicsSettings.bloom;
 		MenuGraphics.buttonBloom.text = (!GraphicsSettings.bloom ? Texts.LABEL_BLOOM_OFF : Texts.LABEL_BLOOM_ON);
 		MenuGraphics.buttonBloom.tooltip = (!GraphicsSettings.bloom ? Texts.TOOLTIP_LAG_0 : Texts.TOOLTIP_LAG_3);
-		Camera.main.GetComponent<BloomAndLensFlares>().enabled = GraphicsSettings.bloom;
 		GraphicsSettings.save();
 	}
 
@@ -346,7 +340,6 @@ public class MenuGraphics
 		GraphicsSettings.blur = !GraphicsSettings.blur;
 		MenuGraphics.buttonBlur.text = (!GraphicsSettings.blur ? Texts.LABEL_BLUR_OFF : Texts.LABEL_BLUR_ON);
 		MenuGraphics.buttonBlur.tooltip = (!GraphicsSettings.blur ? Texts.TOOLTIP_LAG_0 : Texts.TOOLTIP_LAG_3);
-		Camera.main.GetComponent<AntialiasingAsPostEffect>().enabled = GraphicsSettings.blur;
 		GraphicsSettings.save();
 	}
 
@@ -363,8 +356,6 @@ public class MenuGraphics
 		GraphicsSettings.dof = !GraphicsSettings.dof;
 		MenuGraphics.buttonDof.text = (!GraphicsSettings.dof ? Texts.LABEL_DOF_OFF : Texts.LABEL_DOF_ON);
 		MenuGraphics.buttonDof.tooltip = (!GraphicsSettings.dof ? Texts.TOOLTIP_LAG_0 : Texts.TOOLTIP_LAG_3);
-		Camera.main.GetComponent<DepthOfField34>().enabled = GraphicsSettings.dof;
-		//Camera.main.GetComponent<CameraMotionBlur>().enabled = GraphicsSettings.dof;
 		GraphicsSettings.save();
 	}
 
@@ -496,7 +487,6 @@ public class MenuGraphics
 		GraphicsSettings.ssao = !GraphicsSettings.ssao;
 		MenuGraphics.buttonSSAO.text = (!GraphicsSettings.ssao ? Texts.LABEL_SSAO_OFF : Texts.LABEL_SSAO_ON);
 		MenuGraphics.buttonSSAO.tooltip = (!GraphicsSettings.ssao ? Texts.TOOLTIP_LAG_0 : Texts.TOOLTIP_LAG_4);
-		Camera.main.GetComponent<SSAOEffect>().enabled = GraphicsSettings.ssao;
 		GraphicsSettings.save();
 	}
 
@@ -505,7 +495,6 @@ public class MenuGraphics
 		GraphicsSettings.streaks = !GraphicsSettings.streaks;
 		MenuGraphics.buttonStreaks.text = (!GraphicsSettings.streaks ? Texts.LABEL_STREAKS_OFF : Texts.LABEL_STREAKS_ON);
 		MenuGraphics.buttonStreaks.tooltip = (!GraphicsSettings.streaks ? Texts.TOOLTIP_LAG_0 : Texts.TOOLTIP_LAG_2);
-		Camera.main.GetComponent<SunShafts>().enabled = GraphicsSettings.streaks;
 		GraphicsSettings.save();
 	}
 
