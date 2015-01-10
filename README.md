@@ -1,5 +1,8 @@
-# server
+# Unturned Server
+
 Unturned 2.2.5 server rework.
+ ***Linux binary included***
+ (rebuilt with Unity Pro)
 
 Functions:
 * Integrated ModLoader
