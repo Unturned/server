@@ -18,3 +18,7 @@ Functions:
 * Fixed CPU overhead
 * And so many feature...
 
+ScreenShot from running instance (with ~8 players)
+![linux_instance](https://cloud.githubusercontent.com/assets/2112862/5691029/f8f271d0-98b2-11e4-92b8-9212302d74fb.jpg)
+
+
