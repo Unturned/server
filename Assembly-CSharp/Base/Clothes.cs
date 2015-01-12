@@ -44,7 +44,7 @@ public class Clothes : MonoBehaviour
 		}
 		else
 		{
-			this.tellAllClothes(this.face, this.shirt, this.pants, this.hat, this.hair, this.backpack, this.vest, this.item, this.state, this.skinColor, this.hairColor, this.arm);
+			this.tellAllClothesInternal(this.face, this.shirt, this.pants, this.hat, this.hair, this.backpack, this.vest, this.item, this.state, this.skinColor, this.hairColor, this.arm);
 		}
 	}
 
@@ -56,16 +56,16 @@ public class Clothes : MonoBehaviour
 		}
 	}
 
-	public void changeBackpack(int setBackpack)
+	public void changeBackpack(int backpack)
 	{
-		if (setBackpack != -1 || this.backpack != -1)
+		if (backpack != -1 || this.backpack != -1)
 		{
-			if (Equipment.equipped.x != -1 && (Equipment.equipped.x >= BagSize.getWidth(setBackpack) || Equipment.equipped.y >= BagSize.getHeight(setBackpack)) && Equipment.id != setBackpack)
+			if (Equipment.equipped.x != -1 && (Equipment.equipped.x >= BagSize.getWidth(backpack) || Equipment.equipped.y >= BagSize.getHeight(backpack)) && Equipment.id != backpack)
 			{
 				Equipment.dequip();
 			}
-			base.networkView.RPC("tellBackpack", RPCMode.All, new object[] { setBackpack });
-			PlayerPrefs.SetInt(string.Concat("lastBackpack_", PlayerSettings.id), Sneaky.sneak(setBackpack));
+			base.networkView.RPC("tellBackpack", RPCMode.All, new object[] { backpack });
+			PlayerPrefs.SetInt(string.Concat("lastBackpack_", PlayerSettings.id), Sneaky.sneak(backpack));
 			NetworkSounds.askSound("Sounds/Clothes/zipper", base.transform.position, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
 		}
 	}
@@ -257,43 +257,50 @@ public class Clothes : MonoBehaviour
 	}
 
 	[RPC]
-	public void tellAllClothes(int setFace, int setShirt, int setPants, int setHat, int setHair, int setBackpack, int setVest, int setItem, string setState, int setSkinColor, int setHairColor, bool setArm)
+    public void tellAllClothes(int setFace, int setShirt, int setPants, int setHat, int setHair, int setBackpack, int setVest, int setItem, string setState, int setSkinColor, int setHairColor, bool setArm, NetworkMessageInfo info)
 	{
-		this.face = setFace;
-		this.shirt = setShirt;
-		this.pants = setPants;
-		this.hat = setHat;
-		this.hair = setHair;
-		this.backpack = setBackpack;
-		this.vest = setVest;
-		this.item = setItem;
-		this.state = setState;
-		this.skinColor = setSkinColor;
-		this.hairColor = setHairColor;
-		this.arm = setArm;
-		base.GetComponent<Player>().arm = this.arm;
-		if (this.character != null)
-		{
-			this.character.face = this.face;
-			this.character.shirt = this.shirt;
-			this.character.pants = this.pants;
-			this.character.hat = this.hat;
-			this.character.hair = this.hair;
-			this.character.backpack = this.backpack;
-			this.character.vest = this.vest;
-			this.character.item = this.item;
-			this.character.state = this.state;
-			this.character.skinColor = this.skinColor;
-			this.character.hairColor = this.hairColor;
-			this.character.arm = this.arm;
-			this.character.wear();
-		}
+        if (HackCheck(info))
+            return;
+
+        this.tellAllClothesInternal(setFace, setShirt, setPants, setHat, setHair, setBackpack, setVest, setItem, setState, setSkinColor, setHairColor, setArm);
 	}
+
+    private void tellAllClothesInternal(int setFace, int setShirt, int setPants, int setHat, int setHair, int setBackpack, int setVest, int setItem, string setState, int setSkinColor, int setHairColor, bool setArm) {
+        this.face = setFace;
+        this.shirt = setShirt;
+        this.pants = setPants;
+        this.hat = setHat;
+        this.hair = setHair;
+        this.backpack = setBackpack;
+        this.vest = setVest;
+        this.item = setItem;
+        this.state = setState;
+        this.skinColor = setSkinColor;
+        this.hairColor = setHairColor;
+        this.arm = setArm;
+        base.GetComponent<Player>().arm = this.arm;
+        if (this.character != null)
+        {
+            this.character.face = this.face;
+            this.character.shirt = this.shirt;
+            this.character.pants = this.pants;
+            this.character.hat = this.hat;
+            this.character.hair = this.hair;
+            this.character.backpack = this.backpack;
+            this.character.vest = this.vest;
+            this.character.item = this.item;
+            this.character.state = this.state;
+            this.character.skinColor = this.skinColor;
+            this.character.hairColor = this.hairColor;
+            this.character.arm = this.arm;
+            this.character.wear();
+        }
+    }
 
 	[RPC]
 	public void tellAllCustom(int setFace, int setHair, int setSkinColor, int setHairColor, bool setArm)
 	{
-		this.face = setFace;
+        this.face = setFace;
 		this.hair = setHair;
 		this.skinColor = setSkinColor;
 		this.hairColor = setHairColor;
@@ -315,8 +322,11 @@ public class Clothes : MonoBehaviour
 	}
 
 	[RPC]
-	public void tellBackpack(int setBackpack)
+    public void tellBackpack(int setBackpack, NetworkMessageInfo info)
 	{
+        if (HackCheck(info))
+            return;
+
 		if (Network.isServer && this.backpack != -1 && ItemType.getType(this.backpack) == 2)
 		{
 			SpawnItems.dropItem(this.backpack, base.transform.position);
@@ -334,8 +344,11 @@ public class Clothes : MonoBehaviour
 	}
 
 	[RPC]
-	public void tellHat(int setHat)
+    public void tellHat(int setHat, NetworkMessageInfo info)
 	{
+        if (HackCheck(info))
+            return;
+
 		if (Network.isServer && this.hat != -1 && ItemType.getType(this.hat) == 0)
 		{
 			base.GetComponent<Inventory>().tryAddItem(this.hat, 1);
@@ -349,9 +362,12 @@ public class Clothes : MonoBehaviour
 	}
 
 	[RPC]
-	public void tellItem(int setItem, string setState)
+    public void tellItem(int setItem, string setState, NetworkMessageInfo info)
 	{
-		this.item = setItem;
+        if (HackCheck(info))
+            return;
+
+        this.item = setItem;
 		this.state = setState;
 		if (this.character != null)
 		{
@@ -368,8 +384,11 @@ public class Clothes : MonoBehaviour
 	}
 
 	[RPC]
-	public void tellPants(int setPants)
+    public void tellPants(int setPants, NetworkMessageInfo info)
 	{
+        if (HackCheck(info))
+            return;
+
 		if (Network.isServer && this.pants != -1 && ItemType.getType(this.pants) == 5)
 		{
 			base.GetComponent<Inventory>().tryAddItem(this.pants, 1);
@@ -383,8 +402,11 @@ public class Clothes : MonoBehaviour
 	}
 
 	[RPC]
-	public void tellShirt(int setShirt)
+    public void tellShirt(int setShirt, NetworkMessageInfo info)
 	{
+        if (HackCheck(info))
+            return;
+
 		if (Network.isServer && this.shirt != -1 && ItemType.getType(this.shirt) == 4)
 		{
 			base.GetComponent<Inventory>().tryAddItem(this.shirt, 1);
@@ -402,8 +424,11 @@ public class Clothes : MonoBehaviour
 	}
 
 	[RPC]
-	public void tellVest(int setVest)
+    public void tellVest(int setVest, NetworkMessageInfo info)
 	{
+        if (HackCheck(info))
+            return;
+
 		if (Network.isServer && this.vest != -1 && ItemType.getType(this.vest) == 3)
 		{
 			base.GetComponent<Inventory>().tryAddItem(this.vest, 1);
@@ -415,4 +440,16 @@ public class Clothes : MonoBehaviour
 			this.character.wear();
 		}
 	}
+
+    private Boolean HackCheck(NetworkMessageInfo info)
+    {
+        if (info.sender != Network.player)
+        {
+            Logger.LogSecurity(info.sender, "Tried to add clothes to self");
+            NetworkTools.kick(info.sender, "VAC: Item hack detected! Issue reported!");
+            return true;
+        }
+
+        return false;
+    }
 }
