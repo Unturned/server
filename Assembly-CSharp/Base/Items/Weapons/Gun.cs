@@ -792,59 +792,70 @@ public class Gun : Useable
 		{
 			if (this.shoot(slot_x, slot_y))
 			{
-				NetworkUser userFromID = NetworkUserList.getUserFromID(id);
-				if (userFromID != null && userFromID.model != null && userFromID.model != base.gameObject && !userFromID.model.GetComponent<Life>().dead && (base.GetComponent<Player>().owner.friend == string.Empty || base.GetComponent<Player>().owner.friend != userFromID.friend))
+                NetworkUser user = NetworkUserList.getUserFromID(id);
+				if (user != null && user.model != null && user.model != base.gameObject && !user.model.GetComponent<Life>().dead && (base.GetComponent<Player>().owner.friend == string.Empty || base.GetComponent<Player>().owner.friend != user.friend))
 				{
 					float damage = (float)GunStats.getDamage(base.GetComponent<Clothes>().item) * DamageMultiplier.getMultiplierPlayer(limb);
 					if (Packer.unpack(base.GetComponent<Inventory>().items[slot_x, slot_y].state, '\u005F')[1] == "25002")
 					{
 						damage = damage * 10f;
 					}
-					if ((limb == 0 || limb == 1) && userFromID.model.GetComponent<Clothes>().pants != -1)
+					if ((limb == 0 || limb == 1) && user.model.GetComponent<Clothes>().pants != -1)
 					{
-						damage = damage * ArmorStats.getArmor(userFromID.model.GetComponent<Clothes>().pants);
+						damage = damage * ArmorStats.getArmor(user.model.GetComponent<Clothes>().pants);
 					}
-					if ((limb == 2 || limb == 3 || limb == 5) && userFromID.model.GetComponent<Clothes>().shirt != -1)
+					if ((limb == 2 || limb == 3 || limb == 5) && user.model.GetComponent<Clothes>().shirt != -1)
 					{
-						damage = damage * ArmorStats.getArmor(userFromID.model.GetComponent<Clothes>().shirt);
+						damage = damage * ArmorStats.getArmor(user.model.GetComponent<Clothes>().shirt);
 					}
-					if (limb == 5 && userFromID.model.GetComponent<Clothes>().vest != -1)
+					if (limb == 5 && user.model.GetComponent<Clothes>().vest != -1)
 					{
-						damage = damage * ArmorStats.getArmor(userFromID.model.GetComponent<Clothes>().vest);
+						damage = damage * ArmorStats.getArmor(user.model.GetComponent<Clothes>().vest);
 					}
-					if (limb == 4 && userFromID.model.GetComponent<Clothes>().hat != -1)
+					if (limb == 4 && user.model.GetComponent<Clothes>().hat != -1)
 					{
-						damage = damage * ArmorStats.getArmor(userFromID.model.GetComponent<Clothes>().hat);
+						damage = damage * ArmorStats.getArmor(user.model.GetComponent<Clothes>().hat);
 					}
-					string empty = string.Empty;
+					string bone = string.Empty;
 					if (limb == 0)
 					{
-						empty = "shin";
+						bone = "shin";
 					}
 					else if (limb == 1)
 					{
-						empty = "thigh";
+						bone = "thigh";
 					}
 					else if (limb == 2)
 					{
-						empty = "arm";
+						bone = "arm";
 					}
 					else if (limb == 3)
 					{
-						empty = "shoulder";
+						bone = "shoulder";
 					}
 					else if (limb == 4)
 					{
-						empty = "head";
+						bone = "head";
 					}
 					else if (limb == 5)
 					{
-						empty = "chest";
+                        bone = "chest";
 					}
-					userFromID.model.GetComponent<Life>().damage((int)damage, string.Concat(new string[] { "You were shot in the ", empty, " with the ", ItemName.getName(base.GetComponent<Clothes>().item), " by ", base.GetComponent<Player>().owner.name, "!" }));
-					if (userFromID.model.GetComponent<Life>().dead && Time.realtimeSinceStartup - userFromID.model.GetComponent<Player>().owner.spawned > (float)Reputation.SPAWN_DELAY)
+					
+                    user.model.GetComponent<Life>().damage(
+                        (int)damage, 
+                        string.Concat(new string[] { 
+                            "You were shot in the ", 
+                            bone, 
+                            " with the ", 
+                            ItemName.getName(base.GetComponent<Clothes>().item),
+                            " by ", 
+                            base.GetComponent<Player>().owner.name, "!" 
+                        }));
+
+					if (user.model.GetComponent<Life>().dead && Time.realtimeSinceStartup - user.model.GetComponent<Player>().owner.spawned > (float)Reputation.SPAWN_DELAY)
 					{
-						if (userFromID.model.GetComponent<Player>().owner.reputation >= 0)
+						if (user.model.GetComponent<Player>().owner.reputation >= 0)
 						{
 							NetworkHandler.offsetReputation(base.networkView.owner, -1);
 						}
@@ -854,7 +865,7 @@ public class Gun : Useable
 						}
 						if (!base.networkView.isMine)
 						{
-							base.networkView.RPC("killedPlayer", base.networkView.owner, new object[0]);
+                            base.sendKilledPlayer(user, base.networkView.owner);
 						}
 						else
 						{
@@ -979,32 +990,32 @@ public class Gun : Useable
 				{
 					multiplierPlayer = multiplierPlayer * ArmorStats.getArmor(userFromID.model.GetComponent<Clothes>().hat);
 				}
-				string empty = string.Empty;
+				string bone = string.Empty;
 				if (limb == 0)
 				{
-					empty = "shin";
+                    bone = "shin";
 				}
 				else if (limb == 1)
 				{
-					empty = "thigh";
+					bone = "thigh";
 				}
 				else if (limb == 2)
 				{
-					empty = "arm";
+					bone = "arm";
 				}
 				else if (limb == 3)
 				{
-					empty = "shoulder";
+					bone = "shoulder";
 				}
 				else if (limb == 4)
 				{
-					empty = "head";
+					bone = "head";
 				}
 				else if (limb == 5)
 				{
-					empty = "chest";
+					bone = "chest";
 				}
-				userFromID.model.GetComponent<Life>().damage((int)multiplierPlayer, string.Concat(new string[] { "You were stabbed in the ", empty, " by ", base.GetComponent<Player>().owner.name, "!" }));
+				userFromID.model.GetComponent<Life>().damage((int)multiplierPlayer, string.Concat(new string[] { "You were stabbed in the ", bone, " by ", base.GetComponent<Player>().owner.name, "!" }));
 				if (userFromID.model.GetComponent<Life>().dead && Time.realtimeSinceStartup - userFromID.model.GetComponent<Player>().owner.spawned > (float)Reputation.SPAWN_DELAY)
 				{
 					if (userFromID.model.GetComponent<Player>().owner.reputation >= 0)

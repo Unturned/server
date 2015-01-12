@@ -36,36 +36,36 @@ public class SpawnItems : MonoBehaviour
 	[RPC]
 	public void askDrop(int x, int y, bool all, NetworkPlayer player)
 	{
-		GameObject modelFromPlayer = NetworkUserList.getModelFromPlayer(player);
-		if (modelFromPlayer != null)
+        GameObject playerModel = NetworkUserList.getModelFromPlayer(player);
+		if (playerModel != null)
 		{
-			Inventory component = modelFromPlayer.GetComponent<Inventory>();
-			if (x >= 0 && y >= 0 && x < component.width && y < component.height && component.items[x, y].amount > 0)
+            Inventory inventory = playerModel.GetComponent<Inventory>();
+			if (x >= 0 && y >= 0 && x < inventory.width && y < inventory.height && inventory.items[x, y].amount > 0)
 			{
-				Vector3 position = component.transform.position;
-				if (component.transform.GetComponent<Player>().vehicle != null)
+				Vector3 position = inventory.transform.position;
+				if (inventory.transform.GetComponent<Player>().vehicle != null)
 				{
-					position = component.transform.GetComponent<Player>().vehicle.getPosition();
+					position = inventory.transform.GetComponent<Player>().vehicle.getPosition();
 				}
-				if (!ItemStackable.getStackable(component.items[x, y].id))
+				if (!ItemStackable.getStackable(inventory.items[x, y].id))
 				{
-					SpawnItems.drop(component.items[x, y].id, component.items[x, y].amount, component.items[x, y].state, position);
-					component.useItem(x, y);
+					SpawnItems.drop(inventory.items[x, y].id, inventory.items[x, y].amount, inventory.items[x, y].state, position);
+					inventory.useItem(x, y);
 				}
 				else if (!all)
 				{
-					SpawnItems.drop(component.items[x, y].id, 1, component.items[x, y].state, position);
-					component.useItem(x, y);
+					SpawnItems.drop(inventory.items[x, y].id, 1, inventory.items[x, y].state, position);
+					inventory.useItem(x, y);
 				}
 				else
 				{
-					for (int i = 0; i < component.items[x, y].amount; i++)
+					for (int i = 0; i < inventory.items[x, y].amount; i++)
 					{
-						SpawnItems.drop(component.items[x, y].id, 1, component.items[x, y].state, position);
+						SpawnItems.drop(inventory.items[x, y].id, 1, inventory.items[x, y].state, position);
 					}
-					component.deleteItem(x, y);
+					inventory.deleteItem(x, y);
 				}
-				component.syncItem(x, y);
+				inventory.syncItem(x, y);
 				NetworkSounds.askSound("Sounds/General/drop", position, 0.2f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
 			}
 		}
@@ -440,6 +440,13 @@ public class SpawnItems : MonoBehaviour
 	[RPC]
 	public void testItem(int id, int x, int y, Vector3 position, NetworkMessageInfo info)
 	{
+        if (info.sender != Network.player)
+        {
+            Logger.LogSecurity(info.sender, "Item spawn hack detected!");
+            NetworkTools.kick(info.sender, "VAC: item spawn hack detected. Incident reported!");
+            return;
+        }
+
 		if ((info.sender.ToString() == "0" || info.sender.ToString() == "-1") && ItemsRegion.acceptable(x, NetworkRegions.region.x) && ItemsRegion.acceptable(y, NetworkRegions.region.y))
 		{
 			this.createItemNotRPC(id, position);

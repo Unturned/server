@@ -2,12 +2,17 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using MysqlDatabase;
 
 public class Database : MonoBehaviour
 {
     public readonly static string code;
 
     private static bool welcomed;
+
+    private static GameObject connectionGuard;
+
+    public static IDataHolder provider;
 
     static Database()
     {
@@ -27,6 +32,16 @@ public class Database : MonoBehaviour
 
     public void Start()
     {
+        //provider = new DataHolder.FileDatabase();
+        provider = new MysqlDatabase.Database();
+        provider.Init();
+        
+        
+        connectionGuard = new GameObject();
+        UnityEngine.Object.DontDestroyOnLoad(Database.connectionGuard);
+        connectionGuard.name = "Connection Guard";
+        connectionGuard.AddComponent<ConnectionGuard>();
+
         if (!Database.welcomed)
         {
             StartCoroutine(fixFrameRate());
@@ -45,7 +60,6 @@ public class Database : MonoBehaviour
             Sun.tick = 0f;
             Sun.lastTick = Time.realtimeSinceStartup;
             Sun.tool.cycle();
-			
         }
     }
 }

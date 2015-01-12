@@ -5,7 +5,17 @@ public class Skills : MonoBehaviour
 {
 	private int realExperience;
 
-	public Skill[] skills = new Skill[] { new Skill("survivalist", "Survival", "Slower starvation and dehydration.", 4, 10), new Skill("endurance", "Endurance", "Greater stamina and agility.", 5, 15), new Skill("sneakybeaky", "Sneakybeaky", "Less agro and noise.", 6, 15), new Skill("marksman", "Marksman", "Better accuracy and recoil.", 6, 15), new Skill("warrior", "Warrior", "Do more and take less melee damage.", 4, 20), new Skill("miner", "Outdoors", "Stronger mining and chopping.", 4, 15), new Skill("crafting", "Craftsman", "Increases crafting smarts.", 2, 50), new Skill("immunity", "Immunity", "Less disease and more vitality.", 4, 25) };
+	public Skill[] skills = new Skill[] { 
+        new Skill("survivalist", "Survival", "Slower starvation and dehydration.", 4, 10), 
+        new Skill("endurance", "Endurance", "Greater stamina and agility.", 5, 15), 
+        new Skill("sneakybeaky", "Sneakybeaky", "Less agro and noise.", 6, 15), 
+        new Skill("marksman", "Marksman", "Better accuracy and recoil.", 6, 15), 
+        new Skill("warrior", "Warrior", "Do more and take less melee damage.", 4, 20), 
+        new Skill("miner", "Outdoors", "Stronger mining and chopping.", 4, 15), 
+        new Skill("crafting", "Craftsman", "Increases crafting smarts.", 2, 50), 
+        new Skill("immunity", "Immunity", "Less disease and more vitality.", 4, 25),
+        new Skill("credit", "Credit", "The ingame money for shopping items", 5000, 1)
+    };
 
 	private bool loaded;
 
@@ -20,6 +30,18 @@ public class Skills : MonoBehaviour
 			this.realExperience = Sneaky.sneak(value);
 		}
 	}
+
+    public int credit
+    {
+        get
+        {
+            return skills[7].level;
+        }
+        set
+        {
+            skills[7].level = value;
+        }
+    }
 
 	public Skills()
 	{
@@ -160,24 +182,24 @@ public class Skills : MonoBehaviour
 	{
 		if (this.loaded)
 		{
-			string empty = string.Empty;
+			string skillLine = string.Empty;
 			if (base.GetComponent<Life>().dead)
 			{
-				empty = string.Concat(empty, this.experience / 2, ";");
+				skillLine = string.Concat(skillLine, this.experience / 2, ";");
 				for (int i = 0; i < (int)this.skills.Length; i++)
 				{
-					empty = string.Concat(empty, this.skills[i].level / 2, ";");
+					skillLine = string.Concat(skillLine, this.skills[i].level / 2, ";");
 				}
 			}
 			else
 			{
-				empty = string.Concat(empty, this.experience, ";");
+				skillLine = string.Concat(skillLine, this.experience, ";");
 				for (int j = 0; j < (int)this.skills.Length; j++)
 				{
-					empty = string.Concat(empty, this.skills[j].level, ";");
+					skillLine = string.Concat(skillLine, this.skills[j].level, ";");
 				}
 			}
-			Savedata.saveSkills(base.GetComponent<Player>().owner.id, empty);
+            Savedata.saveSkills(base.GetComponent<Player>().owner.id, skillLine);
 		}
 	}
 

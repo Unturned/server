@@ -1,5 +1,4 @@
-﻿using Ini;
-using ModLoader;
+﻿using ModLoader;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,20 +11,12 @@ namespace CommandHandler
     public class CommandHandlerMain : MonoBehaviour
     {
         public FieldInfo[] networkChatfields = typeof(NetworkChat).GetFields();
-        public static String lastUsedCommand = "None";
         NetworkChat networkChat = UnityEngine.Object.FindObjectOfType(typeof(NetworkChat)) as NetworkChat;
 
         public static bool usingHiddenChat = false;
-        public static string serverName = "ZombieLand Admin v1.1";
+        public static string serverName = "ZombieLand v2.4";
 
         public void Start() {
-            IniFile tempIni;
-            if (!File.Exists("Unturned_Data/Managed/mods/UserPermissionLevels.ini")) { //create config file
-                tempIni = new IniFile("Unturned_Data/Managed/mods/UserPermissionLevels.ini");
-				tempIni.IniWriteValue("PermissionLevels", "; Example:", "");
-				tempIni.IniWriteValue("PermissionLevels", ";76561197976976379", "10");
-            }
-
             if (File.Exists("Unturned_Data/Managed/mods/AdminCommands/UnturnedAdmins.txt")) { //also read former admin file
                 string[] adminLines = System.IO.File.ReadAllLines(@"Unturned_Data/Managed/mods/AdminCommands/UnturnedAdmins.txt");
 
@@ -33,9 +24,7 @@ namespace CommandHandler
                 {
                     if (adminLines[i].Length > 10)
                     {
-                        tempIni = new IniFile("Unturned_Data/Managed/mods/UserPermissionLevels.ini");
 
-                        tempIni.IniWriteValue("PermissionLevels", adminLines[i].Split(':')[1], "10");
                     }
                 }
             }
@@ -95,11 +84,10 @@ namespace CommandHandler
 		/**
 		 * Trimmed the text
 		 */
-        private static void handleCommandText(String commando, int type, BetterNetworkUser sender) {
-            lastUsedCommand = commando.Trim();
-            commando = commando.Remove(0, 1);
+        private static void handleCommandText(String command, int type, BetterNetworkUser sender) {
+            command = command.Remove(0, 1);
 
-			String[] commandParams = commando.Split(' ');
+            String[] commandParams = command.Split(new char[]{' '}, StringSplitOptions.RemoveEmptyEntries);
             List<string> words = commandParams.ToList<string>();
             string cmdText = words.First();
             words.RemoveAt(0);
@@ -107,7 +95,7 @@ namespace CommandHandler
             DateTime myDate = DateTime.Now;
             string myDateString = myDate.ToString("yyyy-MM-dd HH:mm:ss");
 
-			LogCommand(myDateString + ": " + sender.name + ": " + commando);
+			LogCommand(myDateString + ": " + sender.name + ": " + command);
 
             if (!ExecuteCommand(sender, cmdText, words)) //Command was not executed
             {

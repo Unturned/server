@@ -7,9 +7,15 @@ namespace CommandHandler
 {
     public class UserList
     {
+        private static string[] m_PermissionLines;
+
+        static UserList() {
+            m_PermissionLines = System.IO.File.ReadAllLines(filePath);
+        }
+
         private static List<BetterNetworkUser> _users = new List<BetterNetworkUser>();
 
-        private static IniFile ini = new IniFile("Unturned_Data/Managed/mods/UserPermissionLevels.ini");
+        private static readonly string filePath = @"Unturned_Data/Managed/mods/UserPermissionLevels.ini";
 
         /// <summary>
         /// Returns a list of BetterNetworkUsers. Cloned from NetworkUserList
@@ -115,8 +121,21 @@ namespace CommandHandler
 
         public static int getPermission(string steamID)
         {
-            string temp = ini.IniReadValue("PermissionLevels", steamID);
+            //string temp = ini.IniReadValue("PermissionLevels", steamID);
             //NetworkChat.sendAlert("zoeke op " + steamID);
+            String temp = "0";
+
+            foreach (String line in m_PermissionLines)
+            {
+                if (!line.StartsWith("[")) 
+                {
+                    String[] userPermission = line.Split('=');
+                    if ( userPermission[0].Equals(steamID) ) {
+                        temp = userPermission[1];
+                    }
+                }
+            }
+
             if (temp.Equals(""))
             {
                 //NetworkChat.sendAlert("ni gevonde");
@@ -134,9 +153,10 @@ namespace CommandHandler
         /// <param name="steamID"></param>
         public static void promote(string steamID)
         {
-            int previous = getPermission(steamID);
-
-            ini.IniWriteValue("PermissionLevels", steamID, (previous+1).ToString());
+            // TODO: rewrite promote command
+            //int previous = getPermission(steamID);
+            //("Temporary disabled");
+            //ini.IniWriteValue("PermissionLevels", steamID, (previous+1).ToString());
         }
 
         /// <summary>
@@ -146,7 +166,7 @@ namespace CommandHandler
         /// <param name="permissionLevel"></param>
         public static void setPermission(string steamID, int permissionLevel)
         {
-            ini.IniWriteValue("PermissionLevels", steamID, permissionLevel.ToString());
+            //ini.IniWriteValue("PermissionLevels", steamID, permissionLevel.ToString());
         }
 
     }

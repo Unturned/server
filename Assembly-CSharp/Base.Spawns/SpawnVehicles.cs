@@ -12,54 +12,74 @@ public class SpawnVehicles : MonoBehaviour
 	{
 	}
 
-	public static void create(string id, Vector3 position, Quaternion rotation)
+    public static Vehicle createNew(string id, Vector3 position, Quaternion rotation)
+    {
+        GameObject vehicleObject = (GameObject)Network.Instantiate(Resources.Load(string.Concat("Prefabs/Vehicles/", id)), position, rotation, 0);
+        Vehicle vehicle = vehicleObject.GetComponent<Vehicle>();
+        vehicleObject.name = id;
+
+        vehicle.health = vehicle.maxHealth;
+        vehicle.fuel = vehicle.maxFuel;
+
+        if (vehicleObject.GetComponent<Painter>() != null)
+        {
+            vehicleObject.GetComponent<Painter>().color = new Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f));
+        }
+
+        SpawnVehicles.models.Add(vehicleObject);
+        return vehicle;
+    }
+
+    public static void create(string id, Vector3 position, Quaternion rotation)
 	{
-		GameObject color = (GameObject)Network.Instantiate(Resources.Load(string.Concat("Prefabs/Vehicles/", id)), position, rotation, 0);
-		Vehicle component = color.GetComponent<Vehicle>();
-		color.name = id;
+        GameObject vehicleObject = (GameObject)Network.Instantiate(Resources.Load(string.Concat("Prefabs/Vehicles/", id)), position, rotation, 0);
+        Vehicle vehicle = vehicleObject.GetComponent<Vehicle>();
+		vehicleObject.name = id;
 		if (ServerSettings.map != 0)
 		{
 			float single = UnityEngine.Random.@value;
 			if ((double)single > 0.95)
 			{
-				component.health = 10;
+				vehicle.health = 10;
 			}
 			else if ((double)single > 0.8)
 			{
-				component.health = 25;
+				vehicle.health = 25;
 			}
 			else if ((double)single <= 0.5)
 			{
-				component.health = component.maxHealth;
+				vehicle.health = vehicle.maxHealth;
 			}
 			else
 			{
-				component.health = 50;
+				vehicle.health = 50;
 			}
 			single = UnityEngine.Random.@value;
 			if ((double)single > 0.95)
 			{
-				component.fuel = component.maxFuel;
+				vehicle.fuel = vehicle.maxFuel;
 			}
 			if ((double)single <= 0.7)
 			{
-				component.fuel = UnityEngine.Random.Range((int)((float)component.maxFuel * 0.05f), (int)((float)component.maxFuel * 0.2f));
+				vehicle.fuel = UnityEngine.Random.Range((int)((float)vehicle.maxFuel * 0.05f), (int)((float)vehicle.maxFuel * 0.2f));
 			}
 			else
 			{
-				component.fuel = 0;
+				vehicle.fuel = 0;
 			}
 		}
 		else
 		{
-			component.health = component.maxHealth;
-			component.fuel = component.maxFuel;
+			vehicle.health = vehicle.maxHealth;
+			vehicle.fuel = vehicle.maxFuel;
 		}
-		if (color.GetComponent<Painter>() != null)
+		if (vehicleObject.GetComponent<Painter>() != null)
 		{
-			color.GetComponent<Painter>().color = new Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f));
+			vehicleObject.GetComponent<Painter>().color = new Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f));
 		}
-		SpawnVehicles.models.Add(color);
+
+        // Adding to list...
+        SpawnVehicles.models.Add(vehicleObject);
 	}
 
 	public static void create(string id, int health, int fuel, Vector3 position, Quaternion rotation, Color color)
@@ -78,7 +98,11 @@ public class SpawnVehicles : MonoBehaviour
 
 	public void onReady()
 	{
-		SpawnVehicles.model = GameObject.Find(Application.loadedLevelName).transform.FindChild("vehicles").gameObject;
+        SpawnVehicles.model = GameObject.Find(Application.loadedLevelName).transform.FindChild("vehicles").gameObject;
+
+        Debug.Log("Temporary disabled car spawn");
+        return;
+
 		if (Network.isServer)
 		{
 			SpawnVehicles.models = new List<GameObject>();
@@ -175,7 +199,7 @@ public class SpawnVehicles : MonoBehaviour
 
 	public static void save()
 	{
-		string empty = string.Empty;
+		string saveData = string.Empty;
 		for (int i = 0; i < SpawnVehicles.models.Count; i++)
 		{
 			if (SpawnVehicles.models[i] != null)
@@ -183,37 +207,37 @@ public class SpawnVehicles : MonoBehaviour
 				Vehicle component = SpawnVehicles.models[i].GetComponent<Vehicle>();
 				if (component.transform.position.y >= Ocean.level - 1f && !component.exploded)
 				{
-					empty = string.Concat(empty, component.name, ":");
-					empty = string.Concat(empty, component.health, ":");
-					empty = string.Concat(empty, component.fuel, ":");
+					saveData = string.Concat(saveData, component.name, ":");
+					saveData = string.Concat(saveData, component.health, ":");
+					saveData = string.Concat(saveData, component.fuel, ":");
 					Vector3 vector3 = component.transform.position;
-					empty = string.Concat(empty, Mathf.Floor(vector3.x * 100f) / 100f, ":");
+					saveData = string.Concat(saveData, Mathf.Floor(vector3.x * 100f) / 100f, ":");
 					Vector3 vector31 = component.transform.position;
-					empty = string.Concat(empty, Mathf.Floor(vector31.y * 100f) / 100f, ":");
+					saveData = string.Concat(saveData, Mathf.Floor(vector31.y * 100f) / 100f, ":");
 					Vector3 vector32 = component.transform.position;
-					empty = string.Concat(empty, Mathf.Floor(vector32.z * 100f) / 100f, ":");
+					saveData = string.Concat(saveData, Mathf.Floor(vector32.z * 100f) / 100f, ":");
 					Vector3 vector33 = component.transform.rotation.eulerAngles;
-					empty = string.Concat(empty, (int)vector33.x, ":");
+					saveData = string.Concat(saveData, (int)vector33.x, ":");
 					Vector3 vector34 = component.transform.rotation.eulerAngles;
-					empty = string.Concat(empty, (int)vector34.y, ":");
+					saveData = string.Concat(saveData, (int)vector34.y, ":");
 					Vector3 vector35 = component.transform.rotation.eulerAngles;
-					empty = string.Concat(empty, (int)vector35.z, ":");
+					saveData = string.Concat(saveData, (int)vector35.z, ":");
 					if (component.GetComponent<Painter>() == null)
 					{
-						empty = string.Concat(empty, "0:");
-						empty = string.Concat(empty, "0:");
-						empty = string.Concat(empty, "0:;");
+						saveData = string.Concat(saveData, "0:");
+						saveData = string.Concat(saveData, "0:");
+						saveData = string.Concat(saveData, "0:;");
 					}
 					else
 					{
-						empty = string.Concat(empty, Mathf.Floor(component.GetComponent<Painter>().color.r * 100f) / 100f, ":");
-						empty = string.Concat(empty, Mathf.Floor(component.GetComponent<Painter>().color.g * 100f) / 100f, ":");
-						empty = string.Concat(empty, Mathf.Floor(component.GetComponent<Painter>().color.b * 100f) / 100f, ":;");
+						saveData = string.Concat(saveData, Mathf.Floor(component.GetComponent<Painter>().color.r * 100f) / 100f, ":");
+						saveData = string.Concat(saveData, Mathf.Floor(component.GetComponent<Painter>().color.g * 100f) / 100f, ":");
+						saveData = string.Concat(saveData, Mathf.Floor(component.GetComponent<Painter>().color.b * 100f) / 100f, ":;");
 					}
 				}
 			}
 		}
-		Savedata.saveVehicles(empty);
+		Savedata.saveVehicles(saveData);
 	}
 
 	public void Start()

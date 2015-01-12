@@ -58,6 +58,9 @@ public class NetworkTools
 		Network.InitializeSecurity();
 		Network.incomingPassword = password;
 		
+        Network.SetSendingEnabled(0, false);
+        Network.isMessageQueueRunning = false;
+
 		string lower = Network.InitializeServer((!ServerSettings.dedicated ? players - 1 : players), port, false).ToString().ToLower();
 		
 		ServerSettings.passworded = password != string.Empty;
@@ -75,23 +78,19 @@ public class NetworkTools
 	}
 
 	public static void kick(NetworkPlayer player, string reason) {
-		// TODO server notify about kick
-		//NetworkChat.sendAlert(reason);
-		NetworkChat.sendNotification(player, reason);
+        // TODO server notify about kick
+        //NetworkChat.sendAlert(reason);
+        NetworkChat.sendNotification(player, reason);
 		
-		if (player != Network.player) {
-			Network.CloseConnection(player, true);
-		} else {
-			NetworkTools.disconnect();
-		}
-	}
-
-	public static void refresh() {
-		if (!NetworkMasterServer.STEAM_MASTER_SERVER) {
-			MasterServer.RequestHostList(string.Concat("unturned2_v", Texts.VERSION_ID));
-		}
-		MenuServers.search();
-	}
+        if (player != Network.player)
+        {
+            Network.CloseConnection(player, true);
+        }
+        else
+        {
+            NetworkTools.disconnect();
+        }
+    }
 
 	public static void save() {
 		if (!ServerSettings.save) {
@@ -111,7 +110,9 @@ public class NetworkTools
 		SpawnStructures.save();
 		SpawnVehicles.save();
 		PlayerPrefs.Save();
-		DataHolder.FileDatabase.SaveBans( NetworkBans.GetBannedPlayers() );
+
+        // TODO: change this function to one line bans
+		//Database.provider.SaveBans( NetworkBans.GetBannedPlayers() );
 	}
 
 	public static void search(string name, int mode, int host, int save, int players, bool ping, int type, int map, bool nopass) {
@@ -180,38 +181,5 @@ public class NetworkTools
 		}
 		
 		NetworkTools.cleared = servers.ToArray();
-	}
-
-	public static void updateServers() {
-		if (!NetworkMasterServer.STEAM_MASTER_SERVER) {
-			NetworkTools.servers = new Server[(int)MasterServer.PollHostList().Length];
-			for (int i = 0; i < (int)NetworkTools.servers.Length; i++)
-			{
-				NetworkTools.servers[i] = new Server(MasterServer.PollHostList()[i]);
-				NetworkTools.servers[i].ping = 2147483647;
-			}
-		}
-		
-		bool flag = false;
-		while (!flag) {
-			bool flag1 = false;
-			for (int j = 0; j < (int)NetworkTools.servers.Length - 1; j++) {
-				Server server = NetworkTools.servers[j];
-				Server server1 = NetworkTools.servers[j + 1];
-				if (server.players < server1.players) {
-					NetworkTools.servers[j + 1] = server;
-					NetworkTools.servers[j] = server1;
-					flag1 = true;
-				}
-			}
-			
-			if (flag1) {
-				continue;
-			}
-			flag = true;
-		}
-		
-		MenuServers.search();
-		MenuServers.load();
 	}
 }

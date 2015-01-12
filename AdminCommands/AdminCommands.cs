@@ -12,30 +12,28 @@ namespace AdminCommands
 {
 	public class AdminCommands : MonoBehaviour
 	{
-		private int updater3 = 0;
-		public string lastUsedCommand = "none";
-        public System.Timers.Timer itemsTimer;
+		public System.Timers.Timer itemsTimer;
         public System.Timers.Timer announceTimer;
 		public int announceIndex = 0;
-		public int itemsResetIntervalInSeconds = 2700;
+		
+        public int itemsResetIntervalInSeconds = 2700;
 		public int announceIntervalInSeconds = 600;
 		public string[] AnnounceMessages;
-		public List<string> WhitelistedSteamIDs = new System.Collections.Generic.List<string> ();
-		public bool usingWhitelist = false;
-		public bool showWhiteListKickMessages = true;
-		public bool usingGUI = true;
-		public bool usePlayerHomes = true;
-		public bool respawnVehicles = false;
+
+        public bool usePlayerHomes = true;
 		private Dictionary<string, Vector3> frozenPlayers = new System.Collections.Generic.Dictionary<string, Vector3> ();
 		private Dictionary<string, Vector3> vanishedPlayers = new System.Collections.Generic.Dictionary<string, Vector3> ();
 		private Dictionary<string, float> usedHomeCommand = new System.Collections.Generic.Dictionary<string, float> ();
-		public string bigAssStringWithBannedPlayerNamesAndSteamIDs = "";
-		private Dictionary<string, Vector3> playerHomes = new System.Collections.Generic.Dictionary<string, Vector3> ();
+		
+        private Dictionary<string, Vector3> playerHomes = new System.Collections.Generic.Dictionary<string, Vector3> ();
 		private BetterNetworkUser userToBeBanned;
 		private static System.Random random = new System.Random ((int)System.DateTime.Now.Ticks);
 
 		public void Start ()
 		{
+            new CarCommands();
+            new StatCommands();
+
 			Command saveCommand = new Command(8, new CommandDelegate(this.SaveAll), new String[] {
 				"s",
 				"save",
@@ -100,18 +98,6 @@ namespace AdminCommands
 			});
 			command8.description = ("Deletes and respawns all items on the map");
 			CommandList.add (command8);
-			Command command9 = new Command (7, new CommandDelegate (this.RepairVehicles), new string[]
-			{
-				"repairvehicles"
-			});
-			command9.description = ("Repairs all vehicles");
-			CommandList.add (command9);
-			Command command10 = new Command (7, new CommandDelegate (this.RefuelVehicles), new string[]
-			{
-				"refuelvehicles"
-			});
-			command10.description = ("Fills the gas tank of all vehicles");
-			CommandList.add (command10);
 			Command command11 = new Command (7, new CommandDelegate (this.SirensOn), new string[]
 			{
 				"sirens"
@@ -154,30 +140,6 @@ namespace AdminCommands
 			});
 			command17.description = ("Sets the delay in seconds on the server announcements");
 			CommandList.add (command17);
-			Command command18 = new Command (8, new CommandDelegate (this.EnableWhitelist), new string[]
-			{
-				"enablewhitelist"
-			});
-			command18.description = ("Enables the whitelist");
-			CommandList.add (command18);
-			Command command19 = new Command (8, new CommandDelegate (this.DisableWhitelist), new string[]
-			{
-				"disablewhitelist"
-			});
-			command19.description = ("Disables the whitelist");
-			CommandList.add (command19);
-			Command command20 = new Command (6, new CommandDelegate (this.Whitelist), new string[]
-			{
-				"whitelist"
-			});
-			command20.description = ("Add or Remove  a player from the whitelist");
-			CommandList.add (command20);
-			Command command21 = new Command (6, new CommandDelegate (this.UnBan), new string[]
-			{
-				"unban"
-			});
-			command21.description = ("unbans a playername");
-			CommandList.add (command21);
 			Command command22 = new Command (6, new CommandDelegate (this.TeleportToPlayer), new string[]
 			{
 				"tp"
@@ -210,19 +172,16 @@ namespace AdminCommands
 			{
 				"heal"
 			}));
-			Command command26 = new Command (6, new CommandDelegate (this.TeleportCar), new string[]
-			{
-				"car"
-			});
-			command26.description =  ("Teleport a random car or a specific car name");
-			CommandList.add (command26);
+			
+            // Car command moved
+
 			Command command27 = new Command (8, new CommandDelegate (this.SpawnItem), new string[]
 			{
 				"i"
 			});
 			command27.description =  ("Drops an item on the ground");
 			CommandList.add (command27);
-			CommandList.add (new Command (8, new CommandDelegate (this.SpawnKit), new string[]
+			CommandList.add (new Command (0, new CommandDelegate (this.SpawnKit), new string[]
 			{
 				"kit"
 			}));
@@ -254,12 +213,6 @@ namespace AdminCommands
 			});
 			command31.description =  ("Unfreeze all players");
 			CommandList.add (command31);
-			Command command32 = new Command (8, new CommandDelegate (this.RespawnVehicles), new string[]
-			{
-				"respawnvehicles"
-			});
-			command32.description =  ("Delets and respawns all vehicles");
-			CommandList.add (command32);
 			Command command33 = new Command (8, new CommandDelegate (this.Vanish), new string[]
 			{
 				"vanish"
@@ -356,45 +309,6 @@ namespace AdminCommands
 			NetworkChat.sendAlert(args.sender.name + " has respawned all items");
 		}
 
-		private void RepairVehicles (CommandArgs args)
-		{
-			Vehicle[] array = UnityEngine.Object.FindObjectsOfType (typeof(Vehicle)) as Vehicle[];
-			Vehicle[] array2 = array;
-			for (int i = 0; i < array2.Length; i++) {
-				Vehicle vehicle = array2 [i];
-				vehicle.networkView.RPC ("tellExploded", RPCMode.All, new object[] {
-					false
-				});
-				
-				vehicle.networkView.RPC ("tellWrecked", RPCMode.All, new object[] {
-					false
-				});
-				vehicle.heal(1000);
-			}
-			
-			NetworkChat.sendAlert(string.Concat (new object[] {
-				"Repaired ",
-				array.Length,
-				" vehicles!"
-			}));
-		}
-
-		private void RefuelVehicles (CommandArgs args)
-		{
-			Vehicle[] array = UnityEngine.Object.FindObjectsOfType (typeof(Vehicle)) as Vehicle[];
-			Vehicle[] array2 = array;
-			for (int i = 0; i < array2.Length; i++) {
-				Vehicle vehicle = array2 [i];
-				vehicle.fill (1000);
-			}
-			NetworkChat.sendAlert (string.Concat (new object[]
-			{
-				"Refueled ",
-				array.Length,
-				" vehicles!"
-			}));
-		}
-
 		private void SirensOn(CommandArgs args)
 		{
 			Vehicle[] array = UnityEngine.Object.FindObjectsOfType (typeof(Vehicle)) as Vehicle[];
@@ -459,90 +373,6 @@ namespace AdminCommands
 		{
 			string value = args.Parameters[0];
 			this.setAnnounceIntervalInSeconds (System.Convert.ToInt32 (value));
-		}
-
-		private void EnableWhitelist (CommandArgs args) {
-			this.usingWhitelist = true;
-			NetworkChat.sendAlert ("Whitelist enabled.");
-		}
-
-		private void DisableWhitelist (CommandArgs args) {
-			this.usingWhitelist = false;
-			NetworkChat.sendAlert ("Whitelist disabled.");
-		}
-
-		private void Whitelist (CommandArgs args) {
-			if (args.Parameters [0].Equals ("add")) {
-				args.Parameters.RemoveAt (0);
-				string text = args.ParametersAsString;
-				string text2 = "";
-				try {
-					text2 = UserList.getUserFromName (text).steamid;
-					text = UserList.getUserFromName (text).name;
-				} catch {
-					if (!text.StartsWith ("765611")) {
-						Reference.Tell (args.sender.networkPlayer, "That player is either not online or you provided a bad steamid");
-						return;
-					}
-					text2 = text;
-				}
-				System.IO.StreamWriter streamWriter = new System.IO.StreamWriter ("Unturned_Data/Managed/mods/AdminCommands/UnturnedWhitelist.txt", true);
-				streamWriter.WriteLine ("");
-				streamWriter.WriteLine (text2);
-				streamWriter.Close ();
-				this.WhitelistedSteamIDs.Add (text2);
-				Reference.Tell (args.sender.networkPlayer, string.Concat (new string[]
-				{
-					"Added ",
-					text,
-					" (",
-					text2,
-					") to the whitelist"
-				}));
-			} else {
-				if (args.Parameters[0].ToLower ().Equals ("remove") || args.Parameters[0].ToLower ().Equals ("del") || args.Parameters[0].ToLower ().Equals ("rem")) {
-					args.Parameters.RemoveAt (0);
-					string text = args.ParametersAsString;
-					string text2 = "";
-					
-					try {
-						text2 = UserList.getUserFromName (text).steamid;
-						text = UserList.getUserFromName (text).name;
-					} catch {
-						if (!text.StartsWith ("765611")) {
-							Reference.Tell (args.sender.networkPlayer, "That player is either not online or you provided a bad steamid");
-							return;
-						}
-						text2 = text;
-					}
-					
-					this.WhitelistedSteamIDs.Remove (text2);
-					System.IO.File.Delete ("Unturned_Data/Managed/mods/AdminCommands/UnturnedWhitelist.txt");
-					System.IO.StreamWriter streamWriter = new System.IO.StreamWriter ("Unturned_Data/Managed/mods/AdminCommands/UnturnedWhitelist.txt", true);
-					for (int i = 0; i < this.WhitelistedSteamIDs.Count; i++) {
-						streamWriter.WriteLine (this.WhitelistedSteamIDs [i]);
-					}
-					streamWriter.Close ();
-					Reference.Tell (args.sender.networkPlayer, string.Concat (new string[]
-					{
-						"Removed ",
-						text,
-						" (",
-						text2,
-						") from the whitelist"
-					}));
-				}
-			}
-		}
-
-		private void UnBan (CommandArgs args)
-		{
-			string parametersAsString = args.ParametersAsString;
-			if (this.unban (parametersAsString)) {
-				Reference.Tell (args.sender.networkPlayer, parametersAsString + " was removed from the ban list.");
-			} else {
-				Reference.Tell (args.sender.networkPlayer, "Could not find " + parametersAsString + " in the list of banned players");
-			}
 		}
 
 		private void TeleportToPlayer (CommandArgs args)
@@ -684,6 +514,13 @@ namespace AdminCommands
 				}, null, 400, -1);
 				Reference.Tell(args.sender().networkPlayer(), "Creating " + <>c__DisplayClass2.cartype);
 			}*/
+            Player player = args.sender.player;
+            SpawnVehicles.createNew("policeCar_0", 
+                player.transform.position + 
+                new Vector3(0.1f, 0.1f, 0f),
+                player.transform.rotation * Quaternion.Euler(-90f, 0f, 0f));
+
+            Reference.Tell(args.sender.networkPlayer, "Adding a police car for you!");
 		}
 
 		private void SpawnItem (CommandArgs args)
@@ -814,45 +651,15 @@ namespace AdminCommands
 			this.frozenPlayers.Clear ();
 		}
 
-		private void RespawnVehicles (CommandArgs args) {
-			GameObject gameObject= (GameObject)typeof(SpawnVehicles).GetFields () [0].GetValue (null);
-			try {
-				Vehicle[] array = UnityEngine.Object.FindObjectsOfType (typeof(Vehicle)) as Vehicle[];
-				Vehicle[] array2 = array;
-				for (int i = 0; i < array2.Length; i++) {
-					Vehicle vehicle = array2 [i];
-					vehicle.networkView.RPC ("tellExploded", RPCMode.All, new object[]
-					{
-						true
-					});
-					vehicle.networkView.RPC ("tellWrecked", RPCMode.All, new object[]
-					{
-						true
-					});
-				}
-				int childCount = gameObject.transform.FindChild ("models").childCount;
-				for (int j = 0; j < childCount; j++) {
-					Transform child = gameObject.transform.FindChild ("models").GetChild (j);
-					Network.RemoveRPCs (child.networkView.viewID);
-					Network.Destroy (child.networkView.viewID);
-				}
-			} catch {
-			}
-			SpawnVehicles.save ();
-			Reference.Tell (args.sender.networkPlayer, "Respawning " + Loot.getCars () + " vehicles in 3 seconds...");
-			new Timer (delegate(object obj)
-			{
-				this.respawnVehicles = true;
-			}, null, 3000, -1);
-		}
-
 		private void Vanish (CommandArgs args)
 		{
 			try {
-				this.vanishedPlayers.Add (args.sender.steamid, new Vector3 (0f, 0f, 0f));
+				//this.vanishedPlayers.Add (args.sender.steamid, new Vector3 (0f, 0f, 0f));
+                args.sender.player.gameObject.networkView.group = 1;
 				Reference.Tell (args.sender.networkPlayer, "You have vanished :D");
 			} catch {
-				this.vanishedPlayers.Remove (args.sender.steamid);
+				//this.vanishedPlayers.Remove (args.sender.steamid);
+                args.sender.player.gameObject.networkView.group = 0;
 				Reference.Tell (args.sender.networkPlayer, "You are visible again.");
 			}
 		}
@@ -996,55 +803,6 @@ namespace AdminCommands
 			streamWriter.Close ();
 		}
 
-		private void kickNonWhitelistedPlayers ()
-		{
-			if (this.usingWhitelist && this.updater3 <= 1) {
-				foreach (BetterNetworkUser current in UserList.users) {
-					if (current.networkPlayer != Network.player && !this.WhitelistedSteamIDs.Contains (current.steamid)) {
-						if (this.showWhiteListKickMessages) {
-							this.Kick (current.name, "You are not whitelisted on this server!");
-						} else {
-							NetworkChat.sendNotification (current.networkPlayer, "You are not whitelisted on this server!");
-							Network.CloseConnection (current.networkPlayer, true);
-						}
-					}
-				}
-				this.updater3 = 100;
-			}
-			this.updater3--;
-		}
-
-		public void loadBans ()
-		{
-			this.bigAssStringWithBannedPlayerNamesAndSteamIDs = PlayerPrefs.GetString ("bans");
-		}
-
-		public void saveBans ()
-		{
-			PlayerPrefs.SetString ("bans", this.bigAssStringWithBannedPlayerNamesAndSteamIDs);
-		}
-
-		public bool unban (string name)
-		{
-			this.loadBans ();
-			string text = this.bigAssStringWithBannedPlayerNamesAndSteamIDs;
-			bool result;
-			if (text.Contains (name)) {
-				int num = text.IndexOf (name);
-				int num2 = name.Length + 1 + 17 + 2;
-				string str = text.Substring (0, num);
-				string str2 = text.Substring (num + num2);
-				text = str + str2;
-				this.bigAssStringWithBannedPlayerNamesAndSteamIDs = text;
-				this.saveBans ();
-				NetworkBans.load ();
-				result = true;
-			} else {
-				result = false;
-			}
-			return result;
-		}
-
 		private void Kick (string name, string reason)
 		{
 			BetterNetworkUser userFromName = UserList.getUserFromName (name);
@@ -1163,14 +921,6 @@ namespace AdminCommands
 		}
 
 		public void Update () {
-			this.kickNonWhitelistedPlayers ();
-			
-			if (this.respawnVehicles) {
-				this.respawnVehicles = false;
-				SpawnVehicles spawnVehicles = UnityEngine.Object.FindObjectOfType<SpawnVehicles> ();
-				spawnVehicles.onReady ();
-			}
-			
 			if (this.frozenPlayers.Count > 0) {
 				foreach (System.Collections.Generic.KeyValuePair<string, Vector3> current in this.frozenPlayers) {
 					BetterNetworkUser userFromSteamID = UserList.getUserFromSteamID (current.Key);
@@ -1205,7 +955,7 @@ namespace AdminCommands
 		}
 
 		private void ReadConfigs () {
-			System.IO.Directory.CreateDirectory ("Unturned_Data/Managed/mods/AdminCommands");
+			/*System.IO.Directory.CreateDirectory ("Unturned_Data/Managed/mods/AdminCommands");
 			if (!System.IO.File.Exists ("Unturned_Data/Managed/mods/AdminCommands/config.ini")) {
 				IniFile iniFile = new IniFile ("Unturned_Data/Managed/mods/AdminCommands/config.ini");
 				iniFile.IniWriteValue ("Config", "Using Whitelist", "false");
@@ -1230,27 +980,11 @@ namespace AdminCommands
 			}
 			if (iniFile2.IniReadValue ("Security", "Require_command_confirmation").Equals ("")) {
 				iniFile2.IniWriteValue ("Security", "Require_command_confirmation", "false");
-			}
+			}*/
 			
-            this.usingWhitelist = bool.Parse (iniFile2.IniReadValue ("Config", "Using Whitelist"));
-			this.usingGUI = bool.Parse (iniFile2.IniReadValue ("Config", "Show gui"));
-			this.usePlayerHomes = bool.Parse (iniFile2.IniReadValue ("Config", "Using Player Homes"));
-			this.showWhiteListKickMessages = bool.Parse (iniFile2.IniReadValue ("Config", "Show whitelist kick messages"));
-			this.itemsResetIntervalInSeconds = int.Parse (iniFile2.IniReadValue ("Timers", "Time between item respawns in seconds"));
-			this.announceIntervalInSeconds = int.Parse (iniFile2.IniReadValue ("Timers", "Time between announces in seconds"));
-			
-            if (!System.IO.File.Exists ("Unturned_Data/Managed/mods/AdminCommands/UnturnedWhitelist.txt")) {
-				System.IO.StreamWriter streamWriter = new System.IO.StreamWriter ("Unturned_Data/Managed/mods/AdminCommands/UnturnedWhitelist.txt", true);
-				streamWriter.WriteLine ("76561197976976379");
-				streamWriter.Close ();
-			}
-			
-            string[] array = System.IO.File.ReadAllLines ("Unturned_Data/Managed/mods/AdminCommands/UnturnedWhitelist.txt");
-			for (int i = 0; i < array.Length; i++) {
-				if (array [i].Length > 10) {
-					this.WhitelistedSteamIDs.Add (array [i]);
-				}
-			}
+            this.usePlayerHomes = true;
+            this.itemsResetIntervalInSeconds = 2700;
+            this.announceIntervalInSeconds = 600;
 			
             if (!System.IO.File.Exists ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt")) {
 				System.IO.StreamWriter streamWriter = new System.IO.StreamWriter ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt", true);

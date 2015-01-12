@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using DataHolder;
+using Unturned;
 
 public class NetworkBans {
-	private static Dictionary<String, NetworkBanned> bannedPlayers;
+	private static Dictionary<String, INetworkBanned> bannedPlayers;
 
 	public static void ban(string name, string id, string reason, string bannedBy) {
 		bannedPlayers.Add(id, new NetworkBanned(name, id, reason, bannedBy, System.DateTime.Now));
@@ -12,7 +13,7 @@ public class NetworkBans {
 	}
 
 	public static void load() {
-		bannedPlayers = DataHolder.FileDatabase.LoadBans();
+		bannedPlayers = Database.provider.LoadBans();
 	}
 	
 	public static void unban(int offset) {
@@ -25,11 +26,14 @@ public class NetworkBans {
 	}
 	
 	public static Boolean isBanned(String steamId) {
-		NetworkBanned bannedPlayer;
+        if ( bannedPlayers == null ) 
+            return false; // I hope just in server starts
+
+		INetworkBanned bannedPlayer;
 		return NetworkBans.bannedPlayers.TryGetValue(steamId, out bannedPlayer);
 	}
 	
-	public static Dictionary<String, NetworkBanned> GetBannedPlayers() {
+	public static Dictionary<String, INetworkBanned> GetBannedPlayers() {
 		return bannedPlayers;
 	}
 }

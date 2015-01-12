@@ -89,6 +89,9 @@ public class SpawnPlayers : MonoBehaviour
 		{
 			string[] strArrays = Packer.unpack(serial, ';');
 			Vector3 vector3 = new Vector3(float.Parse(strArrays[0]), float.Parse(strArrays[1]), float.Parse(strArrays[2]));
+
+            DedicatedServer.CheckPlayer(player, "SpawnPlayers.cs @loadPositionFromSerial");
+
 			if (player != Network.player)
 			{
 				base.networkView.RPC("tellPosition", player, new object[] { vector3, float.Parse(strArrays[3]) });

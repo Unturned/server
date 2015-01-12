@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class Player : MonoBehaviour
 {
@@ -108,8 +109,23 @@ public class Player : MonoBehaviour
 	[RPC]
 	public void askAllPlayer(NetworkPlayer player)
 	{
-		base.networkView.RPC("tellAllPlayer", player, new object[] { this.stance, this.action, this.lean, this.angle, this.moving, this.owner.id });
+        if ( !DedicatedServer.CheckPlayer(player, "Player.cs @askAllPlayer") ){
+            return;
+        }
+
+        StartCoroutine( "introduceSelf", player );
 	}
+
+    IEnumerator introduceSelf(NetworkPlayer player) {
+        yield return new WaitForSeconds(0.5f);
+        base.networkView.RPC("tellAllPlayer", player, new object[] { this.stance, this.action, this.lean, this.angle, this.moving, this.owner.id });
+        yield return new WaitForSeconds(1.0f);
+        base.networkView.RPC("tellAllPlayer", player, new object[] { this.stance, this.action, this.lean, this.angle, this.moving, this.owner.id });
+        yield return new WaitForSeconds(2.0f);
+        base.networkView.RPC("tellAllPlayer", player, new object[] { this.stance, this.action, this.lean, this.angle, this.moving, this.owner.id });
+        yield return new WaitForSeconds(3.0f);
+        base.networkView.RPC("tellAllPlayer", player, new object[] { this.stance, this.action, this.lean, this.angle, this.moving, this.owner.id });
+    }
 
 	public void Awake()
 	{
@@ -130,16 +146,26 @@ public class Player : MonoBehaviour
 		{
 			UnityEngine.Object.Destroy(base.transform.FindChild("thirdPerson").gameObject);
 			base.transform.FindChild("firstPerson").gameObject.SetActive(true);
-			for (int i = 0; i < NetworkUserList.users.Count; i++)
+
+            bool found = false;
+
+            for (int i = 0; i < NetworkUserList.users.Count; i++)
 			{
 				NetworkUser item = NetworkUserList.users[i];
 				if (item.player == base.networkView.owner)
 				{
+
 					this.owner = item;
 					item.model = base.gameObject;
-					base.name = this.owner.name;
+                    base.name = this.owner.name;
+                    found = true;
 				}
 			}
+
+            if (!found) {
+                Network.CloseConnection(base.networkView.owner, true);
+                Logger.LogSecurity(base.networkView.owner, "Not found player in instantiate cycle!");
+            }
 		}
 	}
 
@@ -154,7 +180,7 @@ public class Player : MonoBehaviour
 	}
 
 	[RPC]
-	public void killedPlayer()
+    public void killedPlayer()
 	{
 	}
 
@@ -278,10 +304,6 @@ public class Player : MonoBehaviour
 			base.InvokeRepeating("antinoclip", 4f, 4f);
 			base.InvokeRepeating("predict", 0f, 0.1f);
 			base.transform.FindChild("nav").gameObject.SetActive(true);
-			if (base.networkView.isMine && ServerSettings.open && NetworkMasterServer.STEAM_MASTER_SERVER)
-			{
-				NetworkMasterServer.register(Network.player.externalIP, NetworkTools.currentPort);
-			}
 			if (ServerSettings.dedicated)
 			{
 				base.transform.FindChild("thirdPerson").FindChild("character").FindChild("model").renderer.enabled = false;

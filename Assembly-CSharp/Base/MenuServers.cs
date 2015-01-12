@@ -116,7 +116,7 @@ public class MenuServers
 			size = new Coord2(200, 40, 0f, 0f),
 			text = Texts.LABEL_REFRESH
 		};
-		MenuServers.buttonRefresh.onUsed += new SleekDelegate(MenuServers.usedRefresh);
+		//MenuServers.buttonRefresh.onUsed += new SleekDelegate(MenuServers.usedRefresh);
 		MenuServers.container.addFrame(MenuServers.buttonRefresh);
 		MenuServers.iconRefresh = new SleekImage()
 		{
@@ -757,12 +757,6 @@ public class MenuServers
 			MenuServers.buttonPlayers.text = Texts.LABEL_PLAYERS_NONE;
 			MenuServers.iconPlayers.setImage("Textures/Icons/emptyPlayers");
 		}
-	}
-
-	public static void usedRefresh(SleekFrame frame)
-	{
-		NetworkTools.refresh();
-		MenuServers.load();
 	}
 
 	public static void usedSave(SleekFrame frame)

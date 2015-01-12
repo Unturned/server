@@ -133,8 +133,10 @@ public class NetworkInterpolation : MonoBehaviour
 
 	public void Update()
 	{
-		if (base.networkView.isMine)
+        if (base.networkView.isMine)
 		{
+            DedicatedServer.CheckPlayer( base.networkView.owner, "NetworkInterpolation @Update" );
+
 			this.position = base.transform.position;
 			this.rotation = base.transform.rotation;
 

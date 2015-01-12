@@ -138,10 +138,10 @@ public class Equipment : MonoBehaviour
 	}
 
 	[RPC]
-	public void equipServer(int slot_x, int slot_y, int setID)
+	public void equipServer(int slotX, int slotY, int itemId)
 	{
-		Inventory component = base.GetComponent<Inventory>();
-		if ((slot_x != -1 || setID != -1) && component.items[slot_x, slot_y].id != setID)
+        Inventory inventory = base.GetComponent<Inventory>();
+		if ((slotX != -1 || itemId != -1) && inventory.items[slotX, slotY].id != itemId) // WTF?
 		{
 			NetworkTools.kick(base.networkView.owner, string.Concat("Kicking ", base.name, " for hacking items."));
 		}
@@ -152,9 +152,9 @@ public class Equipment : MonoBehaviour
 			{
 				UnityEngine.Object.Destroy(useable);
 			}
-			if (setID != -1)
+			if (itemId != -1)
 			{
-				GameObject gameObject = (GameObject)Resources.Load(string.Concat("Prefabs/Viewmodels/", setID));
+				GameObject gameObject = (GameObject)Resources.Load(string.Concat("Prefabs/Viewmodels/", itemId));
 				base.gameObject.AddComponent(gameObject.GetComponent<Useable>().GetType());
 			}
 		}

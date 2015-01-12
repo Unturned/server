@@ -2,10 +2,6 @@ using System;
 
 public class StructureStats
 {
-	public StructureStats()
-	{
-	}
-
 	public static int getHealth(int id)
 	{
 		switch (id)
@@ -145,16 +141,15 @@ public class StructureStats
 
 	public static bool isFoundation(int id)
 	{
-		int num = id;
-		if (num == 17000)
+		if (id == 17000)
 		{
 			return true;
 		}
-		if (num == 17006)
+		if (id == 17006)
 		{
 			return true;
 		}
-		if (num == 17019)
+		if (id == 17019)
 		{
 			return true;
 		}

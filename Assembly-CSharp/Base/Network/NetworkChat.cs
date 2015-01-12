@@ -211,6 +211,8 @@ public class NetworkChat : MonoBehaviour
 		NetworkChat.tool = this;
 		NetworkChat.chatting = false;
 		NetworkChat.mode = 0;
+
+        gameObject.AddComponent<RemovedFunctions>();
 	}
 
 	[RPC]

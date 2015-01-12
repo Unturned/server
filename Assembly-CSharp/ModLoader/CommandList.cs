@@ -50,9 +50,5 @@ namespace CommandHandler {
 		{
 			commands.Add (new Command (permissionLevelRequired, method, names));
 		}
-
-		public static string lastUsedCommand {
-			get { return CommandHandlerMain.lastUsedCommand;  }
-		}
 	}
 }

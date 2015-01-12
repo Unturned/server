@@ -10,6 +10,8 @@ public class NetworkHandler : MonoBehaviour
 {
 	public static NetworkHandler tool;
 
+    DateTime lastSave;
+
 	public NetworkHandler()
 	{
 	}
@@ -58,15 +60,8 @@ public class NetworkHandler : MonoBehaviour
 			}
 			
 			base.networkView.RPC("addNetworkUser", RPCMode.All, new object[] { name, nickname, clan, steamId, status, num, player });
-			base.StartCoroutine(this.liscence(name, steamId, status, player));
+			//base.StartCoroutine(this.liscence(name, steamId, status, player));
 		}
-	}
-
-	[DebuggerHidden]
-	public IEnumerator liscence(string name, string id, int status, NetworkPlayer player)
-	{
-		// TODO: research what was that
-        yield return new WaitForSeconds(2);
 	}
 
 	public static void offsetReputation(NetworkPlayer player, int amount)
@@ -96,15 +91,8 @@ public class NetworkHandler : MonoBehaviour
 	}
 
 	public void onConnected()
-	{
-		if (!Network.isServer)
-		{
-			base.networkView.RPC("joinNetworkUser", RPCMode.Server, new object[] { PlayerSettings.user, PlayerSettings.nickname, PlayerSettings.friendHash, PlayerSettings.id, PlayerSettings.status, Network.player });
-		}
-		else
-		{
-			this.joinNetworkUser(PlayerSettings.user, PlayerSettings.nickname, PlayerSettings.friendHash, PlayerSettings.id, PlayerSettings.status, Network.player);
-		}
+    {
+	    this.joinNetworkUser(PlayerSettings.user, PlayerSettings.nickname, PlayerSettings.friendHash, PlayerSettings.id, PlayerSettings.status, Network.player);
 	}
 
 	public void onDisconnected()
@@ -123,13 +111,17 @@ public class NetworkHandler : MonoBehaviour
 
 	public void onPlayerDisconnected(NetworkPlayer player)
 	{
-		if (ServerSettings.dedicated) {
-			NetworkTools.save();
-		}
 		Network.RemoveRPCs(player);
 		Network.DestroyPlayerObjects(player);
 		
-		base.networkView.RPC("removeNetworkUser", RPCMode.All, new object[] { player });
+        base.networkView.RPC("removeNetworkUser", RPCMode.All, new object[] { player });
+
+        if ( this.lastSave == null || (this.lastSave.CompareTo(System.DateTime.Now.AddMinutes(-30)) < 0 ) )
+        {
+            //NetworkTools.save();
+            UnityEngine.Debug.Log("Last saving: " + lastSave.ToString());
+            this.lastSave = System.DateTime.Now;
+        }
 	}
 
 	public void onReady() {

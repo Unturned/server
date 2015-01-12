@@ -21,8 +21,8 @@ public class Structure : Useable
 	[RPC]
 	public void askBuild(int slot_x, int slot_y, Vector3 position, int rotation, string state) {
 		//UserList.getUserFromPlayer(base.GetComponent<NetworkPlayer>());ű
-		// TODO: disallowing build
-		//return;
+		//TODO: disallowing build
+		return;
 		
 		if (!base.GetComponent<Life>().dead) { // Dead hack
 			Inventory inventory = base.GetComponent<Inventory>();

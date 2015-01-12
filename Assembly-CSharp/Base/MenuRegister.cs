@@ -25,12 +25,6 @@ public class MenuRegister : MonoBehaviour
 
 	private static float startedError;
 
-	private static bool lerped;
-
-	private Vector3 position;
-
-	private Quaternion rotation;
-
 	static MenuRegister()
 	{
 		MenuRegister.ERROR_TIMEOUT = 2;
@@ -42,83 +36,7 @@ public class MenuRegister : MonoBehaviour
 	}
 
 	public void Awake() {
-		if (!MenuRegister.lerped) {
-			MenuRegister.lerped = true;
-			base.transform.position = base.transform.parent.FindChild("viewStart").position;
-			base.transform.rotation = base.transform.parent.FindChild("viewStart").rotation;
-			MenuRegister.lerpTo = base.transform.parent.FindChild("viewStart");
-		}
 		
-		AudioListener.volume = GameSettings.volume;
-		NetworkEvents.clear();
-		
-		MenuRegister.window = new SleekWindow();
-		MenuRegister.container = new SleekContainer() {
-			size = new Coord2(0, 0, 1f, 1f)
-		};
-		
-		MenuRegister.window.addFrame(MenuRegister.container);
-		MenuRegister.boxConnection = new SleekBox() {
-			position = new Coord2(-200, -20, 1.5f, 0.5f),
-			size = new Coord2(310, 40, 0f, 0f)
-		};
-		
-		MenuRegister.window.addFrame(MenuRegister.boxConnection);
-		MenuRegister.iconConnection = new SleekImage() {
-			position = new Coord2(4, 4, 0f, 0f),
-			size = new Coord2(32, 32, 0f, 0f)
-		};
-		
-		MenuRegister.boxConnection.addFrame(MenuRegister.iconConnection);
-		MenuRegister.buttonCancel = new SleekButton() {
-			position = new Coord2(0, 10, 0f, 1f),
-			size = new Coord2(0, 40, 1f, 0f),
-			text = "Cancel"
-		};
-		
-		MenuRegister.buttonCancel.onUsed += new SleekDelegate(MenuRegister.usedCancel);
-		MenuRegister.boxConnection.addFrame(MenuRegister.buttonCancel);
-		MenuRegister.buttonCancel.visible = false;
-		MenuRegister.iconCancel = new SleekImage() {
-			position = new Coord2(4, 4, 0f, 0f),
-			size = new Coord2(32, 32, 0f, 0f)
-		};
-		
-		MenuRegister.iconCancel.setImage("Textures/Icons/back");
-		MenuRegister.buttonCancel.addFrame(MenuRegister.iconCancel);
-		MenuRegister.buttonQuit = new SleekButton() {
-			position = new Coord2(10, -50, 0f, 1f),
-			size = new Coord2(200, 40, 0f, 0f),
-			text = Texts.LABEL_QUIT
-		};
-		
-		MenuRegister.buttonQuit.onUsed += new SleekDelegate(MenuRegister.usedQuit);
-		MenuRegister.container.addFrame(MenuRegister.buttonQuit);
-		MenuRegister.iconQuit = new SleekImage() {
-			position = new Coord2(4, 4, 0f, 0f),
-			size = new Coord2(32, 32, 0f, 0f)
-		};
-		
-		MenuRegister.iconQuit.setImage("Textures/Icons/quit");
-		MenuRegister.buttonQuit.addFrame(MenuRegister.iconQuit);
-		MenuRegister.open();
-		
-		if (PlayerSettings.id != string.Empty) {
-			MenuRegister.close();
-		}
-		
-		MenuGraphics.load();
-		Sun.tool.cycle();
-		
-		if (GameSettings.music) {
-			base.audio.Play();
-		}
-		
-		// Here's the message from the server...
-		if (NetworkChat.notification != string.Empty) {
-			MenuRegister.openError(NetworkChat.notification, "Textures/Icons/error");
-			NetworkChat.notification = string.Empty;
-		}
 	}
 
 	public static void close()

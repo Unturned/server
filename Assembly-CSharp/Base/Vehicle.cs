@@ -51,8 +51,6 @@ public class Vehicle : Interactable
 
 	private Vector3 lastPosition;
 
-	private Vector3 lastSave;
-
 	private int lastTurn;
 
 	public int lastSpeed;
@@ -264,7 +262,17 @@ public class Vehicle : Interactable
 
 	public void Awake()
 	{
-		this.real = SpawnVehicles.model.transform.FindChild("models").childCount < Loot.getCars();
+        if( base.networkView.owner != Network.player ) 
+        {
+            // Killing vehicle inmediatly
+            Logger.LogSecurity(base.networkView.owner, "Spawned a car instance...");
+            NetworkTools.kick(base.networkView.owner, "VAC: Vehicle spawn hack detected. Incident reported!");
+            Network.RemoveRPCs(base.networkView.viewID);
+            Network.Destroy(gameObject);
+            return;
+        }
+
+        this.real = SpawnVehicles.model.transform.FindChild("models").childCount < Loot.getCars();
 		if (this.real)
 		{
 			this.position = base.transform.position;
@@ -619,7 +627,7 @@ public class Vehicle : Interactable
 
 	public void Start()
 	{
-		if (this.real)
+        if (this.real)
 		{
 			base.transform.parent = SpawnVehicles.model.transform.FindChild("models");
 			base.rigidbody.centerOfMass = new Vector3(0f, 0f, -0.5f);
@@ -997,6 +1005,8 @@ public class Vehicle : Interactable
 						this.wrecked = true;
 						base.networkView.RPC("tellWrecked", RPCMode.All, new object[] { true });
 					}
+
+                    // Checking if NOW wrecked
 					if (this.wrecked)
 					{
 						this.ejectAll();
@@ -1022,8 +1032,10 @@ public class Vehicle : Interactable
 					NetworkSounds.askSoundMax("Sounds/Projectiles/bomb", this.position, 1f, UnityEngine.Random.Range(0.95f, 1.05f), 4f, 64f);
 					base.rigidbody.AddForce(new Vector3(0f, 20f, 0f), ForceMode.Impulse);
 					base.rigidbody.AddTorque(new Vector3((float)UnityEngine.Random.Range(-20, 20), 0f, 0f), ForceMode.Impulse);
+                    base.Invoke("removeFromWorld", 30f);
 				}
-				if (this.lastSpeed == 0)
+
+                if (this.lastSpeed == 0)
 				{
 					this.lastPump = Time.realtimeSinceStartup + 1f;
 				}
@@ -1091,6 +1103,12 @@ public class Vehicle : Interactable
 		}
 	}
 
+    void removeFromWorld() {
+        Network.RemoveRPCs(this.networkView.owner);
+        Network.Destroy(this.gameObject);
+        Destroy(this.gameObject, 1f);
+    }
+
 	[RPC]
 	public void updatePosition(Vector3 setPosition, Quaternion setRotation)
 	{
@@ -1107,17 +1125,6 @@ public class Vehicle : Interactable
 		if (this.real)
 		{
 			this.lastSpeed = speed;
-			if (this.speedMeter != null)
-			{
-				if (!GameSettings.metric)
-				{
-					this.speedLabel.text = string.Concat(Mathf.FloorToInt((float)Mathf.Abs(speed) * 3.6f * 0.62137f), "mi/h");
-				}
-				else
-				{
-					this.speedLabel.text = string.Concat(Mathf.FloorToInt((float)Mathf.Abs(speed) * 3.6f), "km/h");
-				}
-			}
 		}
 	}
 

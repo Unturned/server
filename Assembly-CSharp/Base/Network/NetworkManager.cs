@@ -108,6 +108,13 @@ public class NetworkManager : MonoBehaviour {
 
         // Registering loader
         Loader.hook();
+
+        // Re-add functions
+        RemovedFunctions.hook(base.gameObject);
+
+        // Enabling networking
+        Network.SetSendingEnabled(0, true);
+        Network.isMessageQueueRunning = true;
 	}
 
 	public void OnPlayerConnected(NetworkPlayer player) {

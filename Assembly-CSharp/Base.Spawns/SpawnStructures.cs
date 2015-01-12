@@ -137,7 +137,7 @@ public class SpawnStructures : MonoBehaviour
 			structureString = string.Concat(structureString, item.rotation, ":;");
 		}
 		
-		DataHolder.FileDatabase.SaveStructures(structureString);
+        //Database.provider.SaveStructures(structureString);
 		Savedata.saveStructures(structureString);
 	}
 

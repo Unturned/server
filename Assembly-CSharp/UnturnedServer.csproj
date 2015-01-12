@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{D48B790F-7AF2-4019-812D-0AF1A5140725}</ProjectGuid>
@@ -11,12 +11,13 @@
     <RootNamespace>AssemblyCSharp</RootNamespace>
     <ReleaseVersion>1.0</ReleaseVersion>
     <UseMSBuildEngine>False</UseMSBuildEngine>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>..\bin\Debug\</OutputPath>
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
@@ -24,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
+    <Optimize>True</Optimize>
     <WarningLevel>4</WarningLevel>
     <DebugType>pdbonly</DebugType>
     <ErrorReport>prompt</ErrorReport>
@@ -44,9 +45,6 @@
     <Compile Include="ModLoader\Loader.cs" />
     <Compile Include="ModLoader\Reference.cs" />
     <Compile Include="ModLoader\UserList.cs" />
-    <Compile Include="Log\Logger.cs" />
-    <Compile Include="Base\Network\NetworkBanned.cs" />
-    <Compile Include="Base\Network\NetworkBans.cs" />
     <Compile Include="Base\Network\NetworkChat.cs" />
     <Compile Include="Base\Network\NetworkEffects.cs" />
     <Compile Include="Base\Network\NetworkErrorDelegate.cs" />
@@ -56,21 +54,17 @@
     <Compile Include="Base\Network\NetworkInterpolation.cs" />
     <Compile Include="Base\Network\NetworkLoader.cs" />
     <Compile Include="Base\Network\NetworkManager.cs" />
-    <Compile Include="Base\Network\NetworkMasterServer.cs" />
     <Compile Include="Base\Network\NetworkPlayerDelegate.cs" />
     <Compile Include="Base\Network\NetworkRegions.cs" />
     <Compile Include="Base\Network\NetworkSounds.cs" />
     <Compile Include="Base\Network\NetworkTools.cs" />
     <Compile Include="Base\Network\NetworkUser.cs" />
     <Compile Include="Base\Network\NetworkUserList.cs" />
-    <Compile Include="Base\AmmoStats.cs" />
     <Compile Include="Base\Animifier.cs" />
-    <Compile Include="Base\ArmorStats.cs" />
     <Compile Include="Base\BagSize.cs" />
     <Compile Include="Base\BandMode.cs" />
     <Compile Include="Base\Barricade.cs" />
     <Compile Include="Base\BarricadesRegion.cs" />
-    <Compile Include="Base\BarricadeStats.cs" />
     <Compile Include="Base\Bleed.cs" />
     <Compile Include="Base\Blueprint.cs" />
     <Compile Include="Base\Blueprints.cs" />
@@ -83,7 +77,6 @@
     <Compile Include="Base\Clothes.cs" />
     <Compile Include="Base\Colors.cs" />
     <Compile Include="Base\Consumeable.cs" />
-    <Compile Include="Base\ConsumeableStats.cs" />
     <Compile Include="Base\Cooking.cs" />
     <Compile Include="Base\Coord2.cs" />
     <Compile Include="Base\DamageMultiplier.cs" />
@@ -95,7 +88,6 @@
     <Compile Include="Base\Epoch.cs" />
     <Compile Include="Base\Equipment.cs" />
     <Compile Include="Base\ExplosionTool.cs" />
-    <Compile Include="Base\ExplosiveStats.cs" />
     <Compile Include="Base\FaceStyles.cs" />
     <Compile Include="Base\FancyAnimifier.cs" />
     <Compile Include="Base\Fertilizer.cs" />
@@ -111,7 +103,6 @@
     <Compile Include="Base\HairColor.cs" />
     <Compile Include="Base\HairStyles.cs" />
     <Compile Include="Base\Harvest.cs" />
-    <Compile Include="Base\HarvestStats.cs" />
     <Compile Include="Base\Images.cs" />
     <Compile Include="Base\InputSettings.cs" />
     <Compile Include="Base\Interact.cs" />
@@ -141,10 +132,8 @@
     <Compile Include="Base\Loot.cs" />
     <Compile Include="Base\Maps.cs" />
     <Compile Include="Base\MD5.cs" />
-    <Compile Include="Base\MedicalStats.cs" />
     <Compile Include="Base\Medicine.cs" />
     <Compile Include="Base\Melee.cs" />
-    <Compile Include="Base\MeleeStats.cs" />
     <Compile Include="Base\MenuCharacter.cs" />
     <Compile Include="Base\MenuConfigure.cs" />
     <Compile Include="Base\MenuConnect.cs" />
@@ -186,39 +175,21 @@
     <Compile Include="Base\ServerItem.cs" />
     <Compile Include="Base\ServerSettings.cs" />
     <Compile Include="Base\ServerStructure.cs" />
-    <Compile Include="Base\Shirt.cs" />
     <Compile Include="Base\Skill.cs" />
     <Compile Include="Base\Skills.cs" />
     <Compile Include="Base\SkinColor.cs" />
-    <Compile Include="Base\SleekBox.cs" />
-    <Compile Include="Base\SleekButton.cs" />
-    <Compile Include="Base\SleekContainer.cs" />
-    <Compile Include="Base\SleekDelegate.cs" />
-    <Compile Include="Base\SleekDoc.cs" />
-    <Compile Include="Base\SleekField.cs" />
-    <Compile Include="Base\SleekFrame.cs" />
-    <Compile Include="Base\SleekImage.cs" />
-    <Compile Include="Base\SleekLabel.cs" />
-    <Compile Include="Base\SleekRadio.cs" />
-    <Compile Include="Base\SleekRender.cs" />
-    <Compile Include="Base\SleekSlider.cs" />
-    <Compile Include="Base\SleekWindow.cs" />
     <Compile Include="Base\Smoke.cs" />
     <Compile Include="Base\Sneaky.cs" />
     <Compile Include="Base\SpeakerMode.cs" />
     <Compile Include="Base\Stance.cs" />
-    <Compile Include="Base\Steam.cs" />
     <Compile Include="Base\Structure.cs" />
-    <Compile Include="Base\StructureStats.cs" />
     <Compile Include="Base\Sun.cs" />
     <Compile Include="Base\Texts.cs" />
     <Compile Include="Base\ThreeDMode.cs" />
     <Compile Include="Base\Throw.cs" />
-    <Compile Include="Base\Trap.cs" />
     <Compile Include="Base\UnlockedDoor.cs" />
     <Compile Include="Base\Useable.cs" />
     <Compile Include="Base\Vehicle.cs" />
-    <Compile Include="Base\Vest.cs" />
     <Compile Include="Base\Viewmodel.cs" />
     <Compile Include="Base\Voice.cs" />
     <Compile Include="Base\Items\Weapons\Gun.cs" />
@@ -254,11 +225,41 @@
     <Compile Include="Base.Spawns\SpawnResources.cs" />
     <Compile Include="Base.Spawns\SpawnStructures.cs" />
     <Compile Include="Base.Spawns\SpawnVehicles.cs" />
+    <Compile Include="DedicatedServer.cs" />
+    <Compile Include="RemovedFunctions.cs" />
+    <Compile Include="Base\Network\NetworkBans.cs" />
+    <Compile Include="ConnectionGuard.cs" />
+    <Compile Include="Base\Items\Shirt.cs" />
+    <Compile Include="UI\SleekBox.cs" />
+    <Compile Include="UI\SleekButton.cs" />
+    <Compile Include="UI\SleekContainer.cs" />
+    <Compile Include="UI\SleekDelegate.cs" />
+    <Compile Include="UI\SleekDoc.cs" />
+    <Compile Include="UI\SleekField.cs" />
+    <Compile Include="UI\SleekFrame.cs" />
+    <Compile Include="UI\SleekImage.cs" />
+    <Compile Include="UI\SleekLabel.cs" />
+    <Compile Include="UI\SleekRadio.cs" />
+    <Compile Include="UI\SleekRender.cs" />
+    <Compile Include="UI\SleekSlider.cs" />
+    <Compile Include="UI\SleekWindow.cs" />
+    <Compile Include="Base\Items\Trap.cs" />
+    <Compile Include="Base\Items\Vest.cs" />
+    <Compile Include="Steam\Steam.cs" />
+    <Compile Include="Base.Stats\BarricadeStats.cs" />
+    <Compile Include="Base.Stats\AmmoStats.cs" />
+    <Compile Include="Base.Stats\ArmorStats.cs" />
+    <Compile Include="Base.Stats\ConsumeableStats.cs" />
+    <Compile Include="Base.Stats\ExplosiveStats.cs" />
+    <Compile Include="Base.Stats\HarvestStats.cs" />
+    <Compile Include="Base.Stats\MedicalStats.cs" />
+    <Compile Include="Base.Stats\MeleeStats.cs" />
+    <Compile Include="Base.Stats\StructureStats.cs" />
+    <Compile Include="Base\Items\Weapons\Weapon.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="ModLoader\" />
-    <Folder Include="Log\" />
     <Folder Include="Base\" />
     <Folder Include="DataHolder.FileDatabase\" />
     <Folder Include="Base.VoiceChat\" />
@@ -266,6 +267,9 @@
     <Folder Include="Base\Npc\" />
     <Folder Include="Base\Base\" />
     <Folder Include="Base.Spawns\" />
+    <Folder Include="UI\" />
+    <Folder Include="Steam\" />
+    <Folder Include="Base.Stats\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -273,5 +277,16 @@
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System" />
+    <Reference Include="nunit.framework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UnturnedShared\UnturnedShared.csproj">
+      <Project>{CF2E2B66-951F-4239-8FE5-EE9E6BBA816D}</Project>
+      <Name>UnturnedShared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DatabaseHelper\MySQLDatabaseHelper.csproj">
+      <Project>{6E620797-856E-4E49-9185-81DF99BCEA58}</Project>
+      <Name>MySQLDatabaseHelper</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

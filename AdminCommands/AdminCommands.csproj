@@ -10,34 +10,42 @@
     <RootNamespace>AdminCommands</RootNamespace>
     <AssemblyName>AdminCommands</AssemblyName>
     <ReleaseVersion>1.0</ReleaseVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <BaseDirectory>..</BaseDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <OutputPath>..\bin\Debug\mods\Server mods\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <OutputPath>..\bin\Release\mods\Server mods\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="AdminCommands.cs" />
+    <Compile Include="CarCommands.cs" />
+    <Compile Include="StatCommands.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Assembly-CSharp\Assembly-CSharp.csproj">
+    <ProjectReference Include="..\Assembly-CSharp\UnturnedServer.csproj">
       <Project>{D48B790F-7AF2-4019-812D-0AF1A5140725}</Project>
-      <Name>Assembly-CSharp</Name>
+      <Name>UnturnedServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UnturnedShared\UnturnedShared.csproj">
+      <Project>{CF2E2B66-951F-4239-8FE5-EE9E6BBA816D}</Project>
+      <Name>UnturnedShared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
