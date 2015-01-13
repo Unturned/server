@@ -283,10 +283,17 @@
     <ProjectReference Include="..\UnturnedShared\UnturnedShared.csproj">
       <Project>{CF2E2B66-951F-4239-8FE5-EE9E6BBA816D}</Project>
       <Name>UnturnedShared</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\DatabaseHelper\MySQLDatabaseHelper.csproj">
       <Project>{6E620797-856E-4E49-9185-81DF99BCEA58}</Project>
       <Name>MySQLDatabaseHelper</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\modules\RemoteDatabase\RemoteDatabase.csproj">
+      <Project>{DC567A66-0D48-4D1C-90D5-2A0C0428F985}</Project>
+      <Name>RemoteDatabase</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
 </Project>

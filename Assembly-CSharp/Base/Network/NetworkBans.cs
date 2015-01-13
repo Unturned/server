@@ -1,18 +1,20 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DataHolder;
 using Unturned;
 
 public class NetworkBans {
-	private static Dictionary<String, INetworkBanned> bannedPlayers;
+	private static Dictionary<String, IBanEntry> bannedPlayers;
 
 	public static void ban(string name, string id, string reason, string bannedBy) {
-		bannedPlayers.Add(id, new NetworkBanned(name, id, reason, bannedBy, System.DateTime.Now));
+        bannedPlayers.Add(id, new BanEntry(name, id, reason, bannedBy, System.DateTime.Now));
 		// Save moved to /save command
 	}
 
-	public static void load() {
+    public static void load() 
+    {
 		bannedPlayers = Database.provider.LoadBans();
 	}
 	
@@ -29,11 +31,11 @@ public class NetworkBans {
         if ( bannedPlayers == null ) 
             return false; // I hope just in server starts
 
-		INetworkBanned bannedPlayer;
+		IBanEntry bannedPlayer;
 		return NetworkBans.bannedPlayers.TryGetValue(steamId, out bannedPlayer);
 	}
 	
-	public static Dictionary<String, INetworkBanned> GetBannedPlayers() {
+	public static Dictionary<String, IBanEntry> GetBannedPlayers() {
 		return bannedPlayers;
 	}
 }

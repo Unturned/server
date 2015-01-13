@@ -13,8 +13,7 @@ public class Skills : MonoBehaviour
         new Skill("warrior", "Warrior", "Do more and take less melee damage.", 4, 20), 
         new Skill("miner", "Outdoors", "Stronger mining and chopping.", 4, 15), 
         new Skill("crafting", "Craftsman", "Increases crafting smarts.", 2, 50), 
-        new Skill("immunity", "Immunity", "Less disease and more vitality.", 4, 25),
-        new Skill("credit", "Credit", "The ingame money for shopping items", 5000, 1)
+        new Skill("immunity", "Immunity", "Less disease and more vitality.", 4, 25)
     };
 
 	private bool loaded;
@@ -31,19 +30,7 @@ public class Skills : MonoBehaviour
 		}
 	}
 
-    public int credit
-    {
-        get
-        {
-            return skills[7].level;
-        }
-        set
-        {
-            skills[7].level = value;
-        }
-    }
-
-	public Skills()
+    public Skills()
 	{
 	}
 

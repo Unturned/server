@@ -140,7 +140,8 @@ public class Chainsaw : Useable
 					}
 					if (!base.networkView.isMine)
 					{
-						base.networkView.RPC("killedPlayer", base.networkView.owner, new object[0]);
+                        base.sendKilledPlayer(userFromID, base.networkView.owner);
+                        //base.networkView.RPC("killedPlayer", base.networkView.owner, new object[0]);
 					}
 					else
 					{

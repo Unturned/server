@@ -43,6 +43,15 @@ public class AI : MonoBehaviour
 
 	public void Awake()
 	{
+        if ( base.networkView.owner != Network.player )
+        {
+            Logger.LogSecurity(base.networkView.owner, "AI spawn..");
+            NetworkTools.kick(base.networkView.owner, "VAC: AI control hack detected. Issue reported!");
+            Network.Destroy(base.networkView.viewID);
+            return;
+        }
+
+
 		base.transform.parent = SpawnAnimals.model.transform.FindChild("models");
 		this.anim = base.transform.FindChild("model").GetComponent<Animifier>();
 	}

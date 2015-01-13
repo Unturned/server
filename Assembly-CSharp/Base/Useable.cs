@@ -40,30 +40,24 @@ public class Useable : MonoBehaviour
         NetworkUser killerUser = NetworkUserList.getUserFromPlayer(killer);
 
         // Informing player
-        NetworkManager.tool.networkView.RPC("killedPlayer", killer, new object[0]);
+        killerUser.model.networkView.RPC("killedPlayer", killer, new object[0]);
 
         int credit = 0;
 
-        if (victim.reputation == 0)
-            return; // No more calculation, no announce
-        else if (victim.reputation > 20)
-            credit = -5;
-        else if (victim.reputation > 10)
-            credit = -2;
-        else if (victim.reputation > 0)
-            credit = 1;
+        if (victim.reputation > 20)
+            credit = -10;
         else if (victim.reputation < -70) // bandit
             credit = 15;
         else if (victim.reputation < -50)
-            credit = 10;
+            credit = 12;
         else if (victim.reputation < -30)
-            credit = 8;
+            credit = 10;
         else if (victim.reputation < -20)
-            credit = 6;
+            credit = 9;
         else if (victim.reputation < -10)
-            credit = 3;
-        else if (victim.reputation < 0)
-            credit = 2;
+            credit = 7;
+        else
+            credit = 4;
 
         String icon = "Textures/Icons/gold";
         String text = "";
@@ -76,7 +70,7 @@ public class Useable : MonoBehaviour
         NetworkManager.error(text, icon, killer);
 
         GameObject playerGameObject = NetworkUserList.getModelFromPlayer(killer);
-        playerGameObject.GetComponent<Skills>().credit += credit;
+        playerGameObject.GetComponentInChildren<Player>().credit += credit;
 
         //NetworkManager.tool.networkView.RPC("openError", killer, new object[] { text, icon });
     }

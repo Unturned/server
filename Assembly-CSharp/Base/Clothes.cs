@@ -259,8 +259,8 @@ public class Clothes : MonoBehaviour
 	[RPC]
     public void tellAllClothes(int setFace, int setShirt, int setPants, int setHat, int setHair, int setBackpack, int setVest, int setItem, string setState, int setSkinColor, int setHairColor, bool setArm, NetworkMessageInfo info)
 	{
-        if (HackCheck(info))
-            return;
+        /*if (HackCheck(info))
+            return;*/
 
         this.tellAllClothesInternal(setFace, setShirt, setPants, setHat, setHair, setBackpack, setVest, setItem, setState, setSkinColor, setHairColor, setArm);
 	}
@@ -324,8 +324,8 @@ public class Clothes : MonoBehaviour
 	[RPC]
     public void tellBackpack(int setBackpack, NetworkMessageInfo info)
 	{
-        if (HackCheck(info))
-            return;
+        /*if (HackCheck(info))
+            return;*/
 
 		if (Network.isServer && this.backpack != -1 && ItemType.getType(this.backpack) == 2)
 		{
@@ -346,8 +346,8 @@ public class Clothes : MonoBehaviour
 	[RPC]
     public void tellHat(int setHat, NetworkMessageInfo info)
 	{
-        if (HackCheck(info))
-            return;
+        /*if (HackCheck(info))
+            return;*/
 
 		if (Network.isServer && this.hat != -1 && ItemType.getType(this.hat) == 0)
 		{
@@ -364,8 +364,8 @@ public class Clothes : MonoBehaviour
 	[RPC]
     public void tellItem(int setItem, string setState, NetworkMessageInfo info)
 	{
-        if (HackCheck(info))
-            return;
+        /*if (HackCheck(info))
+            return;*/
 
         this.item = setItem;
 		this.state = setState;
@@ -386,8 +386,8 @@ public class Clothes : MonoBehaviour
 	[RPC]
     public void tellPants(int setPants, NetworkMessageInfo info)
 	{
-        if (HackCheck(info))
-            return;
+        /*if (HackCheck(info))
+            return;*/
 
 		if (Network.isServer && this.pants != -1 && ItemType.getType(this.pants) == 5)
 		{
@@ -404,8 +404,8 @@ public class Clothes : MonoBehaviour
 	[RPC]
     public void tellShirt(int setShirt, NetworkMessageInfo info)
 	{
-        if (HackCheck(info))
-            return;
+        /*if (HackCheck(info))
+            return;*/
 
 		if (Network.isServer && this.shirt != -1 && ItemType.getType(this.shirt) == 4)
 		{
@@ -426,8 +426,8 @@ public class Clothes : MonoBehaviour
 	[RPC]
     public void tellVest(int setVest, NetworkMessageInfo info)
 	{
-        if (HackCheck(info))
-            return;
+        /*if (HackCheck(info))
+            return;*/
 
 		if (Network.isServer && this.vest != -1 && ItemType.getType(this.vest) == 3)
 		{
@@ -441,7 +441,7 @@ public class Clothes : MonoBehaviour
 		}
 	}
 
-    private Boolean HackCheck(NetworkMessageInfo info)
+    /*private Boolean HackCheck(NetworkMessageInfo info)
     {
         if (info.sender != Network.player)
         {
@@ -451,5 +451,5 @@ public class Clothes : MonoBehaviour
         }
 
         return false;
-    }
+    }*/
 }

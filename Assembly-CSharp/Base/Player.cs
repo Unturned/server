@@ -33,6 +33,9 @@ public class Player : MonoBehaviour
 
 	public int action;
 
+    // Credit system
+    public int credit;
+
 	private int lastAction;
 
 	public int lean;
@@ -48,8 +51,6 @@ public class Player : MonoBehaviour
 	private bool lastMoving;
 
 	private Vector3 lastPosition;
-
-	private float lastSave;
 
 	private float lastPacket = Time.realtimeSinceStartup;
 
@@ -77,7 +78,7 @@ public class Player : MonoBehaviour
 
 	private bool shouldSave;
 
-	static Player()
+    static Player()
 	{
 		Player.spawned = Single.MinValue;
 	}
@@ -246,7 +247,8 @@ public class Player : MonoBehaviour
 		base.GetComponent<Clothes>().saveAllClothing();
 		base.GetComponent<Life>().saveAllVitality();
 		base.GetComponent<Skills>().saveAllKnowledge();
-		PlayerPrefs.Save();
+        PlayerPrefs.Save();
+        //Database.provider.SaveCredits();
 	}
 
 	public void saveAllOrientation()

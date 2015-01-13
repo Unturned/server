@@ -442,9 +442,9 @@ public class SpawnItems : MonoBehaviour
 	{
         if (info.sender != Network.player)
         {
-            Logger.LogSecurity(info.sender, "Item spawn hack detected!");
-            NetworkTools.kick(info.sender, "VAC: item spawn hack detected. Incident reported!");
-            return;
+            //Logger.LogSecurity(info.sender, "Item spawn hack detected!");
+            //NetworkTools.kick(info.sender, "VAC: item spawn hack detected. Incident reported!");
+            //return;
         }
 
 		if ((info.sender.ToString() == "0" || info.sender.ToString() == "-1") && ItemsRegion.acceptable(x, NetworkRegions.region.x) && ItemsRegion.acceptable(y, NetworkRegions.region.y))

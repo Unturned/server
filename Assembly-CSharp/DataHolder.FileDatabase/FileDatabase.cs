@@ -8,26 +8,34 @@ using Unturned;
 
 namespace DataHolder
 {
-	/*public class FileDatabase : IDataHolder
+	public class FileDatabase : IDataHolder
 	{
         private readonly static String DATE_PATTERN = "MM-dd-yy H:mm:ss";
 		private readonly static String BAN_DATABASE_FILE = "Unturned_Data/Database/Bans.txt";
 		private readonly static String STRUCTURE_DATABASE_FILE = "Unturned_Data/Database/Structures.txt";
 		private readonly static String DATA_DIRECTORY = "Unturned_Data/Database";
-				
-		public void SaveBans (Dictionary<String, INetworkBanned> bans)
+
+        public void Init()
+        {
+            Logger.LogDatabase("Starting database");
+            if (!Directory.Exists (DATA_DIRECTORY)) {
+                Directory.CreateDirectory ("Unturned_Data/Database");
+            }
+        }
+
+		public void SaveBans (Dictionary<String, IBanEntry> bans)
 		{
 			FileStream banFile = new FileStream (BAN_DATABASE_FILE, FileMode.Create);
 			StreamWriter writer = new StreamWriter (banFile);
 			
-			foreach (KeyValuePair<String, INetworkBanned> pair in bans) {
-				INetworkBanned bannedPlayer = pair.Value;
+			foreach (KeyValuePair<String, IBanEntry> pair in bans) {
+				IBanEntry bannedPlayer = pair.Value;
 				writer.WriteLine ("{0} {1} {2} [{3}] [{4}]",
-				                 bannedPlayer.id,
-				                 bannedPlayer.banTime.ToString (DATE_PATTERN),
-				                 bannedPlayer.bannedBy,
-				                 bannedPlayer.name,
-				                 bannedPlayer.reason);
+				                 bannedPlayer.SteamID,
+				                 bannedPlayer.BanTime.ToString (DATE_PATTERN),
+				                 bannedPlayer.BannedBy,
+				                 bannedPlayer.Name,
+				                 bannedPlayer.Reason);
 			}
 			
 			writer.Flush ();
@@ -54,12 +62,12 @@ namespace DataHolder
             structureFile.Close ();
 		}
 
-        public Dictionary<string, INetworkBanned> LoadBans()
+        public Dictionary<string, IBanEntry> LoadBans()
         {
             FileStream banFile = new FileStream (BAN_DATABASE_FILE, FileMode.OpenOrCreate);
             StreamReader reader = new StreamReader (banFile);
             
-            Dictionary<String, INetworkBanned> steamBans = new Dictionary<String, INetworkBanned> ();
+            Dictionary<String, IBanEntry> steamBans = new Dictionary<String, IBanEntry> ();
             
             String line = "";
             do {
@@ -99,7 +107,7 @@ namespace DataHolder
                             DateTimeStyles.None, 
                             out banTime
                             );
-                        steamBans.Add (steamId, new NetworkBanned (nick, steamId, reason, bannedBy, banTime));
+                        steamBans.Add (steamId, new BanEntry (nick, steamId, reason, bannedBy, banTime));
                     }
                 }               
             } while (!reader.EndOfStream);
@@ -109,13 +117,35 @@ namespace DataHolder
             return steamBans;
         }
 
-        public void Init()
+        public void AddBan(IBanEntry banEntry)
         {
-            Logger.LogDatabase("Starting database");
-            if (!Directory.Exists (DATA_DIRECTORY)) {
-                Directory.CreateDirectory ("Unturned_Data/Database");
-            }
+            throw new NotImplementedException();
         }
-	}*/
+
+        public void RemoveBan()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<IBanEntry> loadBans()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetCredits(string steamId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SaveCredits(string steamId, int count)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddStructure(string structureStr)
+        {
+            throw new NotImplementedException();
+        }
+	}
 }
 
