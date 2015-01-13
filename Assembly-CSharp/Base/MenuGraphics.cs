@@ -255,48 +255,7 @@ public class MenuGraphics
 
 	public static void load()
 	{
-		GraphicsSettings.apply();
-		GraphicsSettings.dist();
-		if (GraphicsSettings.shadows == 0)
-		{
-			QualitySettings.SetQualityLevel(0);
-		}
-		else if (GraphicsSettings.shadows != 1)
-		{
-			QualitySettings.SetQualityLevel(2);
-		}
-		else
-		{
-			QualitySettings.SetQualityLevel(1);
-		}
-		//Camera.main.GetComponent<CameraMotionBlur>().enabled = GraphicsSettings.dof;
-		QualitySettings.vSyncCount = (!GraphicsSettings.vsync ? 0 : 1);
-		if (GameObject.Find("ground") != null)
-		{
-			Terrain component = GameObject.Find("ground").GetComponent<Terrain>();
-			if (GraphicsSettings.foliage == 0)
-			{
-				component.detailObjectDensity = 0.1f;
-				component.terrainData.wavingGrassAmount = 0f;
-				component.detailObjectDistance = 50f;
-			}
-			else if (GraphicsSettings.foliage != 1)
-			{
-				component.detailObjectDensity = 1f;
-				component.terrainData.wavingGrassAmount = 0.3f;
-				component.detailObjectDistance = 250f;
-			}
-			else
-			{
-				component.detailObjectDensity = 0.5f;
-				component.terrainData.wavingGrassAmount = 0f;
-				component.detailObjectDistance = 100f;
-			}
-		}
-		if (GameObject.Find("water") != null)
-		{
-			GameObject.Find("water").GetComponent<Ocean>().apply();
-		}
+		
 	}
 
 	public static void open()
@@ -509,41 +468,6 @@ public class MenuGraphics
 
 	public static void usedWater(SleekFrame frame)
 	{
-		if (Event.current.button != 0)
-		{
-			GraphicsSettings.water = GraphicsSettings.water - 1;
-			if (GraphicsSettings.water < 0)
-			{
-				GraphicsSettings.water = 2;
-			}
-		}
-		else
-		{
-			GraphicsSettings.water = GraphicsSettings.water + 1;
-			if (GraphicsSettings.water > 2)
-			{
-				GraphicsSettings.water = 0;
-			}
-		}
-		if (GraphicsSettings.water == 0)
-		{
-			MenuGraphics.buttonWater.text = Texts.LABEL_WATER_LOW;
-			MenuGraphics.buttonWater.tooltip = Texts.TOOLTIP_LAG_0;
-		}
-		else if (GraphicsSettings.water != 1)
-		{
-			MenuGraphics.buttonWater.text = Texts.LABEL_WATER_HIGH;
-			MenuGraphics.buttonWater.tooltip = Texts.TOOLTIP_LAG_4;
-		}
-		else
-		{
-			MenuGraphics.buttonWater.text = Texts.LABEL_WATER_MEDIUM;
-			MenuGraphics.buttonWater.tooltip = Texts.TOOLTIP_LAG_2;
-		}
-		if (GameObject.Find("water") != null)
-		{
-			GameObject.Find("water").GetComponent<Ocean>().apply();
-		}
-		GraphicsSettings.save();
+		
 	}
 }
