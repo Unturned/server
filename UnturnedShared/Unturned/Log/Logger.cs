@@ -7,7 +7,18 @@ public class Logger {
 
     static Logger() 
     {
+        CreateFile(@"Unturned_Data/Connections.txt");
+        CreateFile(@"Unturned_Data/Database.txt");
+        CreateFile(@"Unturned_Data/Bans.txt");
+        CreateFile(@"Unturned_Data/Incident.txt");
+    }
 
+    private static void CreateFile(String path)
+    {
+        if (!File.Exists(path))
+        {
+            File.Create(path);
+        }
     }
 
     public static void LogConnection(String connectString) 

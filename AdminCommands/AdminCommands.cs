@@ -1,5 +1,4 @@
 using CommandHandler;
-using Ini;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,13 +25,15 @@ namespace AdminCommands
 		private Dictionary<string, float> usedHomeCommand = new System.Collections.Generic.Dictionary<string, float> ();
 		
         private Dictionary<string, Vector3> playerHomes = new System.Collections.Generic.Dictionary<string, Vector3> ();
-		private BetterNetworkUser userToBeBanned;
 		private static System.Random random = new System.Random ((int)System.DateTime.Now.Ticks);
 
 		public void Start ()
 		{
             new CarCommands();
             new StatCommands();
+            new CreditCommand();
+            new KitCommands();
+            new BanCommands();
 
 			Command saveCommand = new Command(8, new CommandDelegate(this.SaveAll), new String[] {
 				"s",
@@ -77,20 +78,6 @@ namespace AdminCommands
 			announceCommand.description = ("Make the server announce something");
 			CommandList.add (announceCommand);
 			
-			Command command6 = new Command (8, new CommandDelegate (this.Ban), new string[]
-			{
-				"ban"
-			});
-			command6.description = ("Ban a player. Will need confirmation with /reason");
-			CommandList.add (command6);
-			
-			Command command7 = new Command (8, new CommandDelegate (this.ReasonForBan), new string[]
-			{
-				"reason",
-				"r"
-			});
-			command7.description = ("Bans the player set with /ban");
-			CommandList.add (command7);
 			
 			Command command8 = new Command (7, new CommandDelegate (this.ResetItems), new string[]
 			{
@@ -181,10 +168,6 @@ namespace AdminCommands
 			});
 			command27.description =  ("Drops an item on the ground");
 			CommandList.add (command27);
-			CommandList.add (new Command (0, new CommandDelegate (this.SpawnKit), new string[]
-			{
-				"kit"
-			}));
 			Command command28 = new Command (7, new CommandDelegate (this.Kick), new string[]
 			{
 				"kick"
@@ -279,28 +262,6 @@ namespace AdminCommands
 		{
 			string parametersAsString = args.ParametersAsString;
 			NetworkChat.sendAlert (parametersAsString);
-		}
-
-		private void Ban (CommandArgs args)
-		{
-			string parametersAsString = args.ParametersAsString;
-			int index = 0;
-			if (parametersAsString.Length < 3 && int.TryParse(base.name, out index)) {
-				this.userToBeBanned = UserList.users[index];
-				string name = this.userToBeBanned.name;
-				Reference.Tell (args.sender.networkPlayer, "Reason for banning " + name + " ?  /reason <reason> to ban");
-			} else {
-				this.userToBeBanned = UserList.getUserFromName (parametersAsString);
-				string name = this.userToBeBanned.name;
-				Reference.Tell (args.sender.networkPlayer, "Reason for banning " + name + " ?  /reason <reason> to ban");
-			}
-		}
-
-		private void ReasonForBan (CommandArgs args) {
-			string parametersAsString = args.ParametersAsString;
-			if (args.Parameters.Count > 0) {
-				this.Ban(this.userToBeBanned, parametersAsString, args.sender);
-			}
 		}
 
 		private void ResetItems(CommandArgs args)
@@ -536,66 +497,6 @@ namespace AdminCommands
 			}
 		}
 
-		private void SpawnKit (CommandArgs args)
-		{
-			int[] pack;
-			
-			if ( args.Parameters[0].ToLower().Equals("police") ) {
-				pack = new int[] {
-					17, // Millitary NVG
-					5, // Police cap
-					4002, // Police top
-					5002, // Police legs
-					3003, // Police armor
-					2005, // Alicepack (Black backpack)
-					// Weapons
-					7005, // Novuh (Shotgun)
-					// Buckshot
-					25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 
-					7000, // Swiff
-					10001, // Nato drum
-					18014,  // Millitary ammo
-					18014,	18014,	18014,	18014,	18014,	18014, 18014,
-					9009, // 20x scope
-					11003, // Tactical light
-					12000, // Suppressor
-				};
-			} else { // Default pack
-				pack = new int[] {
-					2004, // Russack
-					7008, // Swiss
-					12000, // Suppressor
-					9004,
-					10001, // Nato Drum
-					11003,
-					18014, // Millitary ammo
-					18014,
-					18014,
-					18014,
-					18014,
-					18014,
-					18014,
-					4017,
-					5017,
-					11,
-					13000,
-					13000,
-					14022,
-					14022,
-					8015,
-					8013,
-					3002
-				};
-			}
-			
-			// Spawning
-			Vector3 position = args.sender.position;
-			for (int i = 0; i < pack.Length; i++) {
-				int num = pack [i];
-				SpawnItems.spawnItem (num, 1, position);
-			}
-		}
-
 		private void Kick (CommandArgs args) {
 			string parametersAsString = args.ParametersAsString;
 			this.Kick (parametersAsString, "You were kicked off the server");
@@ -731,15 +632,6 @@ namespace AdminCommands
 			{
 				Network.SetReceivingEnabled (user.networkPlayer, 0, true);
 			}, null, 2000, -1);
-		}
-
-		private void Ban (BetterNetworkUser userToBeBanned, string reason, BetterNetworkUser bannedBy) {
-			NetworkTools.ban( 
-			                 userToBeBanned.networkPlayer, 
-			                 userToBeBanned.name, 
-			                 userToBeBanned.steamid, 
-			                 reason,
-			                 bannedBy.steamid);
 		}
 
         public void announcesTimeElapsed (object sender, System.Timers.ElapsedEventArgs eventArgs)
@@ -1050,8 +942,6 @@ namespace AdminCommands
 		public void SaveAll(CommandArgs args) {
 			NetworkChat.sendChat("Saving world to database...");
             NetworkTools.save();
-            System.GC.Collect();
-            System.GC.WaitForPendingFinalizers();
 		}
 	}
 }

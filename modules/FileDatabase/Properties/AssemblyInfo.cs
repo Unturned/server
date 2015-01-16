@@ -25,35 +25,30 @@
 //  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-using System;
-using NUnit.Framework;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
-namespace Unturned
-{
-    [TestFixture]
-    public class RemoteDatabaseTest
-    {
-        private RemoteDatabase database;
+// Information about this assembly is defined by the following attributes.
+// Change them to the values specific to your project.
 
-        [SetUp]
-        public void setUp()
-        {
-            database = new RemoteDatabase();
-            database.Init();
-        }
+[assembly: AssemblyTitle("FileDatabase")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("GW-Systems Kft.")]
+[assembly: AssemblyProduct("")]
+[assembly: AssemblyCopyright("GW-Systems Kft. All Rights Reserved")]
+[assembly: AssemblyTrademark("GW-Systems")]
+[assembly: AssemblyCulture("")]
 
-        [Test]
-        public void testAddBan() 
-        {
-            IBanEntry ban = new BanEntry("Julius Tiger", "128937192823", "Test Ban", "213512351235", DateTime.Now);
-            database.AddBan(ban);
-        }
+// The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
+// The form "{Major}.{Minor}.*" will automatically update the build and revision,
+// and "{Major}.{Minor}.{Build}.*" will update just the revision.
 
-        [Test]
-        public void testLoadBans() 
-        {
-            database.LoadBans();
-        }
-    }
-}
+[assembly: AssemblyVersion("1.0.*")]
+
+// The following attributes are used to specify the signing key for the assembly,
+// if desired. See the Mono documentation for more information about signing.
+
+//[assembly: AssemblyDelaySign(false)]
+//[assembly: AssemblyKeyFile("")]
 

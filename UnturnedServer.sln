@@ -12,9 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{07CA
 		BaseDirectory = modules
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySQLDatabaseHelper", "DatabaseHelper\MySQLDatabaseHelper.csproj", "{6E620797-856E-4E49-9185-81DF99BCEA58}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySQLDatabase", "DatabaseHelper\MySQLDatabase.csproj", "{6E620797-856E-4E49-9185-81DF99BCEA58}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteDatabase", "modules\RemoteDatabase\RemoteDatabase.csproj", "{DC567A66-0D48-4D1C-90D5-2A0C0428F985}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileDatabase", "modules\FileDatabase\FileDatabase.csproj", "{7D1DCF27-0306-4BC0-8E1F-98029C417367}"
 EndProject
 Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Packages", "Packages.mdproj", "{751D9DCA-36BF-4B40-A65B-E53B82F95905}"
 EndProject
@@ -34,6 +36,10 @@ Global
 		{6E620797-856E-4E49-9185-81DF99BCEA58}.Release|Any CPU.Build.0 = Release|Any CPU
 		{751D9DCA-36BF-4B40-A65B-E53B82F95905}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{751D9DCA-36BF-4B40-A65B-E53B82F95905}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D1DCF27-0306-4BC0-8E1F-98029C417367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D1DCF27-0306-4BC0-8E1F-98029C417367}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D1DCF27-0306-4BC0-8E1F-98029C417367}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D1DCF27-0306-4BC0-8E1F-98029C417367}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CF2E2B66-951F-4239-8FE5-EE9E6BBA816D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CF2E2B66-951F-4239-8FE5-EE9E6BBA816D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF2E2B66-951F-4239-8FE5-EE9E6BBA816D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -50,9 +56,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{6E620797-856E-4E49-9185-81DF99BCEA58} = {07CAD9A9-A99D-491A-AE20-B65F93764F98}
 		{DC567A66-0D48-4D1C-90D5-2A0C0428F985} = {07CAD9A9-A99D-491A-AE20-B65F93764F98}
+		{7D1DCF27-0306-4BC0-8E1F-98029C417367} = {07CAD9A9-A99D-491A-AE20-B65F93764F98}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Assembly-CSharp\UnturnedServer.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = None

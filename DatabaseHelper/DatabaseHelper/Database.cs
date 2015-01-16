@@ -24,7 +24,7 @@ namespace MysqlDatabase
             throw new NotImplementedException();
         }
 
-        public void AddBan(INetworkBanned banEntry)
+        public void AddBan(IBanEntry banEntry)
         {
             throw new NotImplementedException();
         }
@@ -34,7 +34,7 @@ namespace MysqlDatabase
             throw new NotImplementedException();
         }
 
-        public List<INetworkBanned> loadBans()
+        public List<IBanEntry> loadBans()
         {
             throw new NotImplementedException();
         }
@@ -44,11 +44,25 @@ namespace MysqlDatabase
             throw new NotImplementedException();
         }
 
-        public Dictionary<string, INetworkBanned> LoadBans()
+        public Dictionary<string, IBanEntry> LoadBans()
         {
             throw new NotImplementedException();
         }
 
+
+        #region IDataHolder implementation
+
+        public int GetCredits(string steamId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SaveCredits(string steamId, int count)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
         #endregion
 
 

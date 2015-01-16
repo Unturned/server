@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -36,23 +36,56 @@
     <Compile Include="AdminCommands.cs" />
     <Compile Include="CarCommands.cs" />
     <Compile Include="StatCommands.cs" />
+    <Compile Include="CreditCommand.cs" />
+    <Compile Include="KitCommands.cs" />
+    <Compile Include="..\AdminCommands.Kits\SpawnKit.cs">
+      <Link>AdminCommands.Kits\SpawnKit.cs</Link>
+    </Compile>
+    <Compile Include="..\AdminCommands.Kits\PoliceKit.cs">
+      <Link>AdminCommands.Kits\PoliceKit.cs</Link>
+    </Compile>
+    <Compile Include="..\AdminCommands.Kits\ShotgunKit.cs">
+      <Link>AdminCommands.Kits\ShotgunKit.cs</Link>
+    </Compile>
+    <Compile Include="..\AdminCommands.Kits\NatoKit.cs">
+      <Link>AdminCommands.Kits\NatoKit.cs</Link>
+    </Compile>
+    <Compile Include="..\AdminCommands.Kits\NinjaKit.cs">
+      <Link>AdminCommands.Kits\NinjaKit.cs</Link>
+    </Compile>
+    <Compile Include="..\AdminCommands.Kits\TimberKit.cs">
+      <Link>AdminCommands.Kits\TimberKit.cs</Link>
+    </Compile>
+    <Compile Include="..\AdminCommands.Kits\GhillieKit.cs">
+      <Link>AdminCommands.Kits\GhillieKit.cs</Link>
+    </Compile>
+    <Compile Include="BanCommands.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\Assembly-CSharp\UnturnedServer.csproj">
       <Project>{D48B790F-7AF2-4019-812D-0AF1A5140725}</Project>
       <Name>UnturnedServer</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\UnturnedShared\UnturnedShared.csproj">
       <Project>{CF2E2B66-951F-4239-8FE5-EE9E6BBA816D}</Project>
       <Name>UnturnedShared</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Core" />
-    <Reference Include="System" />
     <Reference Include="UnityEngine">
       <HintPath>..\libs\UnityEngine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
+    <Reference Include="System">
+      <HintPath>..\libs\System.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+    <Folder Include="SpawnKit\" />
   </ItemGroup>
 </Project>

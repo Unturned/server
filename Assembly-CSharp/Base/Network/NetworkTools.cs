@@ -65,6 +65,7 @@ public class NetworkTools
 		
 		ServerSettings.passworded = password != string.Empty;
 		NetworkBans.load();
+
 		if (lower == "noerror")
 		{
 			if (!ServerSettings.open)
@@ -73,8 +74,6 @@ public class NetworkTools
 			NetworkTools.disconnect();
 			NetworkEvents.triggerOnFailed(0);
 		}
-		
-		MenuRegister.buttonCancel.visible = true;
 	}
 
 	public static void kick(NetworkPlayer player, string reason) {

@@ -8,51 +8,102 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
-using Newtonsoft.Json;
 using System.Configuration;
 
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Xml.Serialization;
+using System.Threading;
+using System.Collections.Generic;
+using System.Collections.Concurrent;
 using Unturned;
+
 
 namespace Unturned
 {
     public class RemoteDatabase : IDataHolder
     {
+        public int GetCredits(string steamId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SaveCredits(string steamId, int count)
+        {
+            throw new NotImplementedException();
+        }
+
         private String m_banUrl;
         private String m_host;
+        private XmlSerializer m_banSerializer;
 
-        #region IDataHolder implementation
+        private Thread m_workerThread;
+
+        private readonly string m_userAgent = "Unturned";
+        private readonly string m_xmlContentType = "application/xml";
+
+        private ConcurrentQueue<Object> taskQueue = new ConcurrentQueue<Object>();
 
         public void Init()
         {
-            m_host = ConfigurationSettings.AppSettings["host"];
-            m_banUrl = ConfigurationSettings.AppSettings["banUrl"];
+            Unturned.ConfigFile config = Unturned.ConfigFile.ReadFile(@"Config/database.cfg");
+            m_host = config.getConfig("host");
+            m_banUrl = config.getConfig("banUrl");
 
-            Console.WriteLine("Remote Database initialized: Host: {0} BanURL: {1}", 
-                m_host, 
+            m_banSerializer = new XmlSerializer(typeof(BanEntry));
+
+            Console.WriteLine("Remote Database initialized: Host: {0} BanURL: {1}",
+                m_host,
                 m_banUrl
             );
+
+            m_workerThread = new Thread(new ThreadStart(this.StartThread));
+            m_workerThread.Start();
         }
 
-        public void AddBan(INetworkBanned banEntry)
+        private void StartThread()
         {
-            String banEntryJSON = JsonConvert.SerializeObject(banEntry);
 
-            // Create a request for the URL. 
-            String response;
-            if (JSONRequest.request(m_host + m_banUrl, banEntryJSON, "POST", out response))
+        }
+
+        public void AddBan(IBanEntry banEntry)
+        {
+            HttpWebRequest request = WebRequest.Create(m_host + m_banUrl) as HttpWebRequest;
+
+            request.UserAgent = m_userAgent;
+            request.ContentType = m_xmlContentType;
+
+            request.Method = WebRequestMethods.Http.Post;
+
+            // Serializing into the stream
+            Stream dataStream = request.GetRequestStream();
+            m_banSerializer.Serialize(dataStream, banEntry);
+            dataStream.Close();
+
+            // If required by the server, set the credentials.
+            request.Credentials = CredentialCache.DefaultCredentials;
+
+            // Get the response.
+            try
             {
-                JSONResponse rs = JsonConvert.DeserializeObject<JSONResponse>(response);
-                if (!rs.Success)
+                HttpWebResponse webResponse = request.GetResponse() as HttpWebResponse;
+
+                if (webResponse.StatusCode != HttpStatusCode.OK)
                 {
-                    Logger.LogDatabase("Add Ban entry failed: " + banEntryJSON);
+                    Console.WriteLine("Failed adding ban entry: " + banEntry.Name + " Status: " + webResponse.StatusCode);
                 }
+                else
+                {
+                    Console.WriteLine("Added ban entry!");
+                }
+
+                // Get the stream containing content returned by the server.
+                webResponse.Close();
             }
-            else
+            catch (WebException e)
             {
-                Logger.LogDatabase("Failed adding ban entry: " + banEntryJSON);
+                Console.WriteLine("Failed adding ban entry: " + banEntry.Name + " " + e.Message);
             }
         }
 
@@ -61,7 +112,7 @@ namespace Unturned
             throw new NotImplementedException();
         }
 
-        public System.Collections.Generic.List<INetworkBanned> loadBans()
+        public System.Collections.Generic.List<IBanEntry> loadBans()
         {
             throw new NotImplementedException();
         }
@@ -71,12 +122,53 @@ namespace Unturned
             throw new NotImplementedException();
         }
 
-        public System.Collections.Generic.Dictionary<string, INetworkBanned> LoadBans()
+        public Dictionary<string, IBanEntry> LoadBans()
         {
-            throw new NotImplementedException();
-        }
+            HttpRequest request = new HttpRequest(m_host + m_banUrl);
 
-        #endregion
+            request.UserAgent = m_userAgent;
+            request.ContentType = m_xmlContentType;
+            request.Method = WebRequestMethods.Http.Get;
+            //request.Credentials = CredentialCache.DefaultCredentials;
+
+            request.SetHeader("Connection", "close");
+
+            Console.WriteLine("Initializing ban list request");
+
+            // Initializing result
+            Dictionary<string, IBanEntry> bans = new Dictionary<string, IBanEntry>();
+
+            // Get the response.
+            try
+            {
+                TextReader responseStream = request.DoGet();
+
+                if (false /*webResponse.StatusCode != HttpStatusCode.OK*/)
+                {
+                    Console.WriteLine("Failed retrieving ban list!");
+                    return null;
+                }
+                else
+                {
+                    XmlSerializer ser = new XmlSerializer(typeof(BanList));
+                    BanList banList = ser.Deserialize(responseStream) as BanList;
+                    Console.WriteLine("Retreived {0} ban entries!", banList.bans.Count);
+
+                    foreach (IBanEntry entry in banList.bans) 
+                    {
+                        bans.Add(entry.Name, entry);
+                    }
+                }
+
+                //webResponse.Close();
+                return bans;
+            }
+            catch (WebException e)
+            {
+                Console.WriteLine("Something went wrong while loading ban table: " + e.Message);
+                return null;
+            }
+        }
     }
 }
 

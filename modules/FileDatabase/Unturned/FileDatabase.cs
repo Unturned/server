@@ -1,12 +1,10 @@
-using UnityEngine;
 using System;
 using System.IO;
 using System.Globalization;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Unturned;
 
-namespace DataHolder
+namespace Unturned
 {
 	public class FileDatabase : IDataHolder
 	{
@@ -17,7 +15,7 @@ namespace DataHolder
 
         public void Init()
         {
-            Logger.LogDatabase("Starting database");
+            Logger.LogDatabase("Starting File database!");
             if (!Directory.Exists (DATA_DIRECTORY)) {
                 Directory.CreateDirectory ("Unturned_Data/Database");
             }
@@ -56,7 +54,7 @@ namespace DataHolder
                 writer.WriteLine (structure);
             }
             
-            Debug.Log (structures.Length + " structures saved.");
+            Console.WriteLine (structures.Length + " structures saved.");
             
             writer.Close ();
             structureFile.Close ();

@@ -36,15 +36,9 @@
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ModLoader\BetterNetworkUser.cs" />
-    <Compile Include="ModLoader\Command.cs" />
-    <Compile Include="ModLoader\CommandHandlerMain.cs" />
-    <Compile Include="ModLoader\CommandList.cs" />
     <Compile Include="ModLoader\Hook.cs" />
-    <Compile Include="ModLoader\Ini.cs" />
     <Compile Include="ModLoader\Loader.cs" />
     <Compile Include="ModLoader\Reference.cs" />
-    <Compile Include="ModLoader\UserList.cs" />
     <Compile Include="Base\Network\NetworkChat.cs" />
     <Compile Include="Base\Network\NetworkEffects.cs" />
     <Compile Include="Base\Network\NetworkErrorDelegate.cs" />
@@ -197,7 +191,6 @@
     <Compile Include="Base\Items\Weapons\ExplosiveTrap.cs" />
     <Compile Include="Base\Items\Weapons\Grenade.cs" />
     <Compile Include="Base\Items\Weapons\Snare.cs" />
-    <Compile Include="DataHolder.FileDatabase\FileDatabase.cs" />
     <Compile Include="Base\Items\Weapons\Axe.cs" />
     <Compile Include="Base\Items\Crate.cs" />
     <Compile Include="Base\Items\Backpack.cs" />
@@ -256,12 +249,16 @@
     <Compile Include="Base.Stats\MeleeStats.cs" />
     <Compile Include="Base.Stats\StructureStats.cs" />
     <Compile Include="Base\Items\Weapons\Weapon.cs" />
+    <Compile Include="CommandHandler\BetterNetworkUser.cs" />
+    <Compile Include="CommandHandler\Command.cs" />
+    <Compile Include="CommandHandler\CommandHandlerMain.cs" />
+    <Compile Include="CommandHandler\CommandList.cs" />
+    <Compile Include="CommandHandler\UserList.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="ModLoader\" />
     <Folder Include="Base\" />
-    <Folder Include="DataHolder.FileDatabase\" />
     <Folder Include="Base.VoiceChat\" />
     <Folder Include="GridManager\" />
     <Folder Include="Base\Npc\" />
@@ -270,14 +267,17 @@
     <Folder Include="UI\" />
     <Folder Include="Steam\" />
     <Folder Include="Base.Stats\" />
+    <Folder Include="CommandHandler\" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="UnityEngine">
+    <Reference Include="nunit.framework" />
+    <Reference Include="System">
+      <HintPath>..\libs\System.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\libs\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="System.Core" />
-    <Reference Include="System" />
-    <Reference Include="nunit.framework" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UnturnedShared\UnturnedShared.csproj">
@@ -285,15 +285,14 @@
       <Name>UnturnedShared</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\DatabaseHelper\MySQLDatabaseHelper.csproj">
-      <Project>{6E620797-856E-4E49-9185-81DF99BCEA58}</Project>
-      <Name>MySQLDatabaseHelper</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\modules\RemoteDatabase\RemoteDatabase.csproj">
       <Project>{DC567A66-0D48-4D1C-90D5-2A0C0428F985}</Project>
       <Name>RemoteDatabase</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\modules\FileDatabase\FileDatabase.csproj">
+      <Project>{7D1DCF27-0306-4BC0-8E1F-98029C417367}</Project>
+      <Name>FileDatabase</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

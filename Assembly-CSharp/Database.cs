@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using MysqlDatabase;
+using Unturned;
 
 public class Database : MonoBehaviour
 {
@@ -32,9 +32,9 @@ public class Database : MonoBehaviour
 
     public void Start()
     {
-        //provider = new DataHolder.FileDatabase();
+        provider = new FileDatabase();
         //provider = new MysqlDatabase.Database();
-        provider = new Unturned.RemoteDatabase();
+        //provider = new Unturned.RemoteDatabase();
         provider.Init();
         
         

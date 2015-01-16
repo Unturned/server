@@ -26,34 +26,21 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 using System;
-using NUnit.Framework;
+using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Unturned
 {
-    [TestFixture]
-    public class RemoteDatabaseTest
+    [XmlRoot("collection")]
+    public class BanList
     {
-        private RemoteDatabase database;
-
-        [SetUp]
-        public void setUp()
+        public BanList()
         {
-            database = new RemoteDatabase();
-            database.Init();
         }
 
-        [Test]
-        public void testAddBan() 
-        {
-            IBanEntry ban = new BanEntry("Julius Tiger", "128937192823", "Test Ban", "213512351235", DateTime.Now);
-            database.AddBan(ban);
-        }
-
-        [Test]
-        public void testLoadBans() 
-        {
-            database.LoadBans();
-        }
+        [XmlElement("ban")]
+        public List<BanEntry> bans { get; set; }
     }
 }
 

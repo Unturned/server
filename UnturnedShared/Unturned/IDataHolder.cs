@@ -7,19 +7,23 @@
 //     a kódot újragenerálják.
 // </auto-generated>
 //------------------------------------------------------------------------------
-using System;
-namespace Unturned
-{
-    public interface INetworkBanned
-    {
-        string Name { get;}
-        string SteamID { get;}
-        string Reason  { get; }
-        string BannedBy  { get;  }
-        DateTime BanTime  { get; }
 
-        // Expiry time. 0 if never
-        int Expires { get; set; }
-    }
+using System;
+using System.Collections.Generic;
+using Unturned;
+
+public interface IDataHolder
+{
+    void Init();
+
+    void AddBan(IBanEntry banEntry);
+    void RemoveBan();
+    List<IBanEntry> loadBans();
+
+    int GetCredits(String steamId);
+    void SaveCredits(String steamId, int count);
+
+    void AddStructure(String structureStr);
+	Dictionary<String, Unturned.IBanEntry> LoadBans();
 }
 

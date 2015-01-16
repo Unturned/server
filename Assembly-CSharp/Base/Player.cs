@@ -248,6 +248,7 @@ public class Player : MonoBehaviour
 		base.GetComponent<Life>().saveAllVitality();
 		base.GetComponent<Skills>().saveAllKnowledge();
         PlayerPrefs.Save();
+
         //Database.provider.SaveCredits();
 	}
 

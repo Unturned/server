@@ -62,58 +62,7 @@ public class MenuRegister : MonoBehaviour
 
 	public void OnGUI()
 	{
-		if (!LoadingScreen.loading) {
-			MenuRegister.window.drawFrame();
-			if (MenuKeys.binding != -1)
-			{
-				if (Event.current.type == EventType.KeyDown)
-				{
-					if (Event.current.keyCode != KeyCode.Escape)
-					{
-						MenuKeys.bind(Event.current.keyCode);
-					}
-					else
-					{
-						MenuKeys.bind(KeyCode.None);
-					}
-				}
-				else if (Event.current.type == EventType.MouseDown)
-				{
-					if (Event.current.button == 0)
-					{
-						MenuKeys.bind(KeyCode.Mouse0);
-					}
-					if (Event.current.button == 1)
-					{
-						MenuKeys.bind(KeyCode.Mouse1);
-					}
-					if (Event.current.button == 2)
-					{
-						MenuKeys.bind(KeyCode.Mouse2);
-					}
-					if (Event.current.button == 3)
-					{
-						MenuKeys.bind(KeyCode.Mouse3);
-					}
-					if (Event.current.button == 4)
-					{
-						MenuKeys.bind(KeyCode.Mouse4);
-					}
-					if (Event.current.button == 5)
-					{
-						MenuKeys.bind(KeyCode.Mouse5);
-					}
-					if (Event.current.button == 6)
-					{
-						MenuKeys.bind(KeyCode.Mouse6);
-					}
-				}
-				else if (Event.current.shift)
-				{
-					MenuKeys.bind(KeyCode.LeftShift);
-				}
-			}
-		}
+		
 	}
 
 	public static void open() {

@@ -31,20 +31,27 @@
     <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Configuration">
+      <HintPath>..\..\libs\System.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\UnturnedServer\Unturned_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <HintPath>..\..\libs\System.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml">
+      <HintPath>..\..\libs\System.Xml.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unturned\RemoteDatabase.cs" />
     <Compile Include="Tests\RemoteDatabaseTest.cs" />
-    <Compile Include="Unturned\JSONRequest.cs" />
-    <Compile Include="Unturned\JSONResponse.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -60,6 +67,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="app.config" />
   </ItemGroup>
 </Project>

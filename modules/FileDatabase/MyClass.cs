@@ -26,33 +26,13 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 using System;
-using NUnit.Framework;
 
-namespace Unturned
+namespace FileDatabase
 {
-    [TestFixture]
-    public class RemoteDatabaseTest
+    public class MyClass
     {
-        private RemoteDatabase database;
-
-        [SetUp]
-        public void setUp()
+        public MyClass()
         {
-            database = new RemoteDatabase();
-            database.Init();
-        }
-
-        [Test]
-        public void testAddBan() 
-        {
-            IBanEntry ban = new BanEntry("Julius Tiger", "128937192823", "Test Ban", "213512351235", DateTime.Now);
-            database.AddBan(ban);
-        }
-
-        [Test]
-        public void testLoadBans() 
-        {
-            database.LoadBans();
         }
     }
 }

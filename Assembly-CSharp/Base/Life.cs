@@ -193,7 +193,7 @@ public class Life : MonoBehaviour
 			}
 			else
 			{
-				this.tellHealthPleaseStopKuniiAlsoLetMeKnowIfYouWantToHelpWithAnticheatInVersion3(this.health);
+				this.tellHealth(this.health);
 			}
 			if (amount > 20)
 			{
@@ -253,13 +253,15 @@ public class Life : MonoBehaviour
 			this.saveAllVitality();
 			if (base.networkView.owner != Network.player) {
 				// Kill announce
-				String chatMessage = this.death.Replace("You", base.GetComponent<Player>().name );
+				String chatMessage = this.death
+                    .Replace("You", base.GetComponent<Player>().name )
+                    .Replace("your", "his");
 				
 				NetworkChat.tool.networkView.RPC("tellChat", RPCMode.All, new object[] { 
-					chatMessage,
+					"The Death",
 					"", 
 					"", 
-					" ", //chatMessage,
+                    chatMessage, //chatMessage,
 					21, // Gold
 					0, 
 					-80 });
@@ -420,7 +422,7 @@ public class Life : MonoBehaviour
 		}
 		else
 		{
-			this.tellHealthPleaseStopKuniiAlsoLetMeKnowIfYouWantToHelpWithAnticheatInVersion3(this.health);
+			this.tellHealth(this.health);
 		}
 	}
 
@@ -698,6 +700,11 @@ public class Life : MonoBehaviour
 	[RPC]
 	public void tellAllLife(int setHealth, int setFood, int setWater, int setSickness, bool setBleeding, bool setBones, NetworkMessageInfo info)
 	{
+        if (Network.player != info.sender)
+        {
+            Logger.LogSecurity(info.sender, "Player sets his own stats. health, food, water, sickness, bleeding, bones...");
+        }
+
 		if (info.sender.ToString() == "0" || info.sender.ToString() == "-1")
 		{
 			this.tellAllLife_Pizza(setHealth, setFood, setWater, setSickness, setBleeding, setBones);
@@ -754,11 +761,11 @@ public class Life : MonoBehaviour
 	{
 		if (info.sender.ToString() == "0" || info.sender.ToString() == "-1")
 		{
-			this.tellHealthPleaseStopKuniiAlsoLetMeKnowIfYouWantToHelpWithAnticheatInVersion3(setHealth);
+			this.tellHealth(setHealth);
 		}
 	}
 
-	public void tellHealthPleaseStopKuniiAlsoLetMeKnowIfYouWantToHelpWithAnticheatInVersion3(int setHealth)
+	public void tellHealth(int setHealth)
 	{
 		if (setHealth < this.health - 5)
 		{

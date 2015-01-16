@@ -51,6 +51,10 @@ namespace AdminCommands
                 {
                     this.PrintGOStat(args.sender.networkPlayer);
                 }
+                if( statType.ToLower().Equals("player") )
+                {
+                    this.PrintPlayerStat(args.sender.networkPlayer);
+                }
                 else
                 {
                     this.PrintUsage(args.sender.networkPlayer);
@@ -77,6 +81,16 @@ namespace AdminCommands
                 if (go.transform.parent != null)
                     parent = go.transform.parent.name;
                 Logger.LogDatabase("Name: " + go.name + " coord:" + go.transform.position + " Parent:" + parent);
+            }
+        }
+
+        void PrintPlayerStat(NetworkPlayer player)
+        {
+            Player[] players = UnityEngine.Object.FindObjectsOfType<Player>();
+            Reference.Tell(player, "There is " + players.Length + " Player objects..");
+
+            foreach ( Player plr in players) {
+                //Logger.LogDatabase("Name: " + go.name + " coord:" + go.transform.position + " Parent:" + parent);
             }
         }
     }

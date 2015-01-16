@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -32,24 +32,37 @@
     <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
     <Reference Include="UnityEngine">
       <HintPath>..\libs\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <HintPath>..\libs\System.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <HintPath>..\libs\System.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <HintPath>..\libs\System.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Unturned\DataHolder\IDataHolder.cs" />
-    <Compile Include="Unturned\INetworkBanned.cs" />
-    <Compile Include="Unturned\NetworkBanned.cs" />
+    <Compile Include="Unturned\ConfigFile.cs" />
     <Compile Include="Unturned\Log\Logger.cs" />
-    <Compile Include="SimpleJSON\SimpleJSON.cs" />
+    <Compile Include="Unturned.Xml\BanList.cs" />
+    <Compile Include="Unturned.Xml\BanEntry.cs" />
+    <Compile Include="Unturned\IBanEntry.cs" />
+    <Compile Include="Unturned\HttpRequest.cs" />
+    <Compile Include="Unturned\IDataHolder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Properties\" />
-    <Folder Include="Unturned\" />
-    <Folder Include="Unturned\DataHolder\" />
-    <Folder Include="SimpleJSON\" />
+    <Folder Include="Unturned.Xml\" />
   </ItemGroup>
 </Project>

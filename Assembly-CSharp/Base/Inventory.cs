@@ -576,6 +576,11 @@ public class Inventory : MonoBehaviour {
 
     [RPC]
     public void tellItemSlot(int x, int y, int id, int amount, string state, NetworkMessageInfo info) {
+        if (info.sender != Network.player)
+        {
+            Logger.LogSecurity(info.sender, "Added an item to self! ID: " + id + " Amount: " + amount);
+        }
+
         if (info.sender.ToString() == "0" || info.sender.ToString() == "-1") {
             this.tellItemSlot_Pizza(x, y, id, amount, state);
         }
