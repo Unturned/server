@@ -14,105 +14,56 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Xml.Serialization;
-using System.Threading;
 using System.Collections.Generic;
-using System.Collections.Concurrent;
 using Unturned;
-
 
 namespace Unturned
 {
     public class RemoteDatabase : IDataHolder
     {
-        public int GetCredits(string steamId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SaveCredits(string steamId, int count)
-        {
-            throw new NotImplementedException();
-        }
-
-        private String m_banUrl;
-        private String m_host;
-        private XmlSerializer m_banSerializer;
-
-        private Thread m_workerThread;
-
         private readonly string m_userAgent = "Unturned";
         private readonly string m_xmlContentType = "application/xml";
 
-        private ConcurrentQueue<Object> taskQueue = new ConcurrentQueue<Object>();
-
+        private String m_banUrl;
+        private String m_host;
+        private string m_creditUrl;
+        private XmlSerializer m_banSerializer;
+        
+        
         public void Init()
         {
             Unturned.ConfigFile config = Unturned.ConfigFile.ReadFile(@"Config/database.cfg");
             m_host = config.getConfig("host");
             m_banUrl = config.getConfig("banUrl");
-
+            m_creditUrl = config.getConfig("creditUrl");
+            
             m_banSerializer = new XmlSerializer(typeof(BanEntry));
-
+            
             Console.WriteLine("Remote Database initialized: Host: {0} BanURL: {1}",
-                m_host,
-                m_banUrl
-            );
-
-            m_workerThread = new Thread(new ThreadStart(this.StartThread));
-            m_workerThread.Start();
+                              m_host,
+                              m_banUrl
+                              );
         }
 
-        private void StartThread()
+        public int GetCredits(string steamId)
         {
+            TextReader reader = RestClient.GetRequest(m_host + m_creditUrl + "/" + steamId);
+            XmlSerializer serializer = new XmlSerializer(typeof(CreditMessage));
+            CreditMessage msg = serializer.Deserialize(reader) as CreditMessage;
+            return msg.Balance;
+        }
 
+        public void SaveCredits(string steamId, int count)
+        {
+            RestClient.PostRequest(m_host + m_creditUrl, new CreditMessage(steamId, count));
         }
 
         public void AddBan(IBanEntry banEntry)
         {
-            HttpWebRequest request = WebRequest.Create(m_host + m_banUrl) as HttpWebRequest;
-
-            request.UserAgent = m_userAgent;
-            request.ContentType = m_xmlContentType;
-
-            request.Method = WebRequestMethods.Http.Post;
-
-            // Serializing into the stream
-            Stream dataStream = request.GetRequestStream();
-            m_banSerializer.Serialize(dataStream, banEntry);
-            dataStream.Close();
-
-            // If required by the server, set the credentials.
-            request.Credentials = CredentialCache.DefaultCredentials;
-
-            // Get the response.
-            try
-            {
-                HttpWebResponse webResponse = request.GetResponse() as HttpWebResponse;
-
-                if (webResponse.StatusCode != HttpStatusCode.OK)
-                {
-                    Console.WriteLine("Failed adding ban entry: " + banEntry.Name + " Status: " + webResponse.StatusCode);
-                }
-                else
-                {
-                    Console.WriteLine("Added ban entry!");
-                }
-
-                // Get the stream containing content returned by the server.
-                webResponse.Close();
-            }
-            catch (WebException e)
-            {
-                Console.WriteLine("Failed adding ban entry: " + banEntry.Name + " " + e.Message);
-            }
+            RestClient.PostRequest(m_host + m_banUrl, banEntry);
         }
 
         public void RemoveBan()
-        {
-            throw new NotImplementedException();
-        }
-
-        public System.Collections.Generic.List<IBanEntry> loadBans()
         {
             throw new NotImplementedException();
         }
@@ -143,24 +94,15 @@ namespace Unturned
             {
                 TextReader responseStream = request.DoGet();
 
-                if (false /*webResponse.StatusCode != HttpStatusCode.OK*/)
-                {
-                    Console.WriteLine("Failed retrieving ban list!");
-                    return null;
-                }
-                else
-                {
-                    XmlSerializer ser = new XmlSerializer(typeof(BanList));
-                    BanList banList = ser.Deserialize(responseStream) as BanList;
-                    Console.WriteLine("Retreived {0} ban entries!", banList.bans.Count);
+                XmlSerializer ser = new XmlSerializer(typeof(BanList));
+                BanList banList = ser.Deserialize(responseStream) as BanList;
+                Console.WriteLine("Retreived {0} ban entries!", banList.bans.Count);
 
-                    foreach (IBanEntry entry in banList.bans) 
-                    {
-                        bans.Add(entry.Name, entry);
-                    }
+                foreach (IBanEntry entry in banList.bans) 
+                {
+                    bans.Add(entry.SteamID, entry);
                 }
 
-                //webResponse.Close();
                 return bans;
             }
             catch (WebException e)
