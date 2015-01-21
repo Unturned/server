@@ -79,23 +79,13 @@ public class Skills : MonoBehaviour
 	{
 		if (Network.isServer)
 		{
-			if (!ServerSettings.save)
-			{
 				this.loadAllKnowledge();
-			}
-			else
-			{
-				this.loadAllKnowledgeFromSerial(Savedata.loadSkills(base.GetComponent<Player>().owner.id));
-			}
-		}
-		else if (!ServerSettings.save)
-		{
-			base.networkView.RPC("loadAllKnowledge", RPCMode.Server, new object[0]);
 		}
 		else
 		{
-			base.networkView.RPC("loadAllKnowledgeFromSerial", RPCMode.Server, new object[] { Savedata.loadSkills(PlayerSettings.id) });
+			base.networkView.RPC("loadAllKnowledge", RPCMode.Server, new object[0]);
 		}
+		
 	}
 
 	[RPC]
@@ -170,7 +160,7 @@ public class Skills : MonoBehaviour
 		if (this.loaded)
 		{
 			string skillLine = string.Empty;
-			if (base.GetComponent<Life>().dead)
+			if (false /*base.GetComponent<Life>().dead*/) // Disabled skill halfing
 			{
 				skillLine = string.Concat(skillLine, this.experience / 2, ";");
 				for (int i = 0; i < (int)this.skills.Length; i++)

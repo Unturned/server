@@ -19,10 +19,11 @@ public class Structure : Useable
 	private static RaycastHit hit;
 
 	[RPC]
-	public void askBuild(int slot_x, int slot_y, Vector3 position, int rotation, string state) {
-		//UserList.getUserFromPlayer(base.GetComponent<NetworkPlayer>());ű
-		//TODO: disallowing build
-		return;
+	public void askBuild(int slot_x, int slot_y, Vector3 position, int rotation, string state, NetworkMessageInfo info) {
+        int permission = UserList.getPermission( UserList.getUserFromPlayer(info.sender).steamid );
+
+        if ( permission < 1 ) //TODO: disallowing build
+		    return;
 		
 		if (!base.GetComponent<Life>().dead) { // Dead hack
 			Inventory inventory = base.GetComponent<Inventory>();
@@ -512,7 +513,8 @@ public class Structure : Useable
 				int num1 = Equipment.equipped.y;
 				Vector3 vector31 = this.help.transform.position;
 				Vector3 vector32 = this.help.transform.rotation.eulerAngles;
-				this.askBuild(num, num1, vector31, (int)vector32.y, StructureStats.getState(Equipment.id));
+                // FIXME: cliend side?
+				//this.askBuild(num, num1, vector31, (int)vector32.y, StructureStats.getState(Equipment.id));
 			}
 			NetworkSounds.askSound(string.Concat("Sounds/Items/", ItemSounds.getSource(Equipment.id), "/use"), Camera.main.transform.position + (Camera.main.transform.forward * 0.5f), 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
 			Equipment.use();

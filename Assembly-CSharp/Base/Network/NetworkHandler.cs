@@ -109,14 +109,27 @@ public class NetworkHandler : MonoBehaviour
 		}
 	}
 
+    public IEnumerator savePlayerCredit(NetworkPlayer player)
+    {
+        NetworkUser user = NetworkUserList.getUserFromPlayer(player);
+        String steamID = user.id;
+        int credit = user.model.GetComponent<Player>().credit;
+
+        // Saving credit
+        Database.provider.SaveCredits(steamID, credit);
+        yield return true;
+    }
+
 	public void onPlayerDisconnected(NetworkPlayer player)
 	{
+        StartCoroutine("savePlayerCredit", player);
+
 		Network.RemoveRPCs(player);
 		Network.DestroyPlayerObjects(player);
 		
         base.networkView.RPC("removeNetworkUser", RPCMode.All, new object[] { player });
 
-        if ( this.lastSave == null || (this.lastSave.CompareTo(System.DateTime.Now.AddMinutes(-30)) < 0 ) )
+        if ( this.lastSave == null || (this.lastSave.CompareTo(System.DateTime.Now.AddMinutes(-5)) < 0 ) )
         {
             //NetworkTools.save();
             UnityEngine.Debug.Log("Last saving: " + lastSave.ToString());

@@ -12,8 +12,6 @@ public class ServerSettings
 
 	public static bool dedicated;
 
-	public static bool save;
-
 	public static int time;
 
 	public static int cycle;
@@ -33,7 +31,6 @@ public class ServerSettings
 		ServerSettings.pvp = true;
 		ServerSettings.mode = 0;
 		ServerSettings.dedicated = false;
-		ServerSettings.save = false;
 		ServerSettings.time = -1;
 		ServerSettings.cycle = -1;
 		ServerSettings.offset = 0f;

@@ -46,7 +46,6 @@ public class DedicatedServer : MonoBehaviour
 
         ServerSettings.map = 1;
         ServerSettings.name = "Unturned Server";
-        ServerSettings.save = true;
         ServerSettings.dedicated = true;
 
         NetworkTools.host(32, 25444, string.Empty);

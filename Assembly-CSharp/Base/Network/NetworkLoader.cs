@@ -25,7 +25,16 @@ public class NetworkLoader : MonoBehaviour
 
 	public void onHosted()
 	{
-		base.networkView.RPC("tellState", RPCMode.OthersBuffered, new object[] { ServerSettings.map, ServerSettings.pvp, ServerSettings.save, ServerSettings.version, ServerSettings.time, Epoch.getSeconds(), ServerSettings.mode });
+		base.networkView.RPC("tellState", RPCMode.OthersBuffered, new object[] { 
+            ServerSettings.map, 
+            ServerSettings.pvp, 
+            false, // sync?
+            ServerSettings.version, 
+            ServerSettings.time, 
+            Epoch.getSeconds(), 
+            ServerSettings.mode 
+        });
+
 		AudioListener.volume = 0f;
 		UnityEngine.Object.Destroy(GameObject.Find("menu"));
 		NetworkLoader.load = Application.LoadLevelAsync(Maps.getFile(ServerSettings.map));
@@ -67,7 +76,6 @@ public class NetworkLoader : MonoBehaviour
 		{
 			ServerSettings.map = map;
 			ServerSettings.pvp = pvp;
-			ServerSettings.save = save;
 			ServerSettings.time = time;
 			NetworkLoader.epoch = seconds;
 			ServerSettings.mode = mode;

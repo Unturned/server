@@ -207,7 +207,6 @@ public class MenuSingleplayer
 			ServerSettings.pvp = true;
 			ServerSettings.mode = MenuSingleplayer.mode;
 			ServerSettings.dedicated = false;
-			ServerSettings.save = false;
 			ServerSettings.open = false;
 			NetworkTools.host(1, 25565, string.Empty);
 		}

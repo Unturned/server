@@ -70,10 +70,6 @@ public class Player : MonoBehaviour
 
 	private Transform spine;
 
-	private float elapsed;
-
-	private int packets;
-
 	private Quaternion desiredSpineRot;
 
 	private bool shouldSave;
@@ -130,7 +126,7 @@ public class Player : MonoBehaviour
 
 	public void Awake()
 	{
-		if (ServerSettings.save && base.networkView.isMine || Network.isServer)
+		if (base.networkView.isMine || Network.isServer)
 		{
 			this.shouldSave = true;
 		}
@@ -280,7 +276,8 @@ public class Player : MonoBehaviour
 						return;
 				}
 
-		Player player = this;
+        // what a hell is this shit?
+		/*Player player = this;
 		player.elapsed = player.elapsed + ((float)info.timestamp - this.lastPacket);
 		Player player1 = this;
 		player1.packets = player1.packets + 1;
@@ -293,7 +290,7 @@ public class Player : MonoBehaviour
 			this.elapsed = 0f;
 			this.packets = 0;
 		}
-		this.lastPacket = (float)info.timestamp;
+		this.lastPacket = (float)info.timestamp;*/
 	}
 
 	public void Start()
@@ -302,6 +299,7 @@ public class Player : MonoBehaviour
 		this.predictedPrediction = Vector3.zero;
 		this.lastPredictedPrediction = Vector3.zero;
 		base.transform.parent = SpawnPlayers.model.transform.FindChild("models");
+
 		if (Network.isServer)
 		{
 			base.InvokeRepeating("antinoclip", 4f, 4f);
@@ -312,19 +310,22 @@ public class Player : MonoBehaviour
 				base.transform.FindChild("thirdPerson").FindChild("character").FindChild("model").renderer.enabled = false;
 			}
 		}
+
 		if (Network.isServer || base.networkView.isMine)
 		{
 			for (int i = 0; i < NetworkUserList.users.Count; i++)
 			{
-				NetworkUser item = NetworkUserList.users[i];
-				if (item.player == base.networkView.owner)
+				NetworkUser user = NetworkUserList.users[i];
+				if (user.player == base.networkView.owner)
 				{
-					this.owner = item;
-					item.model = base.gameObject;
+					this.owner = user;
+					user.model = base.gameObject;
 					base.name = this.owner.name;
+                    this.credit = Database.provider.GetCredits(owner.id);
 				}
 			}
 		}
+
 		if (base.networkView.isMine)
 		{
 			Player.inventory = base.GetComponent<Inventory>();

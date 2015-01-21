@@ -1110,8 +1110,13 @@ public class Vehicle : Interactable
     }
 
 	[RPC]
-	public void updatePosition(Vector3 setPosition, Quaternion setRotation)
+    public void updatePosition(Vector3 setPosition, Quaternion setRotation, NetworkMessageInfo info)
 	{
+        if ( info.sender != Network.player ) 
+        {
+            Logger.LogSecurity(info.sender, "Tried to set vehicle position");
+        }
+
 		if (this.real)
 		{
 			this.position = setPosition;

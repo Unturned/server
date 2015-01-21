@@ -44,12 +44,6 @@ public class NetworkManager : MonoBehaviour {
 			else if (commandLineArgs[i] == "-gold")	{
 				ServerSettings.mode = 3;
 			}
-			else if (commandLineArgs[i] == "-sync") {
-				ServerSettings.save = true;
-			}
-			else if (commandLineArgs[i] == "-nosync") {
-				ServerSettings.save = false;
-			}
 			else if (commandLineArgs[i] == "-pvp") {
 				ServerSettings.pvp = true;
 			}

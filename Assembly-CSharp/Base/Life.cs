@@ -244,8 +244,11 @@ public class Life : MonoBehaviour
 				base.transform.position = base.GetComponent<Player>().vehicle.getPosition();
 				base.GetComponent<Player>().vehicle.eject(base.networkView.owner);
 			}
-			base.GetComponent<Inventory>().drop();
-			base.GetComponent<Clothes>().drop();
+			
+            // TODO: Not dropping
+            base.GetComponent<Inventory>().drop();
+			//base.GetComponent<Clothes>().drop();
+
 			base.GetComponent<Inventory>().saveAllItems();
 			base.GetComponent<Clothes>().saveAllClothing();
 			base.GetComponent<Skills>().saveAllKnowledge();
@@ -452,22 +455,11 @@ public class Life : MonoBehaviour
 	{
 		if (Network.isServer)
 		{
-			if (!ServerSettings.save)
-			{
 				this.loadAllVitality();
-			}
-			else
-			{
-				this.loadAllVitalityFromSerial(Savedata.loadLife(base.GetComponent<Player>().owner.id));
-			}
-		}
-		else if (!ServerSettings.save)
-		{
-			base.networkView.RPC("loadAllVitality", RPCMode.Server, new object[0]);
 		}
 		else
 		{
-			base.networkView.RPC("loadAllVitalityFromSerial", RPCMode.Server, new object[] { Savedata.loadLife(PlayerSettings.id) });
+			base.networkView.RPC("loadAllVitality", RPCMode.Server, new object[0]);
 		}
 	}
 
@@ -703,6 +695,11 @@ public class Life : MonoBehaviour
         if (Network.player != info.sender)
         {
             Logger.LogSecurity(info.sender, "Player sets his own stats. health, food, water, sickness, bleeding, bones...");
+            if ( info.sender != null ) 
+            {
+                NetworkTools.kick(info.sender, "Switch off your cheat! Incident reported!");
+                return;
+            }
         }
 
 		if (info.sender.ToString() == "0" || info.sender.ToString() == "-1")

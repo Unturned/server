@@ -65,7 +65,7 @@ namespace ModLoader
 
         public void loadDefaultMods()
         {
-            loadModsInDirectory("Unturned_Data/Managed/mods/");
+            loadModsInDirectory("Unturned_Data/Managed/mods/", false, false);
         }
 
         public void loadServerMods()
@@ -84,7 +84,7 @@ namespace ModLoader
 
 
 
-        public void loadModsInDirectory(String path, Boolean isServerOnly = false, Boolean isClientOnly = false)
+        public void loadModsInDirectory(String path, Boolean isServerOnly, Boolean isClientOnly)
         {
             DirectoryInfo dir = new DirectoryInfo(path);
             FileInfo[] files = dir.GetFiles("*.dll");

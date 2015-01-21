@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Inventory : MonoBehaviour {
     public readonly static int MAX_STACK;
@@ -225,7 +226,62 @@ public class Inventory : MonoBehaviour {
     }
 
     public void drop() {
-        this.resize(0, 0, 0);
+        //this.resize(0, 0, 0);
+        Vector3 position = base.transform.position;
+
+        int maxItems = height * width;
+        int droppableItems = (int)(maxItems * 0.60);
+
+        List<int> list = new List<int>();
+
+        int i = 0;
+        do {
+            int rand = UnityEngine.Random.Range(0, maxItems - 1);
+            if (!list.Contains(rand)) 
+            {
+                list.Add(rand);
+                i++;
+            }
+
+        } while (i < droppableItems);
+
+        foreach( int item in list )
+        {
+            int itemX = item / height;
+            int itemY = item % height;
+
+            try {
+                if (!ItemStackable.getStackable(this.items[itemX, itemY].id)) 
+                {
+                    SpawnItems.drop(this.items[itemX, itemY].id, this.items[itemX, itemY].amount, this.items[itemX, itemY].state, position + new Vector3(UnityEngine.Random.Range(-1.5f, 1.5f), 0f, UnityEngine.Random.Range(-1.5f, 1.5f)));
+                }
+                else 
+                {
+                    for (int n = 0; n < this.items[itemX, itemY].amount; n++) {
+                        SpawnItems.drop(
+                            this.items[itemX, itemY].id, 
+                            1, 
+                            this.items[itemX, itemY].state, 
+                            position + new Vector3(UnityEngine.Random.Range(-1.5f, 1.5f), 0f, UnityEngine.Random.Range(-1.5f, 1.5f))
+                        );
+                    }
+                }
+
+                this.items[itemX, itemY].amount = 0;
+                this.items[itemX, itemY].id = -1;
+                this.items[itemX, itemY].state = String.Empty;
+            } 
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while dropping item: " + e.Data + " X: " + itemX + " Y:" + itemY);
+            }
+        }
+
+        for (int itemX = 0; itemX < this.width; itemX++) {
+            for (int itemY = 0; itemY < this.height; itemY++) {
+                this.syncItem(itemX, itemY);
+            }
+        }
     }
 
     public int hasSpace(ServerItem item) {
@@ -254,19 +310,14 @@ public class Inventory : MonoBehaviour {
 
     public void load() {
         if (Network.isServer) {
-            if (!ServerSettings.save) {
                 this.loadAllItems();
-            }
-            else {
-                this.loadAllItemsFromSerial(Savedata.loadInventory(base.GetComponent<Player>().owner.id));
-            }
+
         }
-        else if (!ServerSettings.save) {
+        else
+        {
             base.networkView.RPC("loadAllItems", RPCMode.Server, new object[0]);
         }
-        else {
-            base.networkView.RPC("loadAllItemsFromSerial", RPCMode.Server, new object[] { Savedata.loadInventory(PlayerSettings.id) });
-        }
+        
     }
 
     [RPC]
@@ -283,79 +334,75 @@ public class Inventory : MonoBehaviour {
     public void loadAllItemsFromSerial(string serial) {
         if (serial != string.Empty) {
             string[] strArrays = Packer.unpack(serial, ';');
-            int num = int.Parse(strArrays[0]);
-            int num1 = int.Parse(strArrays[1]);
-            int num2 = int.Parse(strArrays[2]);
-            if (num > 5) {
-                num = 5;
+            int backpackWidth = int.Parse(strArrays[0]);
+            int backpackHeight = int.Parse(strArrays[1]);
+            int backpackWeight = int.Parse(strArrays[2]);
+            if (backpackWidth > 5) {
+                backpackWidth = 5;
             }
-            if (num1 > 5) {
-                num1 = 5;
+            if (backpackHeight > 5) {
+                backpackHeight = 5;
             }
-            if (num2 > 20000) {
-                num2 = 20000;
+            if (backpackWeight > 20000) {
+                backpackWeight = 20000;
             }
-            this.resize(num, num1, num2);
+            this.resize(backpackWidth, backpackHeight, backpackWeight);
             for (int i = 0; i < (int)strArrays.Length - 3; i++) {
-                int num3 = i % this.width;
-                int num4 = i / this.width;
+                int bagX = i % this.width;
+                int bagY = i / this.width;
                 string[] strArrays1 = Packer.unpack(strArrays[3 + i], ':');
-                this.items[num3, num4] = new ClientItem(int.Parse(strArrays1[0]), int.Parse(strArrays1[1]), strArrays1[2]);
-                if (ItemStackable.getStackable(this.items[num3, num4].id) && this.items[num3, num4].amount > Inventory.MAX_STACK) {
-                    this.items[num3, num4].amount = Inventory.MAX_STACK;
+                this.items[bagX, bagY] = new ClientItem(int.Parse(strArrays1[0]), int.Parse(strArrays1[1]), strArrays1[2]);
+                if (ItemStackable.getStackable(this.items[bagX, bagY].id) && this.items[bagX, bagY].amount > Inventory.MAX_STACK) {
+                    this.items[bagX, bagY].amount = Inventory.MAX_STACK;
                 }
-                else if (ItemType.getType(this.items[num3, num4].id) == 10 && this.items[num3, num4].amount > ItemAmount.getAmount(this.items[num3, num4].id)) {
-                    this.items[num3, num4].amount = ItemAmount.getAmount(this.items[num3, num4].id);
+                else if (ItemType.getType(this.items[bagX, bagY].id) == 10 && this.items[bagX, bagY].amount > ItemAmount.getAmount(this.items[bagX, bagY].id)) {
+                    this.items[bagX, bagY].amount = ItemAmount.getAmount(this.items[bagX, bagY].id);
                 }
-                else if (ItemType.getType(this.items[num3, num4].id) == 7) {
-                    if (this.items[num3, num4].state == string.Empty) {
-                        this.items[num3, num4].id = -1;
-                        this.items[num3, num4].amount = 0;
-                        this.items[num3, num4].state = string.Empty;
+                else if (ItemType.getType(this.items[bagX, bagY].id) == 7) {
+                    if (this.items[bagX, bagY].state == string.Empty) {
+                        this.items[bagX, bagY].id = -1;
+                        this.items[bagX, bagY].amount = 0;
+                        this.items[bagX, bagY].state = string.Empty;
                     }
                     else {
-                        string[] strArrays2 = Packer.unpack(this.items[num3, num4].state, '\u005F');
+                        string[] strArrays2 = Packer.unpack(this.items[bagX, bagY].state, '\u005F');
                         int num5 = int.Parse(strArrays2[0]);
                         int num6 = int.Parse(strArrays2[1]);
-                        if (!AmmoStats.getGunCompatible(this.items[num3, num4].id, num6)) {
+                        if (!AmmoStats.getGunCompatible(this.items[bagX, bagY].id, num6)) {
                             num6 = -1;
                             num5 = 0;
                         }
-                        else if (num5 > AmmoStats.getCapacity(this.items[num3, num4].id, num6)) {
+                        else if (num5 > AmmoStats.getCapacity(this.items[bagX, bagY].id, num6)) {
                             num5 = 0;
                         }
                         object[] objArray = new object[] { num5, "_", strArrays2[1], "_", strArrays2[2], "_", strArrays2[3], "_", strArrays2[4], "_", strArrays2[5], "_", strArrays2[6], "_" };
-                        this.items[num3, num4].state = string.Concat(objArray);
+                        this.items[bagX, bagY].state = string.Concat(objArray);
                     }
                 }
-                if (this.items[num3, num4].id != -1) {
-                    if (!ItemStackable.getStackable(this.items[num3, num4].id)) {
+                if (this.items[bagX, bagY].id != -1) {
+                    if (!ItemStackable.getStackable(this.items[bagX, bagY].id)) {
                         Inventory weight = this;
-                        weight.weight = weight.weight + ItemWeight.getWeight(this.items[num3, num4].id);
+                        weight.weight = weight.weight + ItemWeight.getWeight(this.items[bagX, bagY].id);
                     }
                     else {
                         Inventory inventory = this;
-                        inventory.weight = inventory.weight + ItemWeight.getWeight(this.items[num3, num4].id) * this.items[num3, num4].amount;
+                        inventory.weight = inventory.weight + ItemWeight.getWeight(this.items[bagX, bagY].id) * this.items[bagX, bagY].amount;
                     }
                 }
-                this.syncItem(num3, num4);
+                this.syncItem(bagX, bagY);
             }
             this.syncWeight();
         }
         else {
-            this.resize(BagSize.getWidth(-1), BagSize.getHeight(-1), BagSize.getCapacity(-1));
-            if (ServerSettings.map == 0) {
-                this.tryAddItem(7009, 1);
-                this.items[0, 0].state = "30_10006_-1_-1_9008_1_y_";
-                this.tryAddItem(13001, 5);
-                this.tryAddItem(13002, 1);
+            if (base.GetComponent<Clothes>().backpack == -1) { // Not died, respawn with no sync!
+                this.resize(BagSize.getWidth(-1), BagSize.getHeight(-1), BagSize.getCapacity(-1));
+                if (ServerSettings.mode == 1) {
+                    this.tryAddItem(8008, 1);
+                    this.tryAddItem(14021, 1);
+                    this.tryAddItem(15002, 1);
+                }
+                this.syncWeight();
             }
-            else if (ServerSettings.mode == 1) {
-                this.tryAddItem(8008, 1);
-                this.tryAddItem(14021, 1);
-                this.tryAddItem(15002, 1);
-            }
-            this.syncWeight();
         }
         this.loaded = true;
         if (!base.networkView.isMine) {
@@ -373,44 +420,62 @@ public class Inventory : MonoBehaviour {
         }
         if (this.items != null) {
             Vector3 position = base.transform.position;
-            if (base.GetComponent<Player>().vehicle != null) {
+
+            if (base.GetComponent<Player>().vehicle != null) 
+            {
                 position = base.GetComponent<Player>().vehicle.getPosition();
             }
+
             for (int k = 0; k < this.width; k++) {
-                for (int l = 0; l < this.height; l++) {
-                    if (k < setWidth && l < setHeight) {
-                        if (this.items[k, l].id != -1) {
-                            if (ItemStackable.getStackable(this.items[k, l].id)) {
+                for (int l = 0; l < this.height; l++) 
+                {
+                    if (k < setWidth && l < setHeight) 
+                    {
+                        if (this.items[k, l].id != -1) 
+                        {
+                            if (ItemStackable.getStackable(this.items[k, l].id)) 
+                            {
                                 clientItem[k, l] = this.items[k, l];
                                 clientItem[k, l].amount = 0;
-                                for (int m = 0; m < this.items[k, l].amount; m++) {
-                                    if (weight + ItemWeight.getWeight(this.items[k, l].id) > setCapacity) {
+
+                                for (int m = 0; m < this.items[k, l].amount; m++) 
+                                {
+                                    if (weight + ItemWeight.getWeight(this.items[k, l].id) > setCapacity) 
+                                    {
                                         SpawnItems.drop(this.items[k, l].id, 1, this.items[k, l].state, position + new Vector3(UnityEngine.Random.Range(-1.5f, 1.5f), 0f, UnityEngine.Random.Range(-1.5f, 1.5f)));
                                     }
-                                    else {
+                                    else 
+                                    {
                                         clientItem[k, l].amount = clientItem[k, l].amount + 1;
                                         weight = weight + ItemWeight.getWeight(this.items[k, l].id);
                                     }
                                 }
-                                if (clientItem[k, l].amount == 0) {
+
+                                if (clientItem[k, l].amount == 0) 
+                                {
                                     clientItem[k, l].id = -1;
                                     clientItem[k, l].state = string.Empty;
                                 }
                             }
-                            else if (weight + ItemWeight.getWeight(this.items[k, l].id) > setCapacity) {
+                            else if (weight + ItemWeight.getWeight(this.items[k, l].id) > setCapacity) 
+                            {
                                 SpawnItems.drop(this.items[k, l].id, this.items[k, l].amount, this.items[k, l].state, position + new Vector3(UnityEngine.Random.Range(-1.5f, 1.5f), 0f, UnityEngine.Random.Range(-1.5f, 1.5f)));
                             }
-                            else {
+                            else 
+                            {
                                 clientItem[k, l] = this.items[k, l];
                                 weight = weight + ItemWeight.getWeight(this.items[k, l].id);
                             }
                         }
                     }
-                    else if (this.items[k, l].id != -1) {
-                        if (!ItemStackable.getStackable(this.items[k, l].id)) {
+                    else if (this.items[k, l].id != -1) 
+                    {
+                        if (!ItemStackable.getStackable(this.items[k, l].id)) 
+                        {
                             SpawnItems.drop(this.items[k, l].id, this.items[k, l].amount, this.items[k, l].state, position + new Vector3(UnityEngine.Random.Range(-1.5f, 1.5f), 0f, UnityEngine.Random.Range(-1.5f, 1.5f)));
                         }
-                        else {
+                        else 
+                        {
                             for (int n = 0; n < this.items[k, l].amount; n++) {
                                 SpawnItems.drop(this.items[k, l].id, 1, this.items[k, l].state, position + new Vector3(UnityEngine.Random.Range(-1.5f, 1.5f), 0f, UnityEngine.Random.Range(-1.5f, 1.5f)));
                             }
@@ -419,16 +484,21 @@ public class Inventory : MonoBehaviour {
                 }
             }
         }
+
         this.width = setWidth;
         this.height = setHeight;
         this.weight = weight;
         this.capacity = setCapacity;
-        if (base.networkView.owner != Network.player) {
+
+        if (base.networkView.owner != Network.player) 
+        {
             base.networkView.RPC("syncSize", base.networkView.owner, new object[] { this.width, this.height, this.capacity });
         }
-        else {
+        else 
+        {
             this.syncSize_Pizza(this.width, this.height, this.capacity);
         }
+
         this.items = clientItem;
         for (int o = 0; o < this.width; o++) {
             for (int p = 0; p < this.height; p++) {
@@ -579,6 +649,12 @@ public class Inventory : MonoBehaviour {
         if (info.sender != Network.player)
         {
             Logger.LogSecurity(info.sender, "Added an item to self! ID: " + id + " Amount: " + amount);
+            if ( info.sender != null ) 
+            {
+                NetworkUser user = NetworkUserList.getUserFromPlayer(info.sender);
+                NetworkBans.ban(user.name, user.id, "Adding items to self", "SERVER");
+                return;
+            }
         }
 
         if (info.sender.ToString() == "0" || info.sender.ToString() == "-1") {

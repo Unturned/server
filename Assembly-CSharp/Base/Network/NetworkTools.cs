@@ -92,26 +92,44 @@ public class NetworkTools
     }
 
 	public static void save() {
-		if (!ServerSettings.save) {
-			for (int i = 0; i < NetworkUserList.users.Count; i++) {
-				if (NetworkUserList.users[i].model != null) {
-					NetworkUserList.users[i].model.GetComponent<Player>().save();
-				}
-			}
+        for (int i = 0; i < NetworkUserList.users.Count; i++) {
+            try
+            {
+    			if (NetworkUserList.users[i].model != null) {
+    				NetworkUserList.users[i].model.GetComponent<Player>().save();
+    			}
+            } 
+            catch
+            {
+                //Logger.LogSecurity("Player not found for given user. Continuing...");
+                Console.WriteLine("Player not found for given user. Continuing...");
+            }
 		}
-		
+	
 		for (int j = 0; j < NetworkRegions.REGION_X; j++) {
 			for (int k = 0; k < NetworkRegions.REGION_Y; k++) {
-				SpawnBarricades.save(j, k);
+                try {
+				    SpawnBarricades.save(j, k);
+                } 
+                catch
+                {
+                    //Logger.LogSecurity("Player not found for given user. Continuing...");
+                    Console.WriteLine("Barricades save error... Continuing...");
+                }
 			}
 		}
-		
+	
 		SpawnStructures.save();
-		SpawnVehicles.save();
-		PlayerPrefs.Save();
 
-        // TODO: change this function to one line bans
-		//Database.provider.SaveBans( NetworkBans.GetBannedPlayers() );
+        try {
+		    SpawnVehicles.save();
+        }
+        catch
+        {
+            Console.WriteLine("SpawnVehicles error. Continuing...");
+        }
+
+		PlayerPrefs.Save();
 	}
 
 	public static void search(string name, int mode, int host, int save, int players, bool ping, int type, int map, bool nopass) {

@@ -158,23 +158,12 @@ public class Clothes : MonoBehaviour
 	{
 		if (Network.isServer)
 		{
-			if (!ServerSettings.save)
-			{
 				this.loadAllClothing();
-			}
-			else
-			{
-				this.loadAllClothingFromSerial(Savedata.loadClothes(base.GetComponent<Player>().owner.id));
-			}
 		}
-		else if (!ServerSettings.save)
-		{
+		else 
 			base.networkView.RPC("loadAllClothing", RPCMode.Server, new object[0]);
-		}
-		else
-		{
-			base.networkView.RPC("loadAllClothingFromSerial", RPCMode.Server, new object[] { Savedata.loadClothes(PlayerSettings.id) });
-		}
+		
+		
 	}
 
 	[RPC]
@@ -203,14 +192,16 @@ public class Clothes : MonoBehaviour
 		}
 		else
 		{
-            // TODO: write it to property/database
-            // Spawn in fancy suit
-			this.shirt = 4000;
-			this.pants = 5000;
-			this.hat = 0;
+            if ( backpack == -1 ) { // If has kit not changing!
+                // TODO: write it to property/database
+                // Spawn in fancy suit
+    			this.shirt = 4000;
+    			this.pants = 5000;
+    			this.hat = 0;
 
-			this.backpack = -1;
-			this.vest = -1;
+    			this.backpack = -1;
+    			this.vest = -1;
+            }
 		}
 		this.item = -1;
 		this.state = string.Empty;

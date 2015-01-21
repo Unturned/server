@@ -168,7 +168,6 @@ public class MenuPlay
 		ServerSettings.mode = 0;
 		ServerSettings.dedicated = false;
 		ServerSettings.open = false;
-		ServerSettings.save = false;
 		NetworkTools.host(1, 25565, string.Empty);
 	}
 }

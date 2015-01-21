@@ -10,8 +10,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AssemblyCSharp</RootNamespace>
     <ReleaseVersion>1.0</ReleaseVersion>
-    <UseMSBuildEngine>False</UseMSBuildEngine>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>..\bin\Debug\</OutputPath>
@@ -270,13 +269,14 @@
     <Folder Include="CommandHandler\" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\libs\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core">
+      <HintPath>..\libs\System.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <HintPath>..\libs\System.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\libs\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

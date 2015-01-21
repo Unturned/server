@@ -157,23 +157,14 @@ public class SpawnPlayers : MonoBehaviour
 	{
 		if (Network.isServer)
 		{
-			if (!ServerSettings.save)
-			{
 				this.loadPosition(Network.player, PlayerSettings.id);
-			}
-			else
-			{
-				this.loadPositionFromSerial(Network.player, Savedata.loadPosition(PlayerSettings.id));
-			}
-		}
-		else if (!ServerSettings.save)
-		{
-			base.networkView.RPC("loadPosition", RPCMode.Server, new object[] { Network.player, PlayerSettings.id });
+			
 		}
 		else
 		{
-			base.networkView.RPC("loadPositionFromSerial", RPCMode.Server, new object[] { Network.player, Savedata.loadPosition(PlayerSettings.id) });
+			base.networkView.RPC("loadPosition", RPCMode.Server, new object[] { Network.player, PlayerSettings.id });
 		}
+		
 	}
 
 	public void Start()

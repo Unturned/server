@@ -369,7 +369,6 @@ public class MenuHost
 			ServerSettings.pvp = MenuHost.pvp;
 			ServerSettings.mode = MenuHost.mode;
 			ServerSettings.dedicated = MenuHost.dedicated;
-			ServerSettings.save = MenuHost.save;
 			ServerSettings.open = MenuHost.opened;
 			NetworkTools.host(MenuHost.players, MenuHost.port, MenuHost.password);
 		}

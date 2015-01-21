@@ -8,7 +8,12 @@ public class NetworkBans {
 	private static Dictionary<String, IBanEntry> bannedPlayers;
 
 	public static void ban(string name, string id, string reason, string bannedBy) {
-        bannedPlayers.Add(id, new BanEntry(name, id, reason, bannedBy, System.DateTime.Now));
+        BanEntry entry = new BanEntry(name, id, reason, bannedBy, System.DateTime.Now);
+        bannedPlayers.Add(id, entry);
+        Database.provider.AddBan(entry);
+
+        // Reload
+        NetworkBans.load();
 		// Save moved to /save command
 	}
 
