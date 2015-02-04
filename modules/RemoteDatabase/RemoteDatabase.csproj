@@ -1,22 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{DC567A66-0D48-4D1C-90D5-2A0C0428F985}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Unturned</RootNamespace>
     <AssemblyName>RemoteDatabase</AssemblyName>
     <ReleaseVersion>1.0</ReleaseVersion>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\..\bin\Debug</OutputPath>
+    <OutputPath>..\..\bin\Debug\Unturned_Data\Managed</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>..\..\bin\Release</OutputPath>
+    <OutputPath>..\..\bin\Release\Unturned_Data\Managed</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
@@ -37,14 +37,12 @@
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\..\libs\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml">
-      <HintPath>..\..\libs\System.Xml.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="System">
-      <HintPath>..\..\libs\System.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -52,17 +50,15 @@
     <Compile Include="Tests\RemoteDatabaseTest.cs" />
     <Compile Include="Unturned\RestClient.cs" />
     <Compile Include="Unturned\CreditMessage.cs" />
+    <Compile Include="Unturned\BanService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Properties\" />
-    <Folder Include="Unturned\" />
-    <Folder Include="Tests\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\UnturnedShared\UnturnedShared.csproj">
       <Project>{CF2E2B66-951F-4239-8FE5-EE9E6BBA816D}</Project>
       <Name>UnturnedShared</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

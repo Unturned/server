@@ -35,45 +35,31 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
-using System.Xml;
-using System.Xml.Serialization;
+using CommandHandler;
 
-namespace Unturned
+namespace AdminCommands.Kits
 {
-    [Serializable]
-    [XmlRoot("credit")]
-    public class CreditMessage
+    public abstract class SpawnKit
     {
-		string steamID;
-        [XmlAttribute ("SteamID")]
-		public string SteamID {
-			get {
-				return steamID;
-			}
-			set {
-				steamID = value;
-			}
-		}
+        protected String Name;
+        public int Cost { get; protected set; }
+        public int Permission { get; protected set; }
+        public int[] Items { get; protected set; }
 
-		int balance;
-        [XmlAttribute ("Balance")]
-		public int Balance {
-			get {
-				return balance;
-			}
-			set {
-				balance = value;
-			}
-		}
-
-        public CreditMessage()
+        public SpawnKit()
         {
+            Cost = 0;
+            Permission = 0;
+            Items = new int[]{};
         }
 
-        public CreditMessage(String steamId, int balance)
+        public String GetKitName() 
         {
-            this.SteamID = steamId;
-            this.Balance = balance;
+            return this.Name;
+        }
+
+        public virtual void Additional(BetterNetworkUser user)
+        {
         }
     }
 }

@@ -36,6 +36,7 @@ public class NetworkLoader : MonoBehaviour
         });
 
 		AudioListener.volume = 0f;
+        Network.isMessageQueueRunning = false;
 		UnityEngine.Object.Destroy(GameObject.Find("menu"));
 		NetworkLoader.load = Application.LoadLevelAsync(Maps.getFile(ServerSettings.map));
 	}
@@ -44,7 +45,6 @@ public class NetworkLoader : MonoBehaviour
 	{
 		if (Application.loadedLevel != 0)
 		{
-			Network.isMessageQueueRunning = true;
 			NetworkEvents.triggerOnReady();
 		}
 	}

@@ -35,45 +35,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
-using System.Xml;
-using System.Xml.Serialization;
 
-namespace Unturned
+namespace AdminCommands.Kits
 {
-    [Serializable]
-    [XmlRoot("credit")]
-    public class CreditMessage
+    public class NatoKit : SpawnKit
     {
-		string steamID;
-        [XmlAttribute ("SteamID")]
-		public string SteamID {
-			get {
-				return steamID;
-			}
-			set {
-				steamID = value;
-			}
-		}
-
-		int balance;
-        [XmlAttribute ("Balance")]
-		public int Balance {
-			get {
-				return balance;
-			}
-			set {
-				balance = value;
-			}
-		}
-
-        public CreditMessage()
+        public NatoKit()
         {
-        }
-
-        public CreditMessage(String steamId, int balance)
-        {
-            this.SteamID = steamId;
-            this.Balance = balance;
+            Name = "Nato";
+            Cost = 5;
+            Permission = 0;
+            Items = new int[] {
+                10001,
+                18014,
+                18014,
+                18014,
+                18014
+            };
         }
     }
 }

@@ -69,18 +69,16 @@ public class Footsteps : MonoBehaviour
 				if (lower != null)
 				{
 					if (Footsteps.FootStepMap == null) {
-						Dictionary<string, int> strs = new Dictionary<string, int>(8)
-						{
-							{ "cloth (instance)", 0 },
-							{ "concrete (instance)", 1 },
-							{ "iron (instance)", 2 },
-							{ "metal (instance)", 3 },
-							{ "rock (instance)", 4 },
-							{ "tile (instance)", 5 },
-							{ "wood (instance)", 6 },
-							{ "ground (instance)", 7 }
-						};
-						Footsteps.FootStepMap = strs;
+						Dictionary<string, int> footStepMap = new Dictionary<string, int>();
+						footStepMap.Add("cloth (instance)", 0 );
+						footStepMap.Add("concrete (instance)", 1 );
+						                footStepMap.Add("iron (instance)", 2 );
+						                footStepMap.Add("metal (instance)", 3 );
+						                footStepMap.Add("rock (instance)", 4 );
+						                footStepMap.Add("tile (instance)", 5 );
+						                footStepMap.Add("wood (instance)", 6 );
+						                footStepMap.Add("ground (instance)", 7 );
+						Footsteps.FootStepMap = footStepMap;
 					}
 					
 					if (Footsteps.FootStepMap.TryGetValue(lower, out num)) {

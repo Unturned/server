@@ -14,14 +14,7 @@ public class SleekButton : SleekLabel
 		base.update();
 		GUI.skin.label.fontSize = this.fontSize;
 		GUI.skin.label.alignment = this.alignment;
-		if (MenuKeys.binding != -1)
-		{
-			SleekRender.box(new Rect((float)base.getPosition_x(), (float)base.getPosition_y(), (float)base.getSize_x(), (float)base.getSize_y()), this.text, this.tooltip, this.color, this.paint);
-		}
-		else if (SleekRender.button(new Rect((float)base.getPosition_x(), (float)base.getPosition_y(), (float)base.getSize_x(), (float)base.getSize_y()), this.text, this.tooltip, this.color, this.paint))
-		{
-			this.used();
-		}
+		SleekRender.box(new Rect((float)base.getPosition_x(), (float)base.getPosition_y(), (float)base.getSize_x(), (float)base.getSize_y()), this.text, this.tooltip, this.color, this.paint);
 		base.drawChildren();
 	}
 

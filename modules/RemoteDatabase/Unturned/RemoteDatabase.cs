@@ -13,17 +13,19 @@ using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Xml;
 using System.Xml.Serialization;
 using System.Collections.Generic;
+using System.Collections;
+
+using UnityEngine;
+
 using Unturned;
 
 namespace Unturned
 {
     public class RemoteDatabase : IDataHolder
     {
-        private readonly string m_userAgent = "Unturned";
-        private readonly string m_xmlContentType = "application/xml";
-
         private String m_banUrl;
         private String m_host;
         private string m_creditUrl;
@@ -47,20 +49,26 @@ namespace Unturned
 
         public int GetCredits(string steamId)
         {
-            TextReader reader = RestClient.GetRequest(m_host + m_creditUrl + "/" + steamId);
-            XmlSerializer serializer = new XmlSerializer(typeof(CreditMessage));
-            CreditMessage msg = serializer.Deserialize(reader) as CreditMessage;
+            CreditMessage msg = null;
+
+            RestClient.GetRequest(m_host + m_creditUrl + "/" + steamId, new RestClient.ResponseProcessDelegate(delegate(Stream stream){
+                XmlSerializer serializer = new XmlSerializer(typeof(CreditMessage));
+                msg = serializer.Deserialize(new StreamReader(stream)) as CreditMessage;
+            }));
+
             return msg.Balance;
         }
 
         public void SaveCredits(string steamId, int count)
         {
-            RestClient.PostRequest(m_host + m_creditUrl, new CreditMessage(steamId, count));
+            StreamReader reader = RestClient.PostRequest(m_host + m_creditUrl, new CreditMessage(steamId, count));
+            reader.Close();
         }
 
         public void AddBan(IBanEntry banEntry)
         {
-            RestClient.PostRequest(m_host + m_banUrl, banEntry);
+            StreamReader reader = RestClient.PostRequest(m_host + m_banUrl, banEntry);
+            reader.Close();
         }
 
         public void RemoveBan()
@@ -75,41 +83,15 @@ namespace Unturned
 
         public Dictionary<string, IBanEntry> LoadBans()
         {
-            HttpRequest request = new HttpRequest(m_host + m_banUrl);
+			Dictionary<string, IBanEntry> bans = new Dictionary<string, IBanEntry>();
 
-            request.UserAgent = m_userAgent;
-            request.ContentType = m_xmlContentType;
-            request.Method = WebRequestMethods.Http.Get;
-            //request.Credentials = CredentialCache.DefaultCredentials;
+			BanService service = new BanService();
+			foreach (steamBan ban in service.GetBans())
+			{
+				bans.Add(ban.SteamID, new BanEntry(ban.Name, ban.SteamID, ban.Reason, ban.BannedBy, ban.BanTime));
+			}
 
-            request.SetHeader("Connection", "close");
-
-            Console.WriteLine("Initializing ban list request");
-
-            // Initializing result
-            Dictionary<string, IBanEntry> bans = new Dictionary<string, IBanEntry>();
-
-            // Get the response.
-            try
-            {
-                TextReader responseStream = request.DoGet();
-
-                XmlSerializer ser = new XmlSerializer(typeof(BanList));
-                BanList banList = ser.Deserialize(responseStream) as BanList;
-                Console.WriteLine("Retreived {0} ban entries!", banList.bans.Count);
-
-                foreach (IBanEntry entry in banList.bans) 
-                {
-                    bans.Add(entry.SteamID, entry);
-                }
-
-                return bans;
-            }
-            catch (WebException e)
-            {
-                Console.WriteLine("Something went wrong while loading ban table: " + e.Message);
-                return null;
-            }
+			return bans;
         }
     }
 }

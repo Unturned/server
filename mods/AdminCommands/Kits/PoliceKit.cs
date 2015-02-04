@@ -35,45 +35,34 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
-using System.Xml;
-using System.Xml.Serialization;
-
-namespace Unturned
+namespace AdminCommands.Kits
 {
-    [Serializable]
-    [XmlRoot("credit")]
-    public class CreditMessage
+    public class PoliceKit : SpawnKit
     {
-		string steamID;
-        [XmlAttribute ("SteamID")]
-		public string SteamID {
-			get {
-				return steamID;
-			}
-			set {
-				steamID = value;
-			}
-		}
-
-		int balance;
-        [XmlAttribute ("Balance")]
-		public int Balance {
-			get {
-				return balance;
-			}
-			set {
-				balance = value;
-			}
-		}
-
-        public CreditMessage()
+        public PoliceKit()
         {
-        }
-
-        public CreditMessage(String steamId, int balance)
-        {
-            this.SteamID = steamId;
-            this.Balance = balance;
+            Name = "police";
+            Cost = 0;
+            Permission = 8;
+            Items = new int[] {
+                17, // Millitary NVG
+                5, // Police cap
+                4002, // Police top
+                5002, // Police legs
+                3003, // Police armor
+                2005, // Alicepack (Black backpack)
+                // Weapons
+                7005, // Novuh (Shotgun)
+                // Buckshot
+                25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 25000, 
+                7000, // Swiff
+                10001, // Nato drum
+                18014,  // Millitary ammo
+                18014,  18014,  18014,  18014,  18014,  18014, 18014,
+                9009, // 20x scope
+                11003, // Tactical light
+                12000, // Suppressor
+            };
         }
     }
 }

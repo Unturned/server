@@ -18,7 +18,6 @@ public interface IDataHolder
 
     void AddBan(IBanEntry banEntry);
     void RemoveBan();
-    List<IBanEntry> loadBans();
 
     int GetCredits(String steamId);
     void SaveCredits(String steamId, int count);

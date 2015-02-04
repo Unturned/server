@@ -35,45 +35,30 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
-using System.Xml;
-using System.Xml.Serialization;
+using CommandHandler;
 
-namespace Unturned
+namespace AdminCommands.Kits
 {
-    [Serializable]
-    [XmlRoot("credit")]
-    public class CreditMessage
+    public class NinjaKit : SpawnKit
     {
-		string steamID;
-        [XmlAttribute ("SteamID")]
-		public string SteamID {
-			get {
-				return steamID;
-			}
-			set {
-				steamID = value;
-			}
-		}
-
-		int balance;
-        [XmlAttribute ("Balance")]
-		public int Balance {
-			get {
-				return balance;
-			}
-			set {
-				balance = value;
-			}
-		}
-
-        public CreditMessage()
+        public NinjaKit()
         {
+            Name = "Ninja";
+            Cost = 0;
+            Permission = 0;
+            /*Items = new int[] {
+                4018, // Top
+                5018, // Bottom
+                12 // Hood
+            };*/
         }
 
-        public CreditMessage(String steamId, int balance)
+        public override void Additional(BetterNetworkUser bnu)
         {
-            this.SteamID = steamId;
-            this.Balance = balance;
+            Clothes clothes = bnu.player.GetComponent<Clothes>();
+            clothes.changeHat(12);
+            clothes.changeShirt(4018);
+            clothes.changePants(5018);
         }
     }
 }

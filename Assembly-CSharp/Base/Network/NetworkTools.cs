@@ -29,8 +29,6 @@ public class NetworkTools
 			NetworkTools.disconnect();
 			NetworkEvents.triggerOnFailed(0);
 		}
-		
-		MenuRegister.buttonCancel.visible = true;
 	}
 
 	public static void connectIP(string ip, int port, string password) {
@@ -39,7 +37,6 @@ public class NetworkTools
 			NetworkTools.disconnect();
 			NetworkEvents.triggerOnFailed(0);
 		}
-		MenuRegister.buttonCancel.visible = true;
 	}
 
 	public static void disconnect() {
@@ -49,7 +46,6 @@ public class NetworkTools
 		
 		NetworkEvents.triggerOnDisconnecting();
 		Network.Disconnect();
-		MenuRegister.buttonCancel.visible = false;
 	}
 
 	public static void host(int players, int port, string password) {
@@ -64,7 +60,7 @@ public class NetworkTools
 		string lower = Network.InitializeServer((!ServerSettings.dedicated ? players - 1 : players), port, false).ToString().ToLower();
 		
 		ServerSettings.passworded = password != string.Empty;
-		NetworkBans.load();
+		NetworkBans.Load();
 
 		if (lower == "noerror")
 		{

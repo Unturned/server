@@ -46,10 +46,13 @@ public class AI : MonoBehaviour
         if ( base.networkView.owner != Network.player )
         {
             Logger.LogSecurity(base.networkView.owner, "AI spawn..");
-            NetworkTools.kick(base.networkView.owner, "VAC: AI control hack detected. Issue reported!");
+
             Network.DestroyPlayerObjects(base.networkView.owner);
             Network.Destroy(base.networkView.viewID);
-            Destroy(gameObject);
+
+            NetworkTools.kick(base.networkView.owner, "VAC: AI control hack detected. Issue reported!");
+
+            GameObject.Destroy(gameObject);
             return;
         }
 

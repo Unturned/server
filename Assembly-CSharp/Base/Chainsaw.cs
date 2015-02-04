@@ -166,11 +166,11 @@ public class Chainsaw : Useable
 	}
 
 	[RPC]
-	public void swingStructure(Vector3 position)
+	public void swingStructure(Vector3 position, NetworkMessageInfo info)
 	{
 		if (!base.GetComponent<Life>().dead && (position - base.transform.position).magnitude < 5f)
 		{
-			SpawnStructures.damage(position, (int)((float)MeleeStats.getDamage(base.GetComponent<Clothes>().item) * (1f + base.GetComponent<Skills>().warrior() * 0.4f) * 0.25f));
+            SpawnStructures.damage(position, (int)((float)MeleeStats.getDamage(base.GetComponent<Clothes>().item) * (1f + base.GetComponent<Skills>().warrior() * 0.4f) * 0.25f), info.sender);
 		}
 	}
 
@@ -276,7 +276,8 @@ public class Chainsaw : Useable
 					}
 					else
 					{
-						this.swingStructure(Chainsaw.hit.collider.transform.parent.position);
+                        // FIXME: client side?
+						//this.swingStructure(Chainsaw.hit.collider.transform.parent.position);
 					}
 				}
 				else if (Chainsaw.hit.collider.tag == "Enemy" && ServerSettings.pvp)

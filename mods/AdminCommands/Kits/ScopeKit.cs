@@ -37,18 +37,14 @@
 using System;
 namespace AdminCommands.Kits
 {
-    public class NinjaKit : SpawnKit
+    public class ScopeKit : SpawnKit
     {
-        public NinjaKit()
+        public ScopeKit()
         {
-            Name = "Ninja";
-            Cost = 0;
-            permission = 0;
-            items = new int[] {
-                4018, // Top
-                5018, // Bottom
-                12, // Hood
-                8015 // Katana
+            Name = "12x";
+            Cost = 12;
+            Items = new int[] {
+                9002
             };
         }
     }

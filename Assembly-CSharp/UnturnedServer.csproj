@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{D48B790F-7AF2-4019-812D-0AF1A5140725}</ProjectGuid>
-    <SchemaVersion>2.0</SchemaVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <OutputType>Library</OutputType>
-    <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AssemblyCSharp</RootNamespace>
     <ReleaseVersion>1.0</ReleaseVersion>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\bin\Debug\</OutputPath>
+    <OutputPath>..\bin\Debug\Unturned_Data\Managed</OutputPath>
     <DebugSymbols>True</DebugSymbols>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <Optimize>False</Optimize>
@@ -22,7 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>..\bin\Release\</OutputPath>
+    <OutputPath>..\bin\Release\Unturned_Data\Managed</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>True</Optimize>
     <WarningLevel>4</WarningLevel>
@@ -86,7 +86,6 @@
     <Compile Include="Base\Fertilizer.cs" />
     <Compile Include="Base\Flare.cs" />
     <Compile Include="Base\Flashlight.cs" />
-    <Compile Include="Base\Footsteps.cs" />
     <Compile Include="Base\GameSettings.cs" />
     <Compile Include="Base\Generator.cs" />
     <Compile Include="Base\Gore.cs" />
@@ -127,18 +126,6 @@
     <Compile Include="Base\MD5.cs" />
     <Compile Include="Base\Medicine.cs" />
     <Compile Include="Base\Melee.cs" />
-    <Compile Include="Base\MenuCharacter.cs" />
-    <Compile Include="Base\MenuConfigure.cs" />
-    <Compile Include="Base\MenuConnect.cs" />
-    <Compile Include="Base\MenuGraphics.cs" />
-    <Compile Include="Base\MenuHost.cs" />
-    <Compile Include="Base\MenuKeys.cs" />
-    <Compile Include="Base\MenuPlay.cs" />
-    <Compile Include="Base\MenuRegister.cs" />
-    <Compile Include="Base\MenuServers.cs" />
-    <Compile Include="Base\MenuSettings.cs" />
-    <Compile Include="Base\MenuSingleplayer.cs" />
-    <Compile Include="Base\MenuTitle.cs" />
     <Compile Include="Base\Movement.cs" />
     <Compile Include="Base\Note.cs" />
     <Compile Include="Base\Ocean.cs" />
@@ -253,31 +240,18 @@
     <Compile Include="CommandHandler\CommandHandlerMain.cs" />
     <Compile Include="CommandHandler\CommandList.cs" />
     <Compile Include="CommandHandler\UserList.cs" />
+    <Compile Include="HookManager\HookEnventManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="ModLoader\" />
-    <Folder Include="Base\" />
-    <Folder Include="Base.VoiceChat\" />
     <Folder Include="GridManager\" />
-    <Folder Include="Base\Npc\" />
-    <Folder Include="Base\Base\" />
-    <Folder Include="Base.Spawns\" />
-    <Folder Include="UI\" />
-    <Folder Include="Steam\" />
-    <Folder Include="Base.Stats\" />
-    <Folder Include="CommandHandler\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
       <HintPath>..\libs\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="System.Core">
-      <HintPath>..\libs\System.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System">
-      <HintPath>..\libs\System.dll</HintPath>
-    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UnturnedShared\UnturnedShared.csproj">
@@ -290,9 +264,14 @@
       <Name>RemoteDatabase</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\modules\FileDatabase\FileDatabase.csproj">
-      <Project>{7D1DCF27-0306-4BC0-8E1F-98029C417367}</Project>
-      <Name>FileDatabase</Name>
-    </ProjectReference>
   </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <DotNetNamingPolicy DirectoryNamespaceAssociation="Flat" ResourceNamePolicy="FileFormatDefault" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>

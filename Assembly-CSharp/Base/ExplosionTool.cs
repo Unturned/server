@@ -48,7 +48,8 @@ public class ExplosionTool : MonoBehaviour
 				{
 					if (ServerSettings.pvp)
 					{
-						SpawnStructures.damage(colliderArray[i].transform.parent.position, damage);
+                        // FIXME: explosion to structures?
+						//SpawnStructures.damage(colliderArray[i].transform.parent.position, damage);
 					}
 				}
 				else if (colliderArray[i].tag == "Vehicle" && ServerSettings.pvp)

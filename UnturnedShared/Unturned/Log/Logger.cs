@@ -11,6 +11,7 @@ public class Logger {
         CreateFile(@"Unturned_Data/Database.txt");
         CreateFile(@"Unturned_Data/Bans.txt");
         CreateFile(@"Unturned_Data/Incident.txt");
+        CreateFile(@"Unturned_Data/Instantiate.log");
     }
 
     private static void CreateFile(String path)
@@ -78,6 +79,13 @@ public class Logger {
         }
 
         file.Flush();
+        file.Close();
+    }
+
+    public static void Instantiate(String logString) 
+    {
+        StreamWriter file = new StreamWriter(@"Unturned_Data/Insatntiate.txt", true);
+        file.WriteLine("{0:" + DATE_PATTERN + "} {1}", System.DateTime.Now, logString);
         file.Close();
     }
 }

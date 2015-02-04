@@ -14,10 +14,9 @@ public class Painter : MonoBehaviour
 	public void paint(Color setColor)
 	{
 		this.color = setColor;
-		Texture2D texture2D = new Texture2D(32, 32, TextureFormat.RGBA32, true, true)
-		{
-			filterMode = FilterMode.Point
-		};
+		Texture2D texture2D = new Texture2D(32, 32, TextureFormat.RGBA32, true, true);
+		texture2D.filterMode = FilterMode.Point;
+		
 		for (int i = 0; i < 32; i++)
 		{
 			for (int j = 0; j < 32; j++)

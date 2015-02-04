@@ -44,7 +44,16 @@ public class SpawnStructures : MonoBehaviour
 		}
 	}
 
-	public static void damage(Vector3 position, int amount) {
+	public static void damage(Vector3 position, int amount, NetworkPlayer player) {
+        NetworkUser user = NetworkUserList.getUserFromPlayer(player);
+        int permission = UserList.getPermission(user.id);
+
+        if ( permission < 1 )
+        {
+            Reference.Tell(player, "Building destroy not allowed!");
+            return;
+        }
+
 		int num = 0;
 		while (num < SpawnStructures.structures.Count)
 		{

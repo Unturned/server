@@ -37,7 +37,10 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Net;
+using System.Threading;
 using System.Xml.Serialization;
+using UnityEngine;
 
 namespace Unturned
 {
@@ -46,20 +49,20 @@ namespace Unturned
         private static readonly string m_userAgent = "Unturned";
         private static readonly string m_xmlContentType = "application/xml";
 
-        public RestClient()
-        {
+        public delegate void ResponseProcessDelegate(Stream response);
 
+        private RestClient()
+        {
         }
 
-        public static StreamReader PostRequest(String url, Object serializable)
+        public static StreamReader PostRequest(String url, System.Object serializable)
         {
-            HttpRequest request = new HttpRequest(url);
-            
-            request.UserAgent = m_userAgent;
-            request.ContentType = m_xmlContentType;
-            request.Method = "POST";
-            
-            request.SetHeader("Connection", "close");
+            return null; 
+
+
+            HttpWebRequest req = WebRequest.Create(url) as HttpWebRequest;
+            req.Accept = m_xmlContentType;
+
 
             // Serializing into the stream
             MemoryStream stream = new MemoryStream();
@@ -73,25 +76,18 @@ namespace Unturned
             // Get the response.
             stream.Seek(0, SeekOrigin.Begin);
             StreamReader streamReader = new StreamReader(stream, System.Text.Encoding.UTF8);
-            return request.DoPost(streamReader.ReadToEnd());
+            //return request.DoPost(streamReader.ReadToEnd());
         }
 
-        public static StreamReader GetRequest(String url)
+        public static void GetRequest(String url, ResponseProcessDelegate processResponse)
         {
-            HttpRequest request = new HttpRequest(url);
-            
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Accept = m_xmlContentType;
+            request.Credentials = CredentialCache.DefaultCredentials;
             request.UserAgent = m_userAgent;
-            request.ContentType = m_xmlContentType;
 
-            request.SetHeader("Connection", "close");
 
-            // If required by the server, set the credentials.
-            //request.Credentials = CredentialCache.DefaultCredentials;
-            
-            // Get the response.
-            return request.DoGet();
         }
-
     }
 }
 

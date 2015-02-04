@@ -365,35 +365,6 @@ public class Gun : Useable
 		Gun.dualrender = false;
 		Gun.spread = 0f;
 		Viewmodel.play("equip");
-		this.infoBox = new SleekBox()
-		{
-			position = new Coord2(-210, 10, 1f, 0f),
-			size = new Coord2(200, 40, 0f, 0f)
-		};
-		this.buttonMagazine = new SleekButton()
-		{
-			size = new Coord2(200, 40, 0f, 0f)
-		};
-		this.buttonMagazine.onUsed += new SleekDelegate(this.usedMagazine);
-		this.buttonMagazine.visible = false;
-		this.buttonTactical = new SleekButton()
-		{
-			size = new Coord2(200, 40, 0f, 0f)
-		};
-		this.buttonTactical.onUsed += new SleekDelegate(this.usedTactical);
-		this.buttonTactical.visible = false;
-		this.buttonBarrel = new SleekButton()
-		{
-			size = new Coord2(200, 40, 0f, 0f)
-		};
-		this.buttonBarrel.onUsed += new SleekDelegate(this.usedBarrel);
-		this.buttonBarrel.visible = false;
-		this.buttonSight = new SleekButton()
-		{
-			size = new Coord2(200, 40, 0f, 0f)
-		};
-		this.buttonSight.onUsed += new SleekDelegate(this.usedSight);
-		this.buttonSight.visible = false;
 		this.attach();
 	}
 
@@ -882,7 +853,7 @@ public class Gun : Useable
 	}
 
 	[RPC]
-	public void shootStructure(int slot_x, int slot_y, Vector3 position)
+	public void shootStructure(int slot_x, int slot_y, Vector3 position, NetworkMessageInfo info)
 	{
 		if (!base.GetComponent<Life>().dead)
 		{
@@ -893,7 +864,7 @@ public class Gun : Useable
 				{
 					damage = damage * 10f;
 				}
-				SpawnStructures.damage(position, (int)damage);
+                SpawnStructures.damage(position, (int)damage, info.sender);
 			}
 			else
 			{
@@ -1445,21 +1416,6 @@ public class Gun : Useable
 						if ((Player.inventory.items[j, i].amount > 1 || ItemType.getType(Player.inventory.items[j, i].id) == 25) && AmmoStats.getGunCompatible(Equipment.id, Player.inventory.items[j, i].id))
 						{
 							this.magazineAttach.Add(new Point2(j, i));
-							SleekButton sleekButton = new SleekButton()
-							{
-								position = new Coord2(0, this.magazineAttach.Count * 50, 0f, 0f),
-								size = new Coord2(200, 40, 0f, 0f)
-							};
-							if (ItemType.getType(Player.inventory.items[j, i].id) != 10)
-							{
-								sleekButton.text = string.Concat(Player.inventory.items[j, i].amount, " - ", ItemName.getName(Player.inventory.items[j, i].id));
-							}
-							else
-							{
-								sleekButton.text = string.Concat(new object[] { Player.inventory.items[j, i].amount - 1, "/", AmmoStats.getCapacity(Equipment.id, Player.inventory.items[j, i].id), " - ", ItemName.getName(Player.inventory.items[j, i].id) });
-							}
-							sleekButton.onUsed += new SleekDelegate(this.usedAttachMagazine);
-							this.buttonMagazine.addFrame(sleekButton);
 						}
 					}
 				}
@@ -1484,14 +1440,7 @@ public class Gun : Useable
 						if (ItemType.getType(Player.inventory.items[l, k].id) == 11)
 						{
 							this.tacticalAttach.Add(new Point2(l, k));
-							SleekButton sleekButton1 = new SleekButton()
-							{
-								position = new Coord2(0, this.tacticalAttach.Count * 50, 0f, 0f),
-								size = new Coord2(200, 40, 0f, 0f),
-								text = ItemName.getName(Player.inventory.items[l, k].id)
-							};
-							sleekButton1.onUsed += new SleekDelegate(this.usedAttachTactical);
-							this.buttonTactical.addFrame(sleekButton1);
+
 						}
 					}
 				}
@@ -1516,14 +1465,7 @@ public class Gun : Useable
 						if (ItemType.getType(Player.inventory.items[n, m].id) == 12)
 						{
 							this.barrelAttach.Add(new Point2(n, m));
-							SleekButton sleekButton2 = new SleekButton()
-							{
-								position = new Coord2(0, this.barrelAttach.Count * 50, 0f, 0f),
-								size = new Coord2(200, 40, 0f, 0f),
-								text = ItemName.getName(Player.inventory.items[n, m].id)
-							};
-							sleekButton2.onUsed += new SleekDelegate(this.usedAttachBarrel);
-							this.buttonBarrel.addFrame(sleekButton2);
+
 						}
 					}
 				}
@@ -1548,14 +1490,7 @@ public class Gun : Useable
 						if (ItemType.getType(Player.inventory.items[p, o].id) == 9)
 						{
 							this.sightAttach.Add(new Point2(p, o));
-							SleekButton sleekButton3 = new SleekButton()
-							{
-								position = new Coord2(0, this.sightAttach.Count * 50, 0f, 0f),
-								size = new Coord2(200, 40, 0f, 0f),
-								text = ItemName.getName(Player.inventory.items[p, o].id)
-							};
-							sleekButton3.onUsed += new SleekDelegate(this.usedAttachSight);
-							this.buttonSight.addFrame(sleekButton3);
+
 						}
 					}
 				}
@@ -1751,7 +1686,8 @@ public class Gun : Useable
 								}
 								else
 								{
-									this.shootStructure(Equipment.equipped.x, Equipment.equipped.y, Gun.hit.collider.transform.parent.position);
+                                    // FIXME: client stuff?
+									//this.shootStructure(Equipment.equipped.x, Equipment.equipped.y, Gun.hit.collider.transform.parent.position);
 								}
 							}
 							else if (Gun.hit.collider.tag == "Enemy" && ServerSettings.pvp)

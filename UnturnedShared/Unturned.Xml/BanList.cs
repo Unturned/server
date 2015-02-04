@@ -35,12 +35,23 @@ namespace Unturned
     [XmlRoot("collection")]
     public class BanList
     {
+		private List<BanEntry> bansField;
+
         public BanList()
         {
         }
 
         [XmlElement("ban")]
-        public List<BanEntry> bans { get; set; }
+        public List<BanEntry> bans { 
+			get
+			{
+				return this.bansField;
+			}
+			set
+			{
+				this.bansField = value;
+			}
+		}
     }
 }
 

@@ -3,20 +3,20 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7D1DCF27-0306-4BC0-8E1F-98029C417367}</ProjectGuid>
+    <ProjectGuid>{CBA3BDEC-9170-4875-9B46-655F774E80EF}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>FileDatabase</RootNamespace>
-    <AssemblyName>FileDatabase</AssemblyName>
-    <ReleaseVersion>1.0</ReleaseVersion>
+    <RootNamespace>RemoteConsole</RootNamespace>
+    <AssemblyName>RemoteConsole</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <ReleaseVersion>1.0</ReleaseVersion>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\..\bin\Debug\Unturned_Data\Managed</OutputPath>
+    <OutputPath>..\..\bin\Debug\Unturned_Data\Managed\mods\Server mods\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,26 +25,22 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>..\..\bin\Release\Unturned_Data\Managed</OutputPath>
+    <OutputPath>..\..\bin\Release\Unturned_Data\Managed\mods\Server mods\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\libs\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Unturned\FileDatabase.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="RemoteConsole.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Unturned\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\UnturnedShared\UnturnedShared.csproj">
-      <Project>{CF2E2B66-951F-4239-8FE5-EE9E6BBA816D}</Project>
-      <Name>UnturnedShared</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

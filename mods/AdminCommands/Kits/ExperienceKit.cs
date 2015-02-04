@@ -35,28 +35,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
+using CommandHandler;
+
 namespace AdminCommands.Kits
 {
-    public class ShotgunKit : SpawnKit
+    public class ExperienceKit : SpawnKit
     {
-        public ShotgunKit()
+        public ExperienceKit()
         {
-            Name = "shotgun";
+            Name = "xp";
             Cost = 10;
-            permission = 0;
-            items = new int[] {
-                7005, // Novuh (Shotgun)
-                // Buckshot
-                25000, 
-                25000, 
-                25000, 
-                25000, 
-                25000, 
-                25000, 
-                25000,
-                25000, 
-                25000,
-            };
+            Permission = 0;
+        }
+
+        public override void Additional(BetterNetworkUser user) 
+        {
+            Reference.Tell(user.networkPlayer, "Added 100 experience to you.");
+            user.player.GetComponent<Skills> ().learn (100);
         }
     }
 }

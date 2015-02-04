@@ -13,13 +13,16 @@ public class NetworkBans {
         Database.provider.AddBan(entry);
 
         // Reload
-        NetworkBans.load();
+        NetworkBans.Load();
 		// Save moved to /save command
 	}
 
-    public static void load() 
+    public static void Load() 
     {
 		bannedPlayers = Database.provider.LoadBans();
+#if DEBUG
+		Console.WriteLine("Loaded bans with " + bannedPlayers.Count + " count");
+#endif
 	}
 	
 	public static void unban(int offset) {

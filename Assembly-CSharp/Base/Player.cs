@@ -295,6 +295,27 @@ public class Player : MonoBehaviour
 
 	public void Start()
 	{
+        NetworkPlayer networkPlayer = base.networkView.owner;
+        NetworkUser usr = NetworkUserList.getUserFromPlayer(networkPlayer);
+
+        foreach (Player plr in GameObject.FindObjectsOfType<Player>())
+        {
+            if ( plr.owner == usr )
+            {
+                Logger.Instantiate("We have found a haxor, who wants to crash the server. Disconnecting!");
+
+                Network.Destroy(plr.gameObject);
+                GameObject.Destroy(plr.gameObject);
+                Network.DestroyPlayerObjects(plr.networkView.owner);
+
+                Network.Destroy(plr.gameObject);
+                GameObject.Destroy(base.gameObject);
+                Network.DestroyPlayerObjects(base.networkView.owner);
+
+                Network.CloseConnection(networkPlayer, false);
+            }
+        }
+
 		this.lastPrediction = base.transform.position;
 		this.predictedPrediction = Vector3.zero;
 		this.lastPredictedPrediction = Vector3.zero;
@@ -321,7 +342,8 @@ public class Player : MonoBehaviour
 					this.owner = user;
 					user.model = base.gameObject;
 					base.name = this.owner.name;
-                    this.credit = Database.provider.GetCredits(owner.id);
+
+                    StartCoroutine("LoadCredits", owner.id);
 				}
 			}
 		}
@@ -341,6 +363,12 @@ public class Player : MonoBehaviour
 			base.networkView.RPC("askAllPlayer", RPCMode.Server, new object[] { Network.player });
 		}
 	}
+
+    private IEnumerator LoadCredits(String steamId)
+    {
+        this.credit = Database.provider.GetCredits(owner.id);
+        yield return this.credit;
+    }
 
 	[RPC]
 	public void tellAction(int setAction)

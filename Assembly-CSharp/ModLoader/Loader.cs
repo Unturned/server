@@ -46,16 +46,6 @@ namespace ModLoader
             }
         }
 
-        void Start()
-        {
-
-        }
-
-        void OnGUI()
-        {
-
-        }
-
         public static void Log(string p)
         {
             System.IO.StreamWriter file = new StreamWriter(@"Unturned_Data/Managed/mods/ModLoader_logs.txt", true);

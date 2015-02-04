@@ -107,9 +107,16 @@ public class NetworkManager : MonoBehaviour {
         RemovedFunctions.hook(base.gameObject);
 
         // Enabling networking
+        StartCoroutine("EnableConnections");
+	}
+
+    private IEnumerator EnableConnections()
+    {
+        yield return new WaitForSeconds(10);
         Network.SetSendingEnabled(0, true);
         Network.isMessageQueueRunning = true;
-	}
+        Logger.LogConnection("Server is starting accepting connections");
+    }
 
 	public void OnPlayerConnected(NetworkPlayer player) {
 		NetworkEvents.triggerOnPlayerConnected(player);

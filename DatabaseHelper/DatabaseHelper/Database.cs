@@ -9,21 +9,12 @@
 //------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-//using MySql.Data.MySqlClient;
 using Unturned;
-
 
 namespace MysqlDatabase
 {
 	public class Database : IDataHolder
 	{
-        #region IDataHolder implementation
-
-        public void Init()
-        {
-            throw new NotImplementedException();
-        }
-
         public void AddBan(IBanEntry banEntry)
         {
             throw new NotImplementedException();
@@ -34,23 +25,10 @@ namespace MysqlDatabase
             throw new NotImplementedException();
         }
 
-        public List<IBanEntry> loadBans()
-        {
-            throw new NotImplementedException();
-        }
-
         public void AddStructure(string structureStr)
         {
             throw new NotImplementedException();
         }
-
-        public Dictionary<string, IBanEntry> LoadBans()
-        {
-            throw new NotImplementedException();
-        }
-
-
-        #region IDataHolder implementation
 
         public int GetCredits(string steamId)
         {
@@ -62,12 +40,8 @@ namespace MysqlDatabase
             throw new NotImplementedException();
         }
 
-        #endregion
-        #endregion
 
-
-
-        /*private string connectionString = "server=localhost;userid=root;password=;database=unturned";
+        private string connectionString = "server=localhost;userid=root;password=;database=unturned";
 		private MySqlConnection m_Connection;
 
         public void Init()
@@ -87,7 +61,7 @@ namespace MysqlDatabase
         
 
 
-        public void SaveBans(Dictionary<String, Unturned.INetworkBanned> bans)
+        public void SaveBans(Dictionary<String, Unturned.IBanEntry> bans)
         {
             MySqlTransaction transaction = m_Connection.BeginTransaction();
             MySqlCommand cmd = new MySqlCommand(
@@ -102,9 +76,9 @@ namespace MysqlDatabase
                 m_Connection, transaction);
             cmd.Prepare();
 
-            foreach(KeyValuePair<String, INetworkBanned> entry in bans) 
+            foreach(KeyValuePair<String, IBanEntry> entry in bans) 
             {
-                Unturned.INetworkBanned ban = entry.Value as Unturned.INetworkBanned;
+                IBanEntry ban = entry.Value as Unturned.IBanEntry;
                 cmd.Parameters.AddWithValue("@SteamID", ban.SteamID);
                 cmd.Parameters.AddWithValue("@BanDate", ban.BanTime);
                 cmd.Parameters.AddWithValue("@Nick", ban.Name);
@@ -138,9 +112,9 @@ namespace MysqlDatabase
             transaction.Commit();
         }
         
-        public Dictionary<string, Unturned.INetworkBanned> LoadBans()
+        public Dictionary<string, Unturned.IBanEntry> LoadBans()
         {
-            Dictionary<String, INetworkBanned> banList = new Dictionary<String, INetworkBanned>();
+            Dictionary<String, IBanEntry> banList = new Dictionary<String, IBanEntry>();
             MySqlCommand cmd = new MySqlCommand();
 
             cmd.Connection = m_Connection;
@@ -149,7 +123,7 @@ namespace MysqlDatabase
             MySqlDataReader reader = cmd.ExecuteReader();
 
             while (reader.Read()) {
-                NetworkBanned ban = new NetworkBanned(
+                IBanEntry ban = new BanEntry(
                     reader.GetString(2), // NickName
                     reader.GetString(0), // Steam ID
                     reader.GetString(5), // Reason
@@ -161,7 +135,7 @@ namespace MysqlDatabase
             }
 
             return banList;
-        }*/
+        }
 
 	}
 }

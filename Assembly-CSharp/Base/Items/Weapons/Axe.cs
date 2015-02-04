@@ -179,11 +179,11 @@ public class Axe : Useable
 	}
 
 	[RPC]
-	public void swingStructure(Vector3 position, bool extra)
+	public void swingStructure(Vector3 position, bool extra, NetworkMessageInfo info)
 	{
 		if (!base.GetComponent<Life>().dead && (position - base.transform.position).magnitude < 5f)
 		{
-			SpawnStructures.damage(position, (int)((float)MeleeStats.getDamage(base.GetComponent<Clothes>().item) * (1f + base.GetComponent<Skills>().warrior() * 0.4f) * 0.25f * (!extra ? 1f : 1.5f)));
+            SpawnStructures.damage(position, (int)((float)MeleeStats.getDamage(base.GetComponent<Clothes>().item) * (1f + base.GetComponent<Skills>().warrior() * 0.4f) * 0.25f * (!extra ? 1f : 1.5f)), info.sender);
 		}
 	}
 
@@ -289,7 +289,8 @@ public class Axe : Useable
 						}
 						else
 						{
-							this.swingStructure(Axe.hit.collider.transform.parent.position, this.lastStrong);
+                            // FIXME: client stuff?
+							//this.swingStructure(Axe.hit.collider.transform.parent.position, this.lastStrong);
 						}
 					}
 					else if (Axe.hit.collider.tag == "Enemy" && ServerSettings.pvp)

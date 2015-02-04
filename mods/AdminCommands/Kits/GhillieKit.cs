@@ -35,23 +35,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
-using CommandHandler;
-
-public class CreditCommand
+namespace AdminCommands.Kits
 {
-    public CreditCommand()
+    public class GhillieKit : SpawnKit
     {
-        Command creditCommand = new Command(0, new CommandDelegate(this.ShowCredits), new String[] {
-            "credit",
-            "credits"
-        });
-        creditCommand.description = "Shows actual balance";
-        CommandList.add(creditCommand);
-    }
-
-    private void ShowCredits(CommandArgs args) 
-    {
-        Reference.Tell(args.sender.networkPlayer, String.Format("Your actual balance: {0} credit.", args.sender.player.credit) );
+        public GhillieKit()
+        {
+            Cost = 2;
+            Name = "Ghillie";
+            Items = new int[]{
+                11, // Hood
+                4017, // Top
+                5017, // Bottom
+            };
+        }
     }
 }
 

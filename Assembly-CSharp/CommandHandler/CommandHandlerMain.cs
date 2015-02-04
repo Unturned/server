@@ -10,7 +10,6 @@ namespace CommandHandler
 {
     public class CommandHandlerMain : MonoBehaviour
     {
-        public FieldInfo[] networkChatfields = typeof(NetworkChat).GetFields();
         NetworkChat networkChat = UnityEngine.Object.FindObjectOfType(typeof(NetworkChat)) as NetworkChat;
 
         public static bool usingHiddenChat = false;
@@ -88,7 +87,9 @@ namespace CommandHandler
             command = command.Remove(0, 1);
 
             String[] commandParams = command.Split(new char[]{' '}, StringSplitOptions.RemoveEmptyEntries);
-            List<string> words = commandParams.ToList<string>();
+			List<string> words = new List<string>();
+
+
             string cmdText = words.First();
             words.RemoveAt(0);
             
@@ -105,14 +106,14 @@ namespace CommandHandler
         }
 
         private void checkChatForCommands() {
-            if (getLastMessageText().StartsWith("/"))
+            /*if (getLastMessageText().StartsWith("/"))
             { 
                 BetterNetworkUser sender = UserList.getUserFromName(getLastMessagePlayerName());
                 String commando = getLastMessageText();
                 int type = Convert.ToInt32(getLastMessageType());
 
                 handleCommandText(commando, type, sender); 
-            } 
+            }*/
         }
 
 
@@ -154,35 +155,6 @@ namespace CommandHandler
             file.WriteLine(p);
 
             file.Close();
-        }
-
-        private String getLastMessagePlayerName()
-        {
-            return getNetworkChatFieldByNum(3);
-        }
-
-        private String getLastMessageGroup()
-        {
-            return getNetworkChatFieldByNum(5);
-        }
-
-        private String getLastMessageType()
-        {
-            return getNetworkChatFieldByNum(8);
-        }
-
-        private String getLastMessageText()
-        {
-            return getNetworkChatFieldByNum(6);
-        }
-
-
-        private String getNetworkChatFieldByNum(int num2) {
-            try {
-                return networkChatfields[num2].GetValue(getNetworkChat()).ToString();
-            } catch {
-                return "";
-            }
         }
 
         private NetworkChat getNetworkChat() {         

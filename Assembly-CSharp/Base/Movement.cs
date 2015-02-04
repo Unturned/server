@@ -100,7 +100,8 @@ public class Movement : MonoBehaviour
 
 	public void Update()
 	{
-		RaycastHit raycastHit;
+		Console.WriteLine("Movement Update Disabled!!");
+		/*RaycastHit raycastHit;
 		Movement.input_x = Mathf.Lerp(Movement.input_x, InputSettings.getX(), 8f * Time.deltaTime);
 		Movement.input_y = Mathf.Lerp(Movement.input_y, InputSettings.getY(), 8f * Time.deltaTime);
 		if (InputSettings.getX() == 0f && ((double)Movement.input_x > -0.01 || (double)Movement.input_x < 0.01))
@@ -281,5 +282,6 @@ public class Movement : MonoBehaviour
 				Movement.vehicle.control();
 			}
 		}
+		*/
 	}
 }

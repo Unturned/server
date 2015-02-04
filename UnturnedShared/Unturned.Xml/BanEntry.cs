@@ -19,22 +19,70 @@ namespace Unturned {
         {
         }
 
-        [XmlAttribute("Name")]
-        public string Name {get; set;}
+		string name;
+        [XmlAttribute ("Name")]
+		public string Name {
+			get {
+				return name;
+			}
+			set {
+				name = value;
+			}
+		}
 
-        [XmlAttribute("SteamID")]
-        public string SteamID {get; set;}
+		string steamID;
+        [XmlAttribute ("SteamID")]
+		public string SteamID {
+			get {
+				return steamID;
+			}
+			set {
+				steamID = value;
+			}
+		}
 
-        [XmlAttribute("Reason")]
-        public string Reason {get; set;}
+		string reason;
+        [XmlAttribute ("Reason")]
+		public string Reason {
+			get {
+				return reason;
+			}
+			set {
+				reason = value;
+			}
+		}
 
-        [XmlAttribute("BannedBy")]
-        public string BannedBy {get; set;}
+		string bannedBy;
+        [XmlAttribute ("BannedBy")]
+		public string BannedBy {
+			get {
+				return bannedBy;
+			}
+			set {
+				bannedBy = value;
+			}
+		}
 
-        [XmlAttribute("BanTime")]
-        public DateTime BanTime {get; set;}
+		DateTime banTime;
+        [XmlAttribute ("BanTime")]
+		public DateTime BanTime {
+			get {
+				return banTime;
+			}
+			set {
+				banTime = value;
+			}
+		}
 
-        [XmlAttribute("Expires")]
-        public int Expires { get; set; }
+		int expires;
+        [XmlAttribute ("Expires")]
+		public int Expires {
+			get {
+				return expires;
+			}
+			set {
+				expires = value;
+			}
+		}
     }
 }

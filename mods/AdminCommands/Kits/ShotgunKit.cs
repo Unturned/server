@@ -35,22 +35,27 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
-
 namespace AdminCommands.Kits
 {
-    public class NatoKit : SpawnKit
+    public class ShotgunKit : SpawnKit
     {
-        public NatoKit()
+        public ShotgunKit()
         {
-            Name = "Nato";
-            Cost = 5;
-            permission = 0;
-            items = new int[] {
-                10001,
-                18004,
-                18004,
-                18004,
-                18004
+            Name = "shotgun";
+            Cost = 10;
+            Permission = 0;
+            Items = new int[] {
+                7005, // Novuh (Shotgun)
+                // Buckshot
+                25000, 
+                25000, 
+                25000, 
+                25000, 
+                25000, 
+                25000, 
+                25000,
+                25000, 
+                25000,
             };
         }
     }

@@ -35,45 +35,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
-using System.Xml;
-using System.Xml.Serialization;
 
-namespace Unturned
+namespace AdminCommands.Kits
 {
-    [Serializable]
-    [XmlRoot("credit")]
-    public class CreditMessage
+    public class MapleKit : SpawnKit
     {
-		string steamID;
-        [XmlAttribute ("SteamID")]
-		public string SteamID {
-			get {
-				return steamID;
-			}
-			set {
-				steamID = value;
-			}
-		}
-
-		int balance;
-        [XmlAttribute ("Balance")]
-		public int Balance {
-			get {
-				return balance;
-			}
-			set {
-				balance = value;
-			}
-		}
-
-        public CreditMessage()
+        public MapleKit()
         {
-        }
-
-        public CreditMessage(String steamId, int balance)
-        {
-            this.SteamID = steamId;
-            this.Balance = balance;
+            Name = "mple";
+            Cost = 15;
+            Items = new int[] {
+                7008
+            };
         }
     }
 }

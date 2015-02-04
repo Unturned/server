@@ -693,50 +693,7 @@ public class Vehicle : Interactable
 				Movement.seat = base.transform.FindChild("seats").FindChild(index.ToString());
 				Movement.isDriving = index == 0;
 				Movement.control.enabled = false;
-				this.speedMeter = new SleekBox()
-				{
-					position = new Coord2(-155, -150, 0.5f, 1f),
-					size = new Coord2(150, 40, 0f, 0f)
-				};
-				this.fuelMeter = new SleekBox()
-				{
-					position = new Coord2(5, -150, 0.5f, 1f),
-					size = new Coord2(150, 40, 0f, 0f)
-				};
-				this.fuelBar = new SleekImage()
-				{
-					position = new Coord2(50, 10, 0f, 0f),
-					size = new Coord2(-60, -20, 1f, 1f)
-				};
-				this.fuelBar.setImage("Textures/Sleek/pixel");
-				this.fuelBar.color = new Color(0.372549027f, 0.274509817f, 0.3529412f);
-				this.fuelMeter.addFrame(this.fuelBar);
-				this.speedLabel = new SleekLabel()
-				{
-					position = new Coord2(50, 10, 0f, 0f),
-					size = new Coord2(-60, -20, 1f, 1f)
-				};
-				this.speedMeter.addFrame(this.speedLabel);
-				this.fuelLabel = new SleekLabel()
-				{
-					position = new Coord2(50, 10, 0f, 0f),
-					size = new Coord2(-60, -20, 1f, 1f)
-				};
-				this.fuelMeter.addFrame(this.fuelLabel);
-				this.speedIcon = new SleekImage()
-				{
-					position = new Coord2(4, 4, 0f, 0f),
-					size = new Coord2(32, 32, 0f, 0f)
-				};
-				this.speedIcon.setImage("Textures/Icons/speedometer");
-				this.speedMeter.addFrame(this.speedIcon);
-				this.fuelIcon = new SleekImage()
-				{
-					position = new Coord2(4, 4, 0f, 0f),
-					size = new Coord2(32, 32, 0f, 0f)
-				};
-				this.fuelIcon.setImage("Textures/Icons/fuel");
-				this.fuelMeter.addFrame(this.fuelIcon);
+
 				if (index == 0)
 				{
 					base.rigidbody.useGravity = true;
@@ -1075,31 +1032,7 @@ public class Vehicle : Interactable
 			{
 				fuel = 1;
 			}
-			audioSource.volume = Mathf.Lerp(single, (float)fuel, 4f * Time.deltaTime);
-			base.audio.pitch = Mathf.Lerp(base.audio.pitch, 0.5f + (float)Mathf.Abs(this.lastSpeed) * 0.08f, 4f * Time.deltaTime);
-			this.spinSpeed = Mathf.Lerp(this.spinSpeed, (float)this.lastSpeed, 4f * Time.deltaTime);
-			Vehicle vehicle = this;
-			vehicle.spin = vehicle.spin + Time.deltaTime * this.spinSpeed * 30f;
-			this.frontLeft.transform.FindChild("wheel").localRotation = Quaternion.Euler(0f, (float)(90 + this.lastTurn), this.spin);
-			this.frontRight.transform.FindChild("wheel").localRotation = Quaternion.Euler(0f, (float)(90 + this.lastTurn), this.spin);
-			this.backLeft.transform.FindChild("wheel").localRotation = Quaternion.Euler(0f, 90f, this.spin);
-			this.backRight.transform.FindChild("wheel").localRotation = Quaternion.Euler(0f, 90f, this.spin);
-			if (this.left0 != null)
-			{
-				this.left0.localRotation = Quaternion.Euler(-90f, 90f, this.spin);
-			}
-			if (this.left1 != null)
-			{
-				this.left1.localRotation = Quaternion.Euler(-90f, 90f, this.spin);
-			}
-			if (this.right0 != null)
-			{
-				this.right0.localRotation = Quaternion.Euler(-90f, 90f, this.spin);
-			}
-			if (this.right1 != null)
-			{
-				this.right1.localRotation = Quaternion.Euler(-90f, 90f, this.spin);
-			}
+
 		}
 	}
 

@@ -385,7 +385,8 @@ public class Zombie : AI
 								if (Time.realtimeSinceStartup - this.lastServerAttack > 0.5f)
 								{
 									this.lastServerAttack = Time.realtimeSinceStartup;
-									SpawnStructures.damage(this.destroy.transform.parent.position, 10);
+                                    // FIXME: zombie can't destroy
+									//SpawnStructures.damage(this.destroy.transform.parent.position, 10);
 									base.networkView.RPC("swing", RPCMode.All, new object[0]);
 									Transform transforms1 = base.transform;
 									Vector3 vector32 = this.destroy.transform.position;
@@ -557,7 +558,8 @@ public class Zombie : AI
 								if (Time.realtimeSinceStartup - this.lastServerAttack > 0.5f)
 								{
 									this.lastServerAttack = Time.realtimeSinceStartup;
-									SpawnStructures.damage(this.destroy.transform.parent.position, 10);
+                                    // FIXME: zombie can't destroy
+									//SpawnStructures.damage(this.destroy.transform.parent.position, 10);
 									base.networkView.RPC("swing", RPCMode.All, new object[0]);
 									Transform transforms4 = base.transform;
 									Vector3 vector38 = this.destroy.transform.position;

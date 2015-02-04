@@ -35,31 +35,30 @@ public class NetworkHandler : MonoBehaviour
 	public void joinNetworkUser(string name, string nickname, string clan, string steamId, int status, NetworkPlayer player) {
 		if ( NetworkBans.isBanned(steamId) ) {
 			Logger.LogBan("Banned player requested join: " + name + " (" + steamId + ")");
-			NetworkTools.kick(player, "You are banned. Contact us via email: paalgyula@gmail.com");
+            NetworkTools.kick(player, "You are banned. Contact us via email: paalgyula@gmail.com\nReason: " + NetworkBans.GetBannedPlayers()[steamId].Reason );
 		}
 		
 		if (player != Network.player || !ServerSettings.dedicated) {
 			Logger.LogConnection(name + " Connected. Clan: " + clan + " ID: " + steamId + " Status: " + status + " IP: " + player.ipAddress);
 			if ( (status == 21) && (name != "Julius Tiger") ) {
                 Logger.LogSecurity(player, "Tried connect with GOLD client");
-                NetworkTools.kick(player, "GOLD accounters disabled becouse of so many goldhackers...\nIf you want to use gold, use our client:\nhttps://github.com/paalgyula/zombieland/releases");
+                NetworkTools.kick(player, "GOLD accounters disabled becouse of so many gold hackers...\nIf you want to use gold, use our client:\nhttps://github.com/paalgyula/zombieland/releases");
 				return;
 			}
 			
-			string str = Savedata.loadReputation(steamId);
-			int num = 0;
-			if (str != string.Empty)
+			string repuString = Savedata.loadReputation(steamId);
+			int reputation = 0;
+			if (repuString != string.Empty)
 			{
-				num = int.Parse(str);
+				reputation = int.Parse(repuString);
 			}
 			
 			status = 0;
 			if ( UserList.getPermission(steamId) > 1 ) {
-				Logger.LogConnection("PROMOTING CONNECTION: " + name + "(" + steamId + ") IP: " + player.ipAddress);
 				status = 21;
 			}
 			
-			base.networkView.RPC("addNetworkUser", RPCMode.All, new object[] { name, nickname, clan, steamId, status, num, player });
+			base.networkView.RPC("addNetworkUser", RPCMode.All, new object[] { name, nickname, clan, steamId, status, reputation, player });
 			//base.StartCoroutine(this.liscence(name, steamId, status, player));
 		}
 	}
@@ -109,32 +108,35 @@ public class NetworkHandler : MonoBehaviour
 		}
 	}
 
-    public IEnumerator savePlayerCredit(NetworkPlayer player)
+    private IEnumerator SavePlayerCredit(NetworkPlayer player)
     {
-        NetworkUser user = NetworkUserList.getUserFromPlayer(player);
-        String steamID = user.id;
-        int credit = user.model.GetComponent<Player>().credit;
+        String steamID = String.Empty;
+        int credit = 0;
+        try 
+        {
+            NetworkUser user = NetworkUserList.getUserFromPlayer(player);
+            steamID = user.id;
+            credit = user.model.GetComponent<Player>().credit;
+            yield return null;
+        }
+        finally
+        {
+            Network.RemoveRPCs(player);
+            Network.DestroyPlayerObjects(player);
+        }
 
-        // Saving credit
-        Database.provider.SaveCredits(steamID, credit);
-        yield return true;
+        if (steamID.Equals(String.Empty))
+        {
+            // Saving credit
+            Database.provider.SaveCredits(steamID, credit);
+            yield return true;
+        }
     }
 
 	public void onPlayerDisconnected(NetworkPlayer player)
 	{
-        StartCoroutine("savePlayerCredit", player);
-
-		Network.RemoveRPCs(player);
-		Network.DestroyPlayerObjects(player);
-		
+        StartCoroutine("SavePlayerCredit", player);
         base.networkView.RPC("removeNetworkUser", RPCMode.All, new object[] { player });
-
-        if ( this.lastSave == null || (this.lastSave.CompareTo(System.DateTime.Now.AddMinutes(-5)) < 0 ) )
-        {
-            //NetworkTools.save();
-            UnityEngine.Debug.Log("Last saving: " + lastSave.ToString());
-            this.lastSave = System.DateTime.Now;
-        }
 	}
 
 	public void onReady() {

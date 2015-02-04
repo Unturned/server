@@ -47,10 +47,7 @@ public class USpeakUtilities
 	{
 		GameObject gameObject = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("USpeakerPrefab"));
 		USpeakOwnerInfo uSpeakOwnerInfo = gameObject.AddComponent<USpeakOwnerInfo>();
-		uSpeakOwnerInfo.Init(new USpeakPlayer()
-		{
-			PlayerID = PlayerID
-		});
+
 	}
 
 	public static void PlayerLeft(string PlayerID)

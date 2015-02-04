@@ -49,7 +49,7 @@ namespace Unturned
         [Test]
         public void testAddBan() 
         {
-            IBanEntry ban = new BanEntry("Julius Tiger", "128937192823", "Test Ban", "213512351235", DateTime.Now);
+            IBanEntry ban = new BanEntry("Julius Tiger", "76561197994222727", "Test Ban", "213512351235", DateTime.Now);
             database.AddBan(ban);
         }
 
@@ -62,7 +62,7 @@ namespace Unturned
         [Test]
         public void testGetCredits() 
         {
-            database.GetCredits("128937192823");
+            Console.WriteLine("Credits: " + database.GetCredits("76561197994222727") );
         }
 
         [Test]
