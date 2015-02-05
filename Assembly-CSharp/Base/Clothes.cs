@@ -217,13 +217,13 @@ public class Clothes : MonoBehaviour
 	{
 		if (this.loaded)
 		{
-			string empty = string.Empty;
-			if (!base.GetComponent<Life>().dead)
+			string clothesString = string.Empty;
+			// FIXME: implement SettingsManager
+			if (true || !base.GetComponent<Life>().dead)
 			{
-				string str = empty;
-				empty = string.Concat(new object[] { str, this.shirt, ";", this.pants, ";", this.hat, ";", this.backpack, ";", this.vest, ";" });
+				clothesString = string.Concat(new object[] { clothesString, this.shirt, ";", this.pants, ";", this.hat, ";", this.backpack, ";", this.vest, ";" });
 			}
-			Savedata.saveClothes(base.GetComponent<Player>().owner.id, empty);
+			Savedata.saveClothes(base.GetComponent<Player>().owner.id, clothesString);
 		}
 	}
 
