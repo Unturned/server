@@ -4,18 +4,16 @@ using UnityEngine;
 
 namespace CommandHandler {
 	public class BetterNetworkUser {
-		private static FieldInfo[] fields = typeof(NetworkUser).GetFields();
-		
 		/// <summary>
 		/// Returns the player name
 		/// </summary>
 		public string name {
 			get {
-				return (String)fields [0].GetValue(realUser);
+				return realUser.name;
 			}
 			
 			set {
-				fields [0].SetValue(realUser, value);
+				realUser.name = value;
 			}
 		}
 
@@ -24,10 +22,10 @@ namespace CommandHandler {
 		/// </summary>
 		public string nickname {
 			get {
-				return (String)fields [1].GetValue (realUser);
+				return realUser.nickname;
 			}
 			set {
-				fields[1].SetValue(realUser, value);
+				realUser.nickname = value;
 			}
 		}
 
@@ -35,39 +33,39 @@ namespace CommandHandler {
 		/// Returns the player's group
 		/// </summary>
 		public string friend {
-			get { return (String)fields [2].GetValue (realUser); }
-			set { fields [2].SetValue (realUser, value); }
+			get { return realUser.friend; }
+			set { realUser.friend = value; }
 		}
 
 		/// <summary>
 		/// Returns the player's Steam64ID
 		/// </summary>
 		public string steamid {
-			get { return (String)fields [3].GetValue (realUser); }
-			set { fields [3].SetValue (realUser, value); }
+			get { return realUser.id; }
+			set { realUser.id = value; }
 		}
 
 		/// <summary>
 		/// Returns the player's status
 		/// </summary>
 		public int status {
-			get { return (int)fields [4].GetValue (realUser); }
-			set { fields [4].SetValue (realUser, value); }
+			get { return realUser.status; }
+			set { realUser.status = value; }
 		}
 
 		/// <summary>
 		/// Returns the player's reputation. Between -100 and 100
 		/// </summary>
 		public int reputation {
-			get { return (int)fields [5].GetValue (realUser); }
-			set { fields [5].SetValue (realUser, value);      }
+			get { return realUser.reputation; }
+			set { realUser.reputation = value; }
 		}
 
 		/// <summary>
 		/// Returns the player's  NetworkPlayer 
 		/// </summary>
 		public NetworkPlayer networkPlayer {
-			get { return (NetworkPlayer)fields [6].GetValue (realUser); }
+			get { return realUser.player; }
 		}
 
 		/// <summary>
@@ -117,36 +115,28 @@ namespace CommandHandler {
 		/// </summary>
 		[Obsolete("NetworkUsers models tends to become null sometimes. Use BetterNetworkUser.player.gameObject instead")]
 		public GameObject model {
-			get { return (GameObject)fields [7].GetValue (realUser); }
+			get { return realUser.model; }
 		}
 
 		/// <summary>
 		/// Returns the time at which time the player spawned
 		/// </summary>
 		public float spawned {
-			get { return (float)fields [8].GetValue (realUser); }
+			get { return realUser.spawned; }
 		}
 
 		/// <summary>
 		/// Returns wether the player is muted or not
 		/// </summary>
 		public bool muted {
-			get { return (bool)fields [0].GetValue (realUser); }
-			set { fields [0].SetValue (realUser, value); }
+			get { return realUser.muted; }
+			set { realUser.muted = value; }
 		}
 
-		private NetworkUser _realUser;
 		/// <summary>
 		/// Returns the actual NetworkUser which was used for this object
 		/// </summary>
-		public NetworkUser realUser {
-			get {
-				return _realUser;
-			}
-			private set {
-				_realUser = value;
-			}
-		}
+		public NetworkUser realUser { get; private set; }
 
 		public BetterNetworkUser (NetworkUser user) {
 			realUser = user;

@@ -510,17 +510,16 @@ public class Inventory : MonoBehaviour {
     public void saveAllItems() {
         if (this.loaded) {
             string empty = string.Empty;
-            if (!base.GetComponent<Life>().dead) {
-                string str = empty;
-                empty = string.Concat(new object[] { str, this.width, ";", this.height, ";", this.capacity, ";" });
-                for (int i = 0; i < this.height; i++) {
-                    for (int j = 0; j < this.width; j++) {
-                        str = empty;
-                        empty = string.Concat(new object[] { str, this.items[j, i].id, ":", this.items[j, i].amount, ":", this.items[j, i].state, ":;" });
-                    }
-                }
-            }
-            Savedata.saveInventory(base.GetComponent<Player>().owner.id, empty);
+            
+			string str = empty;
+            empty = string.Concat(new object[] { str, this.width, ";", this.height, ";", this.capacity, ";" });
+            
+			for (int i = 0; i < this.height; i++) {
+            	for (int j = 0; j < this.width; j++) {
+                	str = empty;
+					empty = string.Concat(new object[] { str, this.items[j, i].id, ":", this.items[j, i].amount, ":", this.items[j, i].state, ":;" });
+				}
+			}
         }
     }
 

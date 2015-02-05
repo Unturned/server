@@ -125,9 +125,9 @@ public class NetworkHandler : MonoBehaviour
             Network.DestroyPlayerObjects(player);
         }
 
-        if (steamID.Equals(String.Empty))
+		// Saving credit
+        if (!steamID.Equals(String.Empty))
         {
-            // Saving credit
             Database.provider.SaveCredits(steamID, credit);
             yield return true;
         }
