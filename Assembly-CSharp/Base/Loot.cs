@@ -311,9 +311,8 @@ public class Loot
 		{
 			if (Loot.LootMap == null)
 			{
-				Dictionary<string, int> loot = new Dictionary<string, int>();
-				// TODO: loot!!!
-				/*{
+				Dictionary<string, int> loot = new Dictionary<string, int>()
+				{
 					{ "civilian", 0 },
 					{ "farm", 1 },
 					{ "food", 2 },
@@ -333,7 +332,7 @@ public class Loot
 					{ "pig", 16 },
 					{ "nature", 17 },
 					{ "butcher", 18 }
-				};*/
+				};
 				Loot.LootMap = loot;
 			}
 			
