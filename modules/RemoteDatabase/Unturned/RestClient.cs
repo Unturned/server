@@ -37,7 +37,6 @@
 using System;
 using System.IO;
 using System.Text;
-using System.Net;
 using System.Threading;
 using System.Xml.Serialization;
 using UnityEngine;
@@ -51,18 +50,12 @@ namespace Unturned
 
         public delegate void ResponseProcessDelegate(Stream response);
 
-        private RestClient()
-        {
-        }
-
         public static StreamReader PostRequest(String url, System.Object serializable)
         {
             return null; 
 
-
             HttpWebRequest req = WebRequest.Create(url) as HttpWebRequest;
             req.Accept = m_xmlContentType;
-
 
             // Serializing into the stream
             MemoryStream stream = new MemoryStream();

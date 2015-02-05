@@ -4,48 +4,32 @@ using System.Collections.Generic;
 namespace CommandHandler
 {
 
-    	public delegate void CommandDelegate(CommandArgs args);
-
+	public delegate void CommandDelegate(CommandArgs args);
 
     public class Command
     {
         /// <summary>
         /// Gets or sets a description of this command.
         /// </summary>
-		string description2;
         public string description {
-			get {
-				return description2;
-			}
-			set {
-				description2 = value;
-			}
+			get;
+			set;
 		}
 
         /// <summary>
         /// Gets all the aliases of the command.
         /// </summary>
-		List<string> names;
         public List<string> Names {
-			get {
-				return names;
-			}
-			protected set {
-				names = value;
-			}
+			get;
+			protected set;
 		}
 
         /// <summary>
         /// Gets the permission level requirement of the command.
         /// </summary>
-		int permission2;
         public int permission {
-			get {
-				return permission2;
-			}
-			protected set {
-				permission2 = value;
-			}
+			get;
+			protected set;
 		}
 
 
@@ -66,7 +50,7 @@ namespace CommandHandler
         public Command(CommandDelegate method, params string[] names)
         {
             Names = new List<string>(names);
-            //Names = Names.ConvertAll(d => d.ToLower());
+            Names = Names.ConvertAll(d => d.ToLower());
             CommandDelegate = method;
             description = "No description available";
             permission = 10;
@@ -75,7 +59,7 @@ namespace CommandHandler
         public Command(int permissionLevelRequired,CommandDelegate method, params string[] names)
         {
             Names = new List<string>(names);
-            //Names = Names.ConvertAll(d => d.ToLower());
+            Names = Names.ConvertAll(d => d.ToLower());
             CommandDelegate = method;
             description = "No description available";
             permission = permissionLevelRequired;

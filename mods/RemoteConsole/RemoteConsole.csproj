@@ -31,12 +31,18 @@
     <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
     <Reference Include="UnityEngine">
       <HintPath>..\..\libs\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="System.Core" />
+    <Reference Include="System">
+      <HintPath>..\..\libs\System.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <HintPath>..\..\libs\System.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />

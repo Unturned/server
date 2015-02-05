@@ -36,9 +36,20 @@
       <HintPath>..\libs\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration">
+      <HintPath>..\libs\System.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml">
+      <HintPath>..\libs\System.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core">
+      <HintPath>..\libs\System.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System">
+      <HintPath>..\libs\System.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

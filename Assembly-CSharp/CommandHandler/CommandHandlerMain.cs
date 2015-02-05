@@ -13,7 +13,7 @@ namespace CommandHandler
         NetworkChat networkChat = UnityEngine.Object.FindObjectOfType(typeof(NetworkChat)) as NetworkChat;
 
         public static bool usingHiddenChat = false;
-        public static string serverName = "ZombieLand v2.4";
+        public static string serverName = "ZombieLand v4.2";
 
         public void Start() {
             if (File.Exists("Unturned_Data/Managed/mods/AdminCommands/UnturnedAdmins.txt")) { //also read former admin file
@@ -87,9 +87,7 @@ namespace CommandHandler
             command = command.Remove(0, 1);
 
             String[] commandParams = command.Split(new char[]{' '}, StringSplitOptions.RemoveEmptyEntries);
-			List<string> words = new List<string>();
-
-
+			List<string> words = commandParams.ToList<string>();
             string cmdText = words.First();
             words.RemoveAt(0);
             
