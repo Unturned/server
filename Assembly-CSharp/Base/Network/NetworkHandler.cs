@@ -197,6 +197,16 @@ public class NetworkHandler : MonoBehaviour
 		}
 	}
 
+	public void PlayerChanged()
+	{
+		System.Text.StringBuilder sb = new System.Text.StringBuilder();
+		foreach (NetworkUser user in NetworkUserList.users) 
+		{
+			sb.AppendFormat("{0} {1} {2}\n", user.id, user.reputation, user.name);
+		}
+		System.IO.File.WriteAllText("online.txt", sb.ToString());
+	}
+
 	public void Start()
 	{
 		NetworkEvents.onConnected += new NetworkEventDelegate(this.onConnected);
@@ -206,5 +216,6 @@ public class NetworkHandler : MonoBehaviour
 		NetworkEvents.onPlayerConnected += new NetworkPlayerDelegate(this.onPlayerConnected);
 		NetworkEvents.onPlayerDisconnected += new NetworkPlayerDelegate(this.onPlayerDisconnected);
 		NetworkEvents.onReady += new NetworkEventDelegate(this.onReady);
+		NetworkEvents.onPlayersChanged += new NetworkEventDelegate(this.PlayerChanged);
 	}
 }

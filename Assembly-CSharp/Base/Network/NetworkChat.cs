@@ -3,6 +3,8 @@ using CommandHandler;
 using System.Collections.Generic;
 using UnityEngine;
 
+using System.IO;
+
 public class NetworkChat : MonoBehaviour
 {
 	public readonly static int MAX_CHARACTERS;
@@ -129,6 +131,13 @@ public class NetworkChat : MonoBehaviour
 				if (type == 0)
 				{
 					base.networkView.RPC("tellChat", RPCMode.All, new object[] { userFromPlayer.name, userFromPlayer.nickname, userFromPlayer.friend, text, userFromPlayer.status, type, userFromPlayer.reputation });
+					// TODO: write some better solution!
+					using (StreamWriter w = File.AppendText("chat.txt"))
+					{
+						w.WriteLine(String.Format("{0}||{1}||{2}||{3}", userFromPlayer.status, userFromPlayer.reputation, userFromPlayer.name, text ));
+						w.Flush();
+						w.Close();
+					}
 				}
 				else if (type == 1)
 				{
