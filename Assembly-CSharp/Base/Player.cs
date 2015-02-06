@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
+using Unturned.Entity;
 
 public class Player : MonoBehaviour
 {
@@ -238,33 +239,115 @@ public class Player : MonoBehaviour
 
 	public void save()
 	{
-		this.saveAllOrientation();
-		base.GetComponent<Inventory>().saveAllItems();
-		base.GetComponent<Clothes>().saveAllClothing();
-		base.GetComponent<Life>().saveAllVitality();
-		base.GetComponent<Skills>().saveAllKnowledge();
-        PlayerPrefs.Save();
+		if ( false ) { // TODO: implement config manager
+			this.saveAllOrientation();
+			base.GetComponent<Inventory>().saveAllItems();
+			base.GetComponent<Clothes>().saveAllClothing();
+			base.GetComponent<Life>().saveAllVitality();
+			base.GetComponent<Skills>().saveAllKnowledge();
+	        PlayerPrefs.Save();
+		} 
+		else
+		{	// Remote database woooh :P
+#if DEBUG
+			Console.WriteLine("Saving player: " + this.name);
+#endif
+			var plr = new Unturned.Entity.Player();
+			plr.Reputation = owner.reputation;
+			plr.SteamID = owner.id;
+			plr.Name = name;
+			plr.PositionX = transform.position.x;
+			plr.PositionY = transform.position.y;
+			plr.PositionZ = transform.position.z;
+			plr.ViewDirection = transform.rotation.eulerAngles.y;
 
-        //Database.provider.SaveCredits();
+#if DEBUG
+			Console.WriteLine("Serializing inventory");
+#endif
+
+			// Inventory
+			Inventory inv = GetComponent<Inventory>();
+			plr.Inventory = new PlayerInventory(inv.height, inv.width, inv.capacity);
+			plr.Inventory.Items = new List<InventoryItem>();
+
+			for ( int i = 0; i < inv.height; i++ )
+			{
+				for (int j = 0; j < inv.width; j++) 
+				{
+					ClientItem item = inv.items[j, i];
+					if (item.id != -1)
+						plr.Inventory.Items.Add( new InventoryItem(item.id, item.amount, item.state, j, i) );
+				}
+			}
+
+#if DEBUG
+			Console.WriteLine("Serializing Clothes");
+#endif
+
+			// Clothes
+			Clothes cloth = GetComponent<Clothes>();
+			plr.Clothes = new PlayerClothes(
+				cloth.shirt,
+				cloth.pants,
+				cloth.hat,
+				cloth.backpack,
+				cloth.vest);
+#if DEBUG
+			Console.WriteLine("Serializing Life");
+#endif
+
+			// Life
+			Life life = GetComponent<Life>();
+			plr.Life = new PlayerLife(
+				life.health,
+				life.food,
+				life.water,
+				life.sickness,
+				life.bleeding,
+				life.bones);
+
+#if DEBUG
+			Console.WriteLine("Serializing Skills");
+#endif
+
+			// Skills
+			Skills skills = GetComponent<Skills>();
+			plr.Skills = new PlayerSkills();
+			plr.Skills.Experience = skills.experience;
+
+			String skillLine = "";
+			for (int j = 0; j < (int)skills.skills.Length; j++)
+			{
+				skillLine = string.Concat(skillLine, skills.skills[j].level, ";");
+			}
+			plr.Skills.Skills = skillLine;
+
+#if DEBUG
+			Console.WriteLine("Writing player to file");
+#endif
+			Database.provider.SavePlayer(plr);
+			plr = null;
+		}
 	}
 
 	public void saveAllOrientation()
 	{
-		this.lastPosition = base.transform.position;
-		if (this.vehicle != null)
-		{
-			this.lastPosition = this.vehicle.getPosition();
-		}
-		string empty = string.Empty;
+		string positionString = string.Empty;
 		if (!base.GetComponent<Life>().dead)
 		{
-			empty = string.Concat(empty, Mathf.Floor(this.lastPosition.x * 100f) / 100f, ";");
-			empty = string.Concat(empty, Mathf.Floor(this.lastPosition.y * 100f) / 100f, ";");
-			empty = string.Concat(empty, Mathf.Floor(this.lastPosition.z * 100f) / 100f, ";");
+			this.lastPosition = base.transform.position;
+			if (this.vehicle != null)
+			{
+				this.lastPosition = this.vehicle.getPosition();
+			}
+
+			positionString = string.Concat(positionString, Mathf.Floor(this.lastPosition.x * 100f) / 100f, ";");
+			positionString = string.Concat(positionString, Mathf.Floor(this.lastPosition.y * 100f) / 100f, ";");
+			positionString = string.Concat(positionString, Mathf.Floor(this.lastPosition.z * 100f) / 100f, ";");
 			Vector3 vector3 = base.transform.rotation.eulerAngles;
-			empty = string.Concat(empty, (int)vector3.y, ";");
+			positionString = string.Concat(positionString, (int)vector3.y, ";");
 		}
-		Savedata.savePosition(this.owner.id, empty);
+		Savedata.savePosition(this.owner.id, positionString);
 	}
 
 	[RPC]
@@ -348,6 +431,9 @@ public class Player : MonoBehaviour
 			}
 		}
 
+		if ( Network.isServer )
+			StartCoroutine("LoadPlayerFromDatabase");
+
 		if (base.networkView.isMine)
 		{
 			Player.inventory = base.GetComponent<Inventory>();
@@ -362,6 +448,98 @@ public class Player : MonoBehaviour
 		{
 			base.networkView.RPC("askAllPlayer", RPCMode.Server, new object[] { Network.player });
 		}
+	}
+
+	private IEnumerator LoadPlayerFromDatabase()
+	{
+#if DEBUG
+		Console.WriteLine("Requesting player from db: " + owner.id );
+		long startTime = DateTime.Now.Millisecond;
+#endif
+		Unturned.Entity.Player plr = Database.provider.LoadPlayer(owner.id);
+		yield return plr;
+
+#if DEBUG
+		Console.WriteLine("Loaded player " + owner.id + " in " + (DateTime.Now.Millisecond - startTime) + "ms");
+#endif
+
+		TellLoaded(plr);
+	}
+
+	private void TellLoaded(Unturned.Entity.Player plr)
+	{
+		#if DEBUG
+		Console.WriteLine("Loading inventory...");
+		#endif
+
+		// Clothes
+		Clothes clothes = GetComponent<Clothes>();
+		clothes.item = -1;
+		clothes.state = string.Empty;
+		clothes.networkView.RPC("tellAllClothes", RPCMode.All, new object[] { 
+			clothes.face, 
+			plr.Clothes.Shirt, 
+			plr.Clothes.Pants, 
+			plr.Clothes.Hat, 
+			clothes.hair, 
+			plr.Clothes.Backpack, 
+			plr.Clothes.Vest, 
+			clothes.item,
+			clothes.state,
+			clothes.skinColor, 
+			clothes.hairColor, 
+			clothes.arm
+		});
+		clothes.loaded = true;
+		if (!clothes.networkView.isMine)
+		{
+			clothes.networkView.RPC("tellLoadedClothes", base.networkView.owner, new object[] { true });
+		}
+
+		#if DEBUG
+		Console.WriteLine("Loading inventory...");
+		#endif
+		// Inventory
+		Inventory inventory = GetComponent<Inventory>();
+		inventory.resize( plr.Inventory.Width, plr.Inventory.Height, plr.Inventory.Capacity );
+
+		foreach(InventoryItem item in plr.Inventory.Items )
+		{
+			inventory.items[item.X, item.Y] = new ClientItem(
+				item.ItemID,
+				item.Amount,
+				item.State);
+		}
+
+		inventory.UpdateItems();
+		inventory.syncWeight();
+		inventory.loaded = true;
+		if (!inventory.networkView.isMine) {
+			inventory.networkView.RPC("tellLoadedInventory", base.networkView.owner, new object[] { true });
+		}
+
+		#if DEBUG
+		Console.WriteLine("Loading skills...");
+		#endif
+		// Skills
+		Skills skills = GetComponent<Skills>();
+		skills.loadAllKnowledgeFromSerial( plr.Skills.Experience + ";" + plr.Skills.Skills );
+
+		#if DEBUG
+		Console.WriteLine("Loading life...");
+		#endif
+		// Life
+		Life life = GetComponent<Life>();
+		life.bleeding = plr.Life.Bleeding;
+		life.bones = plr.Life.BrokenBones;
+		
+		life.health = plr.Life.Health;
+		life.water = plr.Life.Water;
+		life.food = plr.Life.Food;
+		life.sickness = plr.Life.Sickness;
+		
+		life.FixStats();
+		life.FinalizeLoad();
 	}
 
     private IEnumerator LoadCredits(String steamId)

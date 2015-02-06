@@ -155,7 +155,9 @@ public class Life : MonoBehaviour
 			base.GetComponent<Inventory>().load();
 			base.GetComponent<Clothes>().load();
 			base.GetComponent<Skills>().load();
-			this.load();
+
+			// TODO: this is temporary fix!!
+			this.loadAllVitalityFromSerial(String.Empty);
 			base.GetComponent<Player>().owner.spawned = Time.realtimeSinceStartup;
 			if (bed && Time.realtimeSinceStartup - this.lastDied < 20f && NetworkUserList.users.Count > 1 && ServerSettings.pvp)
 			{
@@ -455,7 +457,7 @@ public class Life : MonoBehaviour
 	{
 		if (Network.isServer)
 		{
-				this.loadAllVitality();
+			this.loadAllVitality();
 		}
 		else
 		{
@@ -466,6 +468,8 @@ public class Life : MonoBehaviour
 	[RPC]
 	public void loadAllVitality()
 	{
+		// FIXME: implement settings manager
+		return;
 		NetworkUser userFromPlayer = NetworkUserList.getUserFromPlayer(base.networkView.owner);
 		string empty = string.Empty;
 		if (userFromPlayer != null)
@@ -491,42 +495,8 @@ public class Life : MonoBehaviour
 				this.startedBleeding = Time.realtimeSinceStartup;
 			}
 			this.bones = strArrays[5] == "t";
-			if (this.bones)
-			{
-				this.startedBones = Time.realtimeSinceStartup;
-			}
-			if (this.health > 100)
-			{
-				this.health = 100;
-			}
-			else if (this.health < 0)
-			{
-				this.health = 0;
-			}
-			if (this.food > 100)
-			{
-				this.food = 100;
-			}
-			else if (this.food < 0)
-			{
-				this.food = 0;
-			}
-			if (this.water > 100)
-			{
-				this.water = 100;
-			}
-			else if (this.water < 0)
-			{
-				this.water = 0;
-			}
-			if (this.sickness > 100)
-			{
-				this.sickness = 100;
-			}
-			else if (this.sickness < 0)
-			{
-				this.sickness = 0;
-			}
+
+			FixStats();
 		}
 		else
 		{
@@ -539,8 +509,15 @@ public class Life : MonoBehaviour
 			this.startedBones = Single.MaxValue;
 			this.bones = false;
 		}
+
+		FinalizeLoad();
+	}
+
+	public void FinalizeLoad()
+	{
 		this.dead = false;
 		this.death = string.Empty;
+		
 		if (base.networkView.owner != Network.player)
 		{
 			base.networkView.RPC("tellAllLife", base.networkView.owner, new object[] { this.health, this.food, this.water, this.sickness, this.bleeding, this.bones });
@@ -549,6 +526,7 @@ public class Life : MonoBehaviour
 		{
 			this.tellAllLife_Pizza(this.health, this.food, this.water, this.sickness, this.bleeding, this.bones);
 		}
+		
 		this.lastSickDamage = Time.realtimeSinceStartup + 1f;
 		this.lastStarve = Time.realtimeSinceStartup + 1f;
 		this.lastFoodDamage = Time.realtimeSinceStartup + 1f;
@@ -556,9 +534,50 @@ public class Life : MonoBehaviour
 		this.lastWaterDamage = Time.realtimeSinceStartup + 1f;
 		this.lastBleed = Time.realtimeSinceStartup + 1f;
 		this.loaded = true;
+		
 		if (!base.networkView.isMine)
 		{
 			base.networkView.RPC("tellLoadedLife", base.networkView.owner, new object[] { true });
+		}
+	}
+
+	public void FixStats() 
+	{
+		if (this.bones)
+		{
+			this.startedBones = Time.realtimeSinceStartup;
+		}
+		if (this.health > 100)
+		{
+			this.health = 100;
+		}
+		else if (this.health < 0)
+		{
+			this.health = 0;
+		}
+		if (this.food > 100)
+		{
+			this.food = 100;
+		}
+		else if (this.food < 0)
+		{
+			this.food = 0;
+		}
+		if (this.water > 100)
+		{
+			this.water = 100;
+		}
+		else if (this.water < 0)
+		{
+			this.water = 0;
+		}
+		if (this.sickness > 100)
+		{
+			this.sickness = 100;
+		}
+		else if (this.sickness < 0)
+		{
+			this.sickness = 0;
 		}
 	}
 

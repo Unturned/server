@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -79,7 +80,30 @@ public class SpawnPlayers : MonoBehaviour
 	[RPC]
 	public void loadPosition(NetworkPlayer player, string id)
 	{
+		StartCoroutine("GetPosition", new object[]{ player, id });
+		return;
 		this.loadPositionFromSerial(player, Savedata.loadPosition(id));
+	}
+
+	IEnumerator GetPosition(object[] param)
+	{
+		NetworkPlayer player = (NetworkPlayer)param[0];
+		String id = param[1] as String;
+
+		Unturned.Entity.Player plr = Database.provider.LoadPlayer(id);
+		yield return plr;
+
+		if ( plr.PositionX == 0 && plr.PositionY == 0 )
+		{
+			loadPositionFromSerial(player, String.Empty);
+			yield return plr;
+		} else {
+			base.networkView.RPC("tellPosition", player, new object[] { 
+				new Vector3(plr.PositionX, plr.PositionY, plr.PositionZ), 
+				plr.ViewDirection
+			});
+			yield return plr;
+		}
 	}
 
 	[RPC]
@@ -157,8 +181,7 @@ public class SpawnPlayers : MonoBehaviour
 	{
 		if (Network.isServer)
 		{
-				this.loadPosition(Network.player, PlayerSettings.id);
-			
+			this.loadPosition(Network.player, PlayerSettings.id);
 		}
 		else
 		{

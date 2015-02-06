@@ -35,7 +35,7 @@ public class NetworkHandler : MonoBehaviour
 	public void joinNetworkUser(string name, string nickname, string clan, string steamId, int status, NetworkPlayer player) {
 		if ( NetworkBans.isBanned(steamId) ) {
 			Logger.LogBan("Banned player requested join: " + name + " (" + steamId + ")");
-            NetworkTools.kick(player, "You are banned. Contact us via email: paalgyula@gmail.com\nReason: " + NetworkBans.GetBannedPlayers()[steamId].Reason );
+            NetworkTools.kick(player, "You are banned! Reason: " + NetworkBans.GetBannedPlayers()[steamId].Reason + " - www.zombieland.ml" );
 		}
 		
 		if (player != Network.player || !ServerSettings.dedicated) {
@@ -45,22 +45,40 @@ public class NetworkHandler : MonoBehaviour
                 NetworkTools.kick(player, "GOLD accounters disabled becouse of so many gold hackers...\nIf you want to use gold, use our client:\nhttps://github.com/paalgyula/zombieland/releases");
 				return;
 			}
-			
-			string repuString = Savedata.loadReputation(steamId);
+
+			// TODO: check reputaion!
+			/*string repuString = Savedata.loadReputation(steamId);
 			int reputation = 0;
 			if (repuString != string.Empty)
 			{
 				reputation = int.Parse(repuString);
-			}
+			}*/
 			
 			status = 0;
 			if ( UserList.getPermission(steamId) > 1 ) {
 				status = 21;
 			}
-			
-			base.networkView.RPC("addNetworkUser", RPCMode.All, new object[] { name, nickname, clan, steamId, status, reputation, player });
+
+			StartCoroutine("GetRepuAndLogin", new object[] { name, nickname, clan, steamId, status, 0, player });
 			//base.StartCoroutine(this.liscence(name, steamId, status, player));
 		}
+	}
+
+	private IEnumerator GetRepuAndLogin(object[] param)
+	{
+		String id = param[3] as String;
+		
+		Unturned.Entity.Player plr = Database.provider.LoadPlayer(id);
+		yield return plr;
+
+		base.networkView.RPC("addNetworkUser", RPCMode.All, new object[] { 
+			param[0], 
+			param[1], 
+			param[2],
+			param[3],
+			param[4],
+			plr.Reputation,
+			param[6] });
 	}
 
 	public static void offsetReputation(NetworkPlayer player, int amount)

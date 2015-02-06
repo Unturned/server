@@ -11,10 +11,11 @@
 using System;
 using System.Collections.Generic;
 using Unturned;
+using Unturned.Entity;
 
 public interface IDataHolder
 {
-    void Init();
+	void Init();
 
     void AddBan(IBanEntry banEntry);
     void RemoveBan();
@@ -24,5 +25,14 @@ public interface IDataHolder
 
     void AddStructure(String structureStr);
 	Dictionary<String, Unturned.IBanEntry> LoadBans();
+
+	void SavePlayer(Player plr);
+
+	/// <summary>
+	/// Loads the player from the database by given SteamID
+	/// </summary>
+	/// <returns>The player entity.</returns>
+	/// <param name="steamID">SteamID64 identifier</param>
+	Player LoadPlayer(string steamID);
 }
 

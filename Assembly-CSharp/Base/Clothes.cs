@@ -29,7 +29,7 @@ public class Clothes : MonoBehaviour
 
 	private Character character;
 
-	private bool loaded;
+	public bool loaded;
 
 	public Clothes()
 	{
@@ -154,6 +154,9 @@ public class Clothes : MonoBehaviour
 		base.networkView.RPC("tellAllClothes", RPCMode.All, new object[] { this.face, this.shirt, this.pants, this.hat, this.hair, this.backpack, this.vest, this.item, this.state, this.skinColor, this.hairColor, this.arm });
 	}
 
+	/// <summary>
+	/// Load clothes
+	/// </summary>
 	public void load()
 	{
 		if (Network.isServer)
@@ -162,20 +165,25 @@ public class Clothes : MonoBehaviour
 		}
 		else 
 			base.networkView.RPC("loadAllClothing", RPCMode.Server, new object[0]);
-		
-		
 	}
 
 	[RPC]
 	public void loadAllClothing()
 	{
-		NetworkUser userFromPlayer = NetworkUserList.getUserFromPlayer(base.networkView.owner);
-		string empty = string.Empty;
-		if (userFromPlayer != null)
+		if ( true ) // FIXME: implement config manager
 		{
-			empty = Savedata.loadClothes(userFromPlayer.id);
+
 		}
-		this.loadAllClothingFromSerial(empty);
+		else
+		{
+			NetworkUser userFromPlayer = NetworkUserList.getUserFromPlayer(base.networkView.owner);
+			string clothString = string.Empty;
+			if (userFromPlayer != null)
+			{
+				clothString = Savedata.loadClothes(userFromPlayer.id);
+			}
+			this.loadAllClothingFromSerial(clothString);
+		}
 	}
 
 	[RPC]
@@ -270,7 +278,8 @@ public class Clothes : MonoBehaviour
         this.hairColor = setHairColor;
         this.arm = setArm;
         base.GetComponent<Player>().arm = this.arm;
-        if (this.character != null)
+        
+		if (this.character != null)
         {
             this.character.face = this.face;
             this.character.shirt = this.shirt;

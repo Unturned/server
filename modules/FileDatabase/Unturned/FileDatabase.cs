@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
+using Unturned.Entity;
+
 namespace Unturned
 {
 	public class FileDatabase : IDataHolder
@@ -144,6 +146,16 @@ namespace Unturned
         {
             throw new NotImplementedException();
         }
+
+		public void SavePlayer (Player plr)
+		{
+			throw new NotImplementedException ();
+		}
+
+		public Player LoadPlayer (string steamID)
+		{
+			throw new NotImplementedException ();
+		}
 	}
 }
 

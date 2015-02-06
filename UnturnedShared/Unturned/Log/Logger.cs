@@ -84,7 +84,7 @@ public class Logger {
 
     public static void Instantiate(String logString) 
     {
-        StreamWriter file = new StreamWriter(@"Unturned_Data/Insatntiate.txt", true);
+        StreamWriter file = new StreamWriter(@"Unturned_Data/Insatntiate.log", true);
         file.WriteLine("{0:" + DATE_PATTERN + "} {1}", System.DateTime.Now, logString);
         file.Close();
     }

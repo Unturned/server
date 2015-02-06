@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class Inventory : MonoBehaviour {
-    public readonly static int MAX_STACK;
+    public readonly static int MAX_STACK = 30;
 
     public ClientItem[,] items;
 
@@ -17,14 +17,7 @@ public class Inventory : MonoBehaviour {
 
     public float speed = 1f;
 
-    private bool loaded;
-
-    static Inventory() {
-        Inventory.MAX_STACK = 30;
-    }
-
-    public Inventory() {
-    }
+    public bool loaded;
 
     public void addItem(ServerItem item) {
         if (ItemWeight.getWeight(item.id) != -1000) {
@@ -308,16 +301,19 @@ public class Inventory : MonoBehaviour {
         return 1;
     }
 
+	/// <summary>
+	/// Loads the inventory
+	/// </summary>
     public void load() {
+		// FIXME: config manager implementation
+		return;
         if (Network.isServer) {
-                this.loadAllItems();
-
+            this.loadAllItems();
         }
         else
         {
             base.networkView.RPC("loadAllItems", RPCMode.Server, new object[0]);
         }
-        
     }
 
     [RPC]
@@ -337,60 +333,32 @@ public class Inventory : MonoBehaviour {
             int backpackWidth = int.Parse(strArrays[0]);
             int backpackHeight = int.Parse(strArrays[1]);
             int backpackWeight = int.Parse(strArrays[2]);
-            if (backpackWidth > 5) {
+            
+			if (backpackWidth > 5) {
                 backpackWidth = 5;
             }
+
             if (backpackHeight > 5) {
                 backpackHeight = 5;
             }
+
             if (backpackWeight > 20000) {
                 backpackWeight = 20000;
             }
-            this.resize(backpackWidth, backpackHeight, backpackWeight);
-            for (int i = 0; i < (int)strArrays.Length - 3; i++) {
-                int bagX = i % this.width;
-                int bagY = i / this.width;
-                string[] strArrays1 = Packer.unpack(strArrays[3 + i], ':');
-                this.items[bagX, bagY] = new ClientItem(int.Parse(strArrays1[0]), int.Parse(strArrays1[1]), strArrays1[2]);
-                if (ItemStackable.getStackable(this.items[bagX, bagY].id) && this.items[bagX, bagY].amount > Inventory.MAX_STACK) {
-                    this.items[bagX, bagY].amount = Inventory.MAX_STACK;
-                }
-                else if (ItemType.getType(this.items[bagX, bagY].id) == 10 && this.items[bagX, bagY].amount > ItemAmount.getAmount(this.items[bagX, bagY].id)) {
-                    this.items[bagX, bagY].amount = ItemAmount.getAmount(this.items[bagX, bagY].id);
-                }
-                else if (ItemType.getType(this.items[bagX, bagY].id) == 7) {
-                    if (this.items[bagX, bagY].state == string.Empty) {
-                        this.items[bagX, bagY].id = -1;
-                        this.items[bagX, bagY].amount = 0;
-                        this.items[bagX, bagY].state = string.Empty;
-                    }
-                    else {
-                        string[] strArrays2 = Packer.unpack(this.items[bagX, bagY].state, '\u005F');
-                        int num5 = int.Parse(strArrays2[0]);
-                        int num6 = int.Parse(strArrays2[1]);
-                        if (!AmmoStats.getGunCompatible(this.items[bagX, bagY].id, num6)) {
-                            num6 = -1;
-                            num5 = 0;
-                        }
-                        else if (num5 > AmmoStats.getCapacity(this.items[bagX, bagY].id, num6)) {
-                            num5 = 0;
-                        }
-                        object[] objArray = new object[] { num5, "_", strArrays2[1], "_", strArrays2[2], "_", strArrays2[3], "_", strArrays2[4], "_", strArrays2[5], "_", strArrays2[6], "_" };
-                        this.items[bagX, bagY].state = string.Concat(objArray);
-                    }
-                }
-                if (this.items[bagX, bagY].id != -1) {
-                    if (!ItemStackable.getStackable(this.items[bagX, bagY].id)) {
-                        Inventory weight = this;
-                        weight.weight = weight.weight + ItemWeight.getWeight(this.items[bagX, bagY].id);
-                    }
-                    else {
-                        Inventory inventory = this;
-                        inventory.weight = inventory.weight + ItemWeight.getWeight(this.items[bagX, bagY].id) * this.items[bagX, bagY].amount;
-                    }
-                }
-                this.syncItem(bagX, bagY);
-            }
+
+			int backpackItems = (int)strArrays.Length - 3;
+            
+			this.resize(backpackWidth, backpackHeight, backpackWeight);
+
+			for (int i = 0; i < backpackItems; i++) {
+				int bagX = i % this.width;
+				int bagY = i / this.width;
+				string[] clientItem = Packer.unpack(strArrays[3 + i], ':');
+				this.items[bagX, bagY] = new ClientItem(int.Parse(clientItem[0]), int.Parse(clientItem[1]), clientItem[2]);
+			}
+
+			UpdateItems();
+
             this.syncWeight();
         }
         else {
@@ -409,6 +377,63 @@ public class Inventory : MonoBehaviour {
             base.networkView.RPC("tellLoadedInventory", base.networkView.owner, new object[] { true });
         }
     }
+
+	public void UpdateItems()
+	{
+		for (int i = 0; i < this.height * this.width; i++) 
+		{
+			int bagX = i % this.width;
+			int bagY = i / this.width;
+			
+			if (ItemStackable.getStackable(this.items[bagX, bagY].id) && this.items[bagX, bagY].amount > Inventory.MAX_STACK) 
+			{
+				this.items[bagX, bagY].amount = Inventory.MAX_STACK;
+			}
+			else if (ItemType.getType(this.items[bagX, bagY].id) == 10 && this.items[bagX, bagY].amount > ItemAmount.getAmount(this.items[bagX, bagY].id)) 
+			{
+				this.items[bagX, bagY].amount = ItemAmount.getAmount(this.items[bagX, bagY].id);
+			}
+			else if (ItemType.getType(this.items[bagX, bagY].id) == 7) 
+			{
+				if (this.items[bagX, bagY].state == string.Empty) 
+				{
+					this.items[bagX, bagY].id = -1;
+					this.items[bagX, bagY].amount = 0;
+					this.items[bagX, bagY].state = string.Empty;
+				}
+				else 
+				{
+					string[] itemStateArray = Packer.unpack(this.items[bagX, bagY].state, '\u005F');
+					int bullets = int.Parse(itemStateArray[0]);
+					int ammoType = int.Parse(itemStateArray[1]);
+				
+					if (!AmmoStats.getGunCompatible(this.items[bagX, bagY].id, ammoType)) {
+						ammoType = -1;
+						bullets = 0;
+					}
+					else if (bullets > AmmoStats.getCapacity(this.items[bagX, bagY].id, ammoType)) 
+					{
+						bullets = 0;
+					}
+
+					object[] objArray = new object[] { bullets, "_", ammoType, "_", itemStateArray[2], "_", itemStateArray[3], "_", itemStateArray[4], "_", itemStateArray[5], "_", itemStateArray[6], "_" };
+					this.items[bagX, bagY].state = string.Concat(objArray);
+				}
+			}
+
+			if (this.items[bagX, bagY].id != -1) {
+				if (!ItemStackable.getStackable(this.items[bagX, bagY].id)) {
+					Inventory weight = this;
+					weight.weight = weight.weight + ItemWeight.getWeight(this.items[bagX, bagY].id);
+				}
+				else {
+					Inventory inventory = this;
+					inventory.weight = inventory.weight + ItemWeight.getWeight(this.items[bagX, bagY].id) * this.items[bagX, bagY].amount;
+				}
+			}
+			this.syncItem(bagX, bagY);
+		}
+	}
 
     public void resize(int setWidth, int setHeight, int setCapacity) {
         ClientItem[,] clientItem = new ClientItem[setWidth, setHeight];

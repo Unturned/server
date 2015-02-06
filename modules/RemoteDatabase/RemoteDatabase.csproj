@@ -55,6 +55,7 @@
     <Compile Include="Unturned\RemoteDatabase.cs" />
     <Compile Include="Tests\RemoteDatabaseTest.cs" />
     <Compile Include="Unturned\CreditMessage.cs" />
+    <Compile Include="Tests\InventoryTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

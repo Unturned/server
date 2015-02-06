@@ -95,10 +95,10 @@ public class NetworkTools
     				NetworkUserList.users[i].model.GetComponent<Player>().save();
     			}
             } 
-            catch
+            catch (Exception e)
             {
                 //Logger.LogSecurity("Player not found for given user. Continuing...");
-                Console.WriteLine("Player not found for given user. Continuing...");
+                Console.WriteLine("Player not found for given user. Continuing..." + e.Message);
             }
 		}
 	

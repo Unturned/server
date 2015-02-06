@@ -2,12 +2,7 @@ using System;
 
 public class Reputation
 {
-	public readonly static int SPAWN_DELAY;
-
-	static Reputation()
-	{
-		Reputation.SPAWN_DELAY = 30;
-	}
+	public readonly static int SPAWN_DELAY = 30;
 
 	public Reputation()
 	{

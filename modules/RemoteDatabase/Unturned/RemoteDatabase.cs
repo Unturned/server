@@ -21,6 +21,7 @@ using UnityEngine;
 
 using Unturned;
 using Unturned.Http;
+using Unturned.Entity;
 
 namespace Unturned
 {
@@ -29,7 +30,13 @@ namespace Unturned
         private String m_banUrl;
         private String m_host;
         private string m_creditUrl;
-        private XmlSerializer m_banSerializer;
+
+		string m_playerUrl;
+
+		#region Serializers
+		private XmlSerializer m_banSerializer;
+		private XmlSerializer m_playerSerializer;
+		#endregion
         
         
         public void Init()
@@ -38,8 +45,10 @@ namespace Unturned
             m_host = config.getConfig("host");
             m_banUrl = config.getConfig("banUrl");
             m_creditUrl = config.getConfig("creditUrl");
+			m_playerUrl = config.getConfig("playerUrl", "/player");
             
             m_banSerializer = new XmlSerializer(typeof(BanList));
+			m_playerSerializer = new XmlSerializer(typeof(Player));
             
             Console.WriteLine("Remote Database initialized: Host: {0} BanURL: {1}",
                               m_host,
@@ -108,6 +117,47 @@ namespace Unturned
 
 			return bans;
         }
+
+		public void SavePlayer(Player plr)
+		{
+			FileStream fileStream = new FileStream(@"data/Player-" + plr.SteamID + ".xml", FileMode.OpenOrCreate);
+			m_playerSerializer.Serialize(fileStream, plr);
+			fileStream.Flush();
+			fileStream.Close();
+
+			MemoryStream mStream = new MemoryStream();
+			m_playerSerializer.Serialize(mStream, plr);
+			mStream.Seek(0, SeekOrigin.Begin);
+			Stream reader = new HttpRequest(m_host + m_playerUrl).DoPost(new StreamReader(mStream).ReadToEnd());
+			reader.Close();
+		}
+
+		public Player LoadPlayer(string steamID)
+		{
+			Dictionary<string, IBanEntry> bans = new Dictionary<string, IBanEntry>();
+			
+			try
+			{
+				HttpRequest req = new HttpRequest(m_host + m_playerUrl + "/" + steamID);
+				Stream stream = req.DoGet();
+
+#if DEBUG
+				Console.WriteLine("Player XML: " + new StreamReader(stream).ReadToEnd());
+				stream.Seek(0, SeekOrigin.Begin);
+#endif
+				Player player = m_playerSerializer.Deserialize(new XmlTextReader(stream)) as Player;
+#if DEBUG
+				Console.WriteLine("Player loaded successfully");
+#endif
+
+				return player;
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("Exception while requesting player!" + e.Message + "\n" + e.StackTrace );
+				return null;
+			}
+		}
     }
 }
 

@@ -79,7 +79,7 @@ public class Skills : MonoBehaviour
 	{
 		if (Network.isServer)
 		{
-				this.loadAllKnowledge();
+			this.loadAllKnowledge();
 		}
 		else
 		{
@@ -91,6 +91,8 @@ public class Skills : MonoBehaviour
 	[RPC]
 	public void loadAllKnowledge()
 	{
+		// FIXME: implement settings
+		return;
 		NetworkUser userFromPlayer = NetworkUserList.getUserFromPlayer(base.networkView.owner);
 		string empty = string.Empty;
 		if (userFromPlayer != null)
