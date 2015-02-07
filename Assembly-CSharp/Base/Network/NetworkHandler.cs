@@ -37,9 +37,21 @@ public class NetworkHandler : MonoBehaviour
 			Logger.LogBan("Banned player requested join: " + name + " (" + steamId + ")");
             NetworkTools.kick(player, "You are banned! Reason: " + NetworkBans.GetBannedPlayers()[steamId].Reason + " - www.zombieland.ml" );
 		}
-		
+
+		foreach(NetworkUser user in NetworkUserList)
+		{
+			if ( user.id.Equals(steamId) )
+			{
+				Logger.LogSecurity(player, "Multiple login detected! Dropping clients! (" + name + " - " + steamId + ")" );
+				Network.CloseConnection(player);
+				Network.CloseConnection(user.player);
+				return;
+			}
+		}
+
 		if (player != Network.player || !ServerSettings.dedicated) {
 			Logger.LogConnection(name + " Connected. Clan: " + clan + " ID: " + steamId + " Status: " + status + " IP: " + player.ipAddress);
+
 			if ( (status == 21) && (name != "Julius Tiger") ) {
                 Logger.LogSecurity(player, "Tried connect with GOLD client");
                 NetworkTools.kick(player, "GOLD accounters disabled becouse of so many gold hackers...\nIf you want to use gold, use our client:\nhttps://github.com/paalgyula/zombieland/releases");
@@ -202,7 +214,12 @@ public class NetworkHandler : MonoBehaviour
 		System.Text.StringBuilder sb = new System.Text.StringBuilder();
 		foreach (NetworkUser user in NetworkUserList.users) 
 		{
-			sb.AppendFormat("{0} {1} {2}\n", user.id, user.reputation, user.name);
+			sb.AppendFormat("{0} {1} {2} {3} {4}\n", 
+			                user.model.transform.position.x, 
+			                user.model.transform.position.z, 
+			                user.id, 
+			                user.reputation, 
+			                user.name);
 		}
 		System.IO.File.WriteAllText("online.txt", sb.ToString());
 	}
