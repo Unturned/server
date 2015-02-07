@@ -10,8 +10,6 @@ public class NetworkHandler : MonoBehaviour
 {
 	public static NetworkHandler tool;
 
-    DateTime lastSave;
-
 	public NetworkHandler()
 	{
 	}
@@ -38,13 +36,13 @@ public class NetworkHandler : MonoBehaviour
             NetworkTools.kick(player, "You are banned! Reason: " + NetworkBans.GetBannedPlayers()[steamId].Reason + " - www.zombieland.ml" );
 		}
 
-		foreach(NetworkUser user in NetworkUserList)
+		foreach(NetworkUser user in NetworkUserList.users)
 		{
 			if ( user.id.Equals(steamId) )
 			{
 				Logger.LogSecurity(player, "Multiple login detected! Dropping clients! (" + name + " - " + steamId + ")" );
-				Network.CloseConnection(player);
-				Network.CloseConnection(user.player);
+				Network.CloseConnection(player, true);
+				Network.CloseConnection(user.player, true);
 				return;
 			}
 		}
