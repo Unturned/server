@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Unturned.Log;
+
 public class Life : MonoBehaviour
 {
 	private int realHealth;

@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+using Unturned.Log;
+
 public class Vehicle : Interactable
 {
 	public Passenger[] passengers;
@@ -1045,12 +1047,7 @@ public class Vehicle : Interactable
 	[RPC]
     public void updatePosition(Vector3 setPosition, Quaternion setRotation, NetworkMessageInfo info)
 	{
-        if ( info.sender != Network.player ) 
-        {
-            Logger.LogSecurity(info.sender, "Tried to set vehicle position");
-        }
-
-		if (this.real)
+        if (this.real)
 		{
 			this.position = setPosition;
 			this.rotation = setRotation;

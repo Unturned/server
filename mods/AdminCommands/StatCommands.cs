@@ -30,6 +30,8 @@ using UnityEngine;
 using CommandHandler;
 using Unturned;
 
+using Unturned.Log;
+
 namespace AdminCommands
 {
     public class StatCommands

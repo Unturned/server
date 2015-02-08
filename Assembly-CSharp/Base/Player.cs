@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
+
+using Unturned.Log;
 using Unturned.Entity;
 
 public class Player : MonoBehaviour

@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 using ModLoader;
 using UnityEngine;
 
+using Unturned.Log;
+
 public class NetworkManager : MonoBehaviour {
 	public static NetworkManager tool;
 

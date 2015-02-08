@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+using Unturned.Log;
+
 public class AI : MonoBehaviour
 {
 	public bool moving;

@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using CommandHandler;
 
+using Unturned.Log;
+
 public class NetworkHandler : MonoBehaviour
 {
 	public static NetworkHandler tool;
@@ -212,7 +214,7 @@ public class NetworkHandler : MonoBehaviour
 		System.Text.StringBuilder sb = new System.Text.StringBuilder();
 		foreach (NetworkUser user in NetworkUserList.users) 
 		{
-			int x = -1, y =-1;
+			float x = -1, y =-1;
 			if ( user.model != null ) // Disconnected or not fully connected player
 			{
 				x = user.model.transform.position.x;

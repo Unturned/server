@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 using Unturned.Entity;
+using Unturned.Log;
 
 namespace Unturned
 {
