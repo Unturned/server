@@ -212,9 +212,16 @@ public class NetworkHandler : MonoBehaviour
 		System.Text.StringBuilder sb = new System.Text.StringBuilder();
 		foreach (NetworkUser user in NetworkUserList.users) 
 		{
+			int x = -1, y =-1;
+			if ( user.model != null ) // Disconnected or not fully connected player
+			{
+				x = user.model.transform.position.x;
+				y = user.model.transform.position.z;
+			}
+
 			sb.AppendFormat("{0} {1} {2} {3} {4}\n", 
-			                user.model.transform.position.x, 
-			                user.model.transform.position.z, 
+			                x,
+			                y,
 			                user.id, 
 			                user.reputation, 
 			                user.name);
