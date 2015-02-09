@@ -146,6 +146,10 @@ namespace AdminCommands
 			{
 				"heal"
 			}));
+
+			CommandList.add (new Command (10, new CommandDelegate (this.KickAll), new string[]{
+				"kickall"
+			}));
 			
             // Car command moved
 
@@ -886,6 +890,15 @@ namespace AdminCommands
 		public void SaveAll(CommandArgs args) {
 			NetworkChat.sendChat("Saving world to database...");
             NetworkTools.save();
+		}
+
+		public void KickAll(CommandArgs args) 
+		{
+			foreach (NetworkUser user in NetworkUserList.users)
+			{
+				Debug.LogError("Releasing all connection!");
+				Network.CloseConnection(user.player, false);
+			}
 		}
 	}
 }

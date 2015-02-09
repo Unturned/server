@@ -26,7 +26,7 @@ public class SpawnBarricades : MonoBehaviour
 			}
 			else
 			{
-				this.createBarricadePleaseStopKuniiAlsoLetMeKnowIfYouWantToHelpWithAnticheatInVersion3(item.id, item.position, item.rotation);
+				this.createBarricade(item.id, item.position, item.rotation);
 			}
 		}
 	}
@@ -36,11 +36,11 @@ public class SpawnBarricades : MonoBehaviour
 	{
 		if (info.sender.ToString() == "0" || info.sender.ToString() == "-1")
 		{
-			this.createBarricadePleaseStopKuniiAlsoLetMeKnowIfYouWantToHelpWithAnticheatInVersion3(id, position, rotation);
+			this.createBarricade(id, position, rotation);
 		}
 	}
 
-	public void createBarricadePleaseStopKuniiAlsoLetMeKnowIfYouWantToHelpWithAnticheatInVersion3(int id, Vector3 position, Vector3 rotation)
+	public void createBarricade(int id, Vector3 position, Vector3 rotation)
 	{
 		Point2 region = NetworkRegions.getRegion(position);
 		GameObject str = (GameObject)UnityEngine.Object.Instantiate(Resources.Load(string.Concat("Prefabs/Barricades/", id)));
@@ -209,7 +209,7 @@ public class SpawnBarricades : MonoBehaviour
 							int num = int.Parse(strArrays1[0]);
 							ServerBarricade serverBarricade = new ServerBarricade(num, int.Parse(strArrays1[1]), strArrays1[2], new Vector3(float.Parse(strArrays1[3]), float.Parse(strArrays1[4]), float.Parse(strArrays1[5])), new Vector3(float.Parse(strArrays1[6]), float.Parse(strArrays1[7]), float.Parse(strArrays1[8])));
 							SpawnBarricades.regions[k, l].barricades.Add(serverBarricade);
-							this.createBarricadePleaseStopKuniiAlsoLetMeKnowIfYouWantToHelpWithAnticheatInVersion3(SpawnBarricades.regions[k, l].barricades[SpawnBarricades.regions[k, l].barricades.Count - 1].id, SpawnBarricades.regions[k, l].barricades[SpawnBarricades.regions[k, l].barricades.Count - 1].position, SpawnBarricades.regions[k, l].barricades[SpawnBarricades.regions[k, l].barricades.Count - 1].rotation);
+							this.createBarricade(SpawnBarricades.regions[k, l].barricades[SpawnBarricades.regions[k, l].barricades.Count - 1].id, SpawnBarricades.regions[k, l].barricades[SpawnBarricades.regions[k, l].barricades.Count - 1].position, SpawnBarricades.regions[k, l].barricades[SpawnBarricades.regions[k, l].barricades.Count - 1].rotation);
 						}
 						SpawnBarricades.regions[k, l].edit = true;
 					}

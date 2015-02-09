@@ -114,7 +114,7 @@ public class NetworkManager : MonoBehaviour {
 
     private IEnumerator EnableConnections()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(2);
         Network.SetSendingEnabled(0, true);
         Network.isMessageQueueRunning = true;
         Logger.LogConnection("Server is starting accepting connections");

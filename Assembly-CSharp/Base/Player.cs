@@ -8,6 +8,8 @@ using Unturned.Entity;
 
 public class Player : MonoBehaviour
 {
+	public bool canBuild = false;
+
 	public static GameObject model;
 
 	public static Inventory inventory;
@@ -639,7 +641,7 @@ public class Player : MonoBehaviour
 					this.action = 2;
 				}*/
 				else if (Movement.isClimbing)
-				{
+			{
 					this.action = 5;
 				}
 				else if (Movement.isSwimming)

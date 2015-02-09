@@ -20,10 +20,14 @@ public class Structure : Useable
 
 	[RPC]
 	public void askBuild(int slot_x, int slot_y, Vector3 position, int rotation, string state, NetworkMessageInfo info) {
-        int permission = UserList.getPermission( UserList.getUserFromPlayer(info.sender).steamid );
+		BetterNetworkUser user = UserList.getUserFromPlayer(info.sender);
+        int permission = UserList.getPermission( user.steamid );
 
-        if ( permission < 1 ) //TODO: disallowing build
-		    return;
+        if ( !user.player.canBuild ) //TODO: disallowing build
+		{
+			Reference.Tell(user.networkPlayer, "You are not allowed to build. Request permission from admins!");
+			return;
+		}
 		
 		if (!base.GetComponent<Life>().dead) { // Dead hack
 			Inventory inventory = base.GetComponent<Inventory>();
