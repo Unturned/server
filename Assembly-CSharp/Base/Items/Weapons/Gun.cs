@@ -1852,34 +1852,45 @@ public class Gun : Useable
 
 	public void Update()
 	{
-		if (base.networkView.isMine)
+		if (!Network.isServer)
 		{
-			if (this.laser != null)
+			if (base.networkView.isMine)
 			{
-				if (this.sightModel == null)
+				if (this.laser != null)
 				{
-					Physics.Raycast(this.tacticalModel.transform.position, -this.tacticalModel.transform.right, out Gun.hit, 128f, RayMasks.DAMAGE);
+					if (this.sightModel == null)
+					{
+						Physics.Raycast(this.tacticalModel.transform.position, -this.tacticalModel.transform.right, out Gun.hit, 128f, RayMasks.DAMAGE);
+					}
+					else
+					{
+						Physics.Raycast(this.sightModel.transform.position + (this.sightModel.transform.forward * this.scopeOffset.y), -this.sightModel.transform.right, out Gun.hit, 128f, RayMasks.DAMAGE);
+					}
+					if (Gun.hit.collider == null)
+					{
+						this.laser.transform.position = Vector3.zero;
+					}
+					else
+					{
+						this.laser.transform.position = Gun.hit.point;
+						this.laser.transform.rotation = Quaternion.LookRotation(this.tacticalModel.transform.right);
+					}
 				}
-				else
+				if (this.line != null)
 				{
-					Physics.Raycast(this.sightModel.transform.position + (this.sightModel.transform.forward * this.scopeOffset.y), -this.sightModel.transform.right, out Gun.hit, 128f, RayMasks.DAMAGE);
-				}
-				if (Gun.hit.collider == null)
-				{
-					this.laser.transform.position = Vector3.zero;
-				}
-				else
-				{
-					this.laser.transform.position = Gun.hit.point;
-					this.laser.transform.rotation = Quaternion.LookRotation(this.tacticalModel.transform.right);
-				}
-			}
-			if (this.line != null)
-			{
-				this.line.SetPosition(0, this.anchor_0.transform.position);
-				if (Equipment.id == 7007)
-				{
-					if (this.reloading || this.ammo == 0)
+					this.line.SetPosition(0, this.anchor_0.transform.position);
+					if (Equipment.id == 7007)
+					{
+						if (this.reloading || this.ammo == 0)
+						{
+							this.line.SetPosition(1, this.anchor_0.transform.position);
+						}
+						else
+						{
+							this.line.SetPosition(1, this.anchor_2.transform.position);
+						}
+					}
+					else if (this.reloading || this.attaching || this.sprinting || this.ammo == 0 && !Gun.aiming)
 					{
 						this.line.SetPosition(1, this.anchor_0.transform.position);
 					}
@@ -1887,24 +1898,16 @@ public class Gun : Useable
 					{
 						this.line.SetPosition(1, this.anchor_2.transform.position);
 					}
+					this.line.SetPosition(2, this.anchor_1.transform.position);
+					if (!this.line.enabled)
+					{
+						this.line.enabled = true;
+					}
 				}
-				else if (this.reloading || this.attaching || this.sprinting || this.ammo == 0 && !Gun.aiming)
+				if (this.streak != null)
 				{
-					this.line.SetPosition(1, this.anchor_0.transform.position);
+					this.streak.transform.position = Vector3.Lerp(this.flyFromPos, this.flyToPos, (Time.realtimeSinceStartup - this.flyStart) / this.flyTime);
 				}
-				else
-				{
-					this.line.SetPosition(1, this.anchor_2.transform.position);
-				}
-				this.line.SetPosition(2, this.anchor_1.transform.position);
-				if (!this.line.enabled)
-				{
-					this.line.enabled = true;
-				}
-			}
-			if (this.streak != null)
-			{
-				this.streak.transform.position = Vector3.Lerp(this.flyFromPos, this.flyToPos, (Time.realtimeSinceStartup - this.flyStart) / this.flyTime);
 			}
 		}
 	}

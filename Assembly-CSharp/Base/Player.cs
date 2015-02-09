@@ -191,6 +191,8 @@ public class Player : MonoBehaviour
 
 	public void LateUpdate()
 	{
+		// This is server..
+		/*
 		if (!base.networkView.isMine && this.spine != null && this.spine.localRotation != this.desiredSpineRot)
 		{
 			this.realLean = Mathf.Lerp(this.realLean, (float)(this.lean * -1), 8f * Time.deltaTime);
@@ -205,6 +207,7 @@ public class Player : MonoBehaviour
 			}
 			this.spine.localRotation = this.desiredSpineRot;
 		}
+		*/
 	}
 
 	public void OnDestroy()
@@ -619,273 +622,275 @@ public class Player : MonoBehaviour
 
 	public void Update()
 	{
-		if (base.networkView.isMine)
-		{
-			if (Movement.seat != null)
+		// TODO: in the server we don't wana check this stuff...
+		if (!Network.isServer)
+			if (base.networkView.isMine)
 			{
-				this.action = 7;
-			}
-			else if (Player.life.dead)
-			{
-				this.action = 4;
-			}
-			/*else if (HUDInventory.state)
-			{
-				this.action = 2;
-			}*/
-			else if (Movement.isClimbing)
-			{
-				this.action = 5;
-			}
-			else if (Movement.isSwimming)
-			{
-				this.action = 6;
-			}
-			else if (Equipment.equipped.y == -1)
-			{
-				this.action = 0;
-			}
-			else if (Equipment.id == 7004 || Equipment.id == 7014)
-			{
-				this.action = 9;
-			}
-			else if (ItemType.getType(Equipment.id) == 7)
-			{
-				this.action = 3;
-			}
-			else if (Equipment.id == 8001 || Equipment.id == 8008)
-			{
-				this.action = 8;
-			}
-			else
-			{
-				this.action = 1;
-			}
-			if (this.action != this.lastAction)
-			{
-				this.lastAction = this.action;
-				base.networkView.RPC("tellAction", RPCMode.Others, new object[] { this.action });
-			}
-			this.lean = (int)Look.lean;
-			if (this.lean != this.lastLean)
-			{
-				this.lastLean = this.lean;
-				base.networkView.RPC("tellLean", RPCMode.Others, new object[] { this.lean });
-			}
-			this.angle = (int)(Look.pitch / 10f);
-			if (this.angle != this.lastAngle)
-			{
-				this.lastAngle = this.angle;
-				base.networkView.RPC("tellAngle", RPCMode.Others, new object[] { this.angle });
-			}
-			this.moving = Movement.isMoving;
-			if (this.moving != this.lastMoving)
-			{
-				this.lastMoving = this.moving;
-				base.networkView.RPC("tellMoving", RPCMode.Others, new object[] { this.moving });
-			}
-			this.stance = Stance.state;
-			if (this.stance != this.lastStance)
-			{
-				this.lastStance = this.stance;
-				base.networkView.RPC("tellStance", RPCMode.Others, new object[] { this.stance });
-			}
-			if (Time.realtimeSinceStartup - this.lastVerify > 5f)
-			{
-				this.lastVerify = Time.realtimeSinceStartup;
-				if (!Network.isServer)
+				if (Movement.seat != null)
 				{
-					base.networkView.RPC("speedPacket", RPCMode.Server, new object[0]);
+					this.action = 7;
+				}
+				else if (Player.life.dead)
+				{
+					this.action = 4;
+				}
+				/*else if (HUDInventory.state)
+				{
+					this.action = 2;
+				}*/
+				else if (Movement.isClimbing)
+				{
+					this.action = 5;
+				}
+				else if (Movement.isSwimming)
+				{
+					this.action = 6;
+				}
+				else if (Equipment.equipped.y == -1)
+				{
+					this.action = 0;
+				}
+				else if (Equipment.id == 7004 || Equipment.id == 7014)
+				{
+					this.action = 9;
+				}
+				else if (ItemType.getType(Equipment.id) == 7)
+				{
+					this.action = 3;
+				}
+				else if (Equipment.id == 8001 || Equipment.id == 8008)
+				{
+					this.action = 8;
+				}
+				else
+				{
+					this.action = 1;
+				}
+				if (this.action != this.lastAction)
+				{
+					this.lastAction = this.action;
+					base.networkView.RPC("tellAction", RPCMode.Others, new object[] { this.action });
+				}
+				this.lean = (int)Look.lean;
+				if (this.lean != this.lastLean)
+				{
+					this.lastLean = this.lean;
+					base.networkView.RPC("tellLean", RPCMode.Others, new object[] { this.lean });
+				}
+				this.angle = (int)(Look.pitch / 10f);
+				if (this.angle != this.lastAngle)
+				{
+					this.lastAngle = this.angle;
+					base.networkView.RPC("tellAngle", RPCMode.Others, new object[] { this.angle });
+				}
+				this.moving = Movement.isMoving;
+				if (this.moving != this.lastMoving)
+				{
+					this.lastMoving = this.moving;
+					base.networkView.RPC("tellMoving", RPCMode.Others, new object[] { this.moving });
+				}
+				this.stance = Stance.state;
+				if (this.stance != this.lastStance)
+				{
+					this.lastStance = this.stance;
+					base.networkView.RPC("tellStance", RPCMode.Others, new object[] { this.stance });
+				}
+				if (Time.realtimeSinceStartup - this.lastVerify > 5f)
+				{
+					this.lastVerify = Time.realtimeSinceStartup;
+					if (!Network.isServer)
+					{
+						base.networkView.RPC("speedPacket", RPCMode.Server, new object[0]);
+					}
 				}
 			}
-		}
-		else if (this.action != this.lastAction || this.stance != this.lastStance || this.moving != this.lastMoving)
-		{
-			this.lastAction = this.action;
-			this.lastStance = this.stance;
-			this.lastMoving = this.moving;
-			if (this.action == 7)
+			else if (this.action != this.lastAction || this.stance != this.lastStance || this.moving != this.lastMoving)
 			{
-				this.anim.stance("sat");
-			}
-			else if (this.moving)
-			{
-				if (this.action == 0)
+				this.lastAction = this.action;
+				this.lastStance = this.stance;
+				this.lastMoving = this.moving;
+				if (this.action == 7)
+				{
+					this.anim.stance("sat");
+				}
+				else if (this.moving)
+				{
+					if (this.action == 0)
+					{
+						if (this.stance == 0)
+						{
+							this.anim.stance("standMoveBasic");
+						}
+						else if (this.stance != 1)
+						{
+							this.anim.stance("proneMoveBasic");
+						}
+						else
+						{
+							this.anim.stance("crouchMoveBasic");
+						}
+					}
+					else if (this.action == 1)
+					{
+						if (this.stance == 0)
+						{
+							this.anim.stance("standMoveItem");
+						}
+						else if (this.stance != 1)
+						{
+							this.anim.stance("proneMoveItem");
+						}
+						else
+						{
+							this.anim.stance("crouchMoveItem");
+						}
+					}
+					else if (this.action == 3)
+					{
+						if (this.stance == 0)
+						{
+							this.anim.stance("standMoveGun");
+						}
+						else if (this.stance != 1)
+						{
+							this.anim.stance("proneMoveGun");
+						}
+						else
+						{
+							this.anim.stance("crouchMoveGun");
+						}
+					}
+					else if (this.action == 9)
+					{
+						if (this.stance == 0)
+						{
+							this.anim.stance("standMoveBow");
+						}
+						else if (this.stance != 1)
+						{
+							this.anim.stance("proneMoveBow");
+						}
+						else
+						{
+							this.anim.stance("crouchMoveBow");
+						}
+					}
+					else if (this.action == 8)
+					{
+						if (this.stance == 0)
+						{
+							this.anim.stance("standMoveFlashlight");
+						}
+						else if (this.stance != 1)
+						{
+							this.anim.stance("proneMoveFlashlight");
+						}
+						else
+						{
+							this.anim.stance("crouchMoveFlashlight");
+						}
+					}
+					else if (this.action == 5)
+					{
+						this.anim.stance("ladderMoveBasic");
+					}
+					else if (this.action == 6)
+					{
+						this.anim.stance("swimMoveBasic");
+					}
+				}
+				else if (this.action == 0)
 				{
 					if (this.stance == 0)
 					{
-						this.anim.stance("standMoveBasic");
+						this.anim.stance("standIdleBasic");
 					}
 					else if (this.stance != 1)
 					{
-						this.anim.stance("proneMoveBasic");
+						this.anim.stance("proneIdleBasic");
 					}
 					else
 					{
-						this.anim.stance("crouchMoveBasic");
+						this.anim.stance("crouchIdleBasic");
 					}
 				}
 				else if (this.action == 1)
 				{
 					if (this.stance == 0)
 					{
-						this.anim.stance("standMoveItem");
+						this.anim.stance("standIdleItem");
 					}
 					else if (this.stance != 1)
 					{
-						this.anim.stance("proneMoveItem");
+						this.anim.stance("proneIdleItem");
 					}
 					else
 					{
-						this.anim.stance("crouchMoveItem");
+						this.anim.stance("crouchIdleItem");
 					}
+				}
+				else if (this.action == 2)
+				{
+					this.anim.stance("bag");
 				}
 				else if (this.action == 3)
 				{
 					if (this.stance == 0)
 					{
-						this.anim.stance("standMoveGun");
+						this.anim.stance("standIdleGun");
 					}
 					else if (this.stance != 1)
 					{
-						this.anim.stance("proneMoveGun");
+						this.anim.stance("proneIdleGun");
 					}
 					else
 					{
-						this.anim.stance("crouchMoveGun");
+						this.anim.stance("crouchIdleGun");
 					}
 				}
 				else if (this.action == 9)
 				{
 					if (this.stance == 0)
 					{
-						this.anim.stance("standMoveBow");
+						this.anim.stance("standIdleBow");
 					}
 					else if (this.stance != 1)
 					{
-						this.anim.stance("proneMoveBow");
+						this.anim.stance("proneIdleBow");
 					}
 					else
 					{
-						this.anim.stance("crouchMoveBow");
+						this.anim.stance("crouchIdleBow");
 					}
 				}
 				else if (this.action == 8)
 				{
 					if (this.stance == 0)
 					{
-						this.anim.stance("standMoveFlashlight");
+						this.anim.stance("standIdleFlashlight");
 					}
 					else if (this.stance != 1)
 					{
-						this.anim.stance("proneMoveFlashlight");
+						this.anim.stance("proneIdleFlashlight");
 					}
 					else
 					{
-						this.anim.stance("crouchMoveFlashlight");
+						this.anim.stance("crouchIdleFlashlight");
 					}
+				}
+				else if (this.action == 4)
+				{
+					this.anim.play("dead");
+					this.anim.stance(string.Empty);
 				}
 				else if (this.action == 5)
 				{
-					this.anim.stance("ladderMoveBasic");
+					this.anim.stance("ladderIdleBasic");
 				}
 				else if (this.action == 6)
 				{
-					this.anim.stance("swimMoveBasic");
+					this.anim.stance("swimIdleBasic");
 				}
 			}
-			else if (this.action == 0)
-			{
-				if (this.stance == 0)
-				{
-					this.anim.stance("standIdleBasic");
-				}
-				else if (this.stance != 1)
-				{
-					this.anim.stance("proneIdleBasic");
-				}
-				else
-				{
-					this.anim.stance("crouchIdleBasic");
-				}
-			}
-			else if (this.action == 1)
-			{
-				if (this.stance == 0)
-				{
-					this.anim.stance("standIdleItem");
-				}
-				else if (this.stance != 1)
-				{
-					this.anim.stance("proneIdleItem");
-				}
-				else
-				{
-					this.anim.stance("crouchIdleItem");
-				}
-			}
-			else if (this.action == 2)
-			{
-				this.anim.stance("bag");
-			}
-			else if (this.action == 3)
-			{
-				if (this.stance == 0)
-				{
-					this.anim.stance("standIdleGun");
-				}
-				else if (this.stance != 1)
-				{
-					this.anim.stance("proneIdleGun");
-				}
-				else
-				{
-					this.anim.stance("crouchIdleGun");
-				}
-			}
-			else if (this.action == 9)
-			{
-				if (this.stance == 0)
-				{
-					this.anim.stance("standIdleBow");
-				}
-				else if (this.stance != 1)
-				{
-					this.anim.stance("proneIdleBow");
-				}
-				else
-				{
-					this.anim.stance("crouchIdleBow");
-				}
-			}
-			else if (this.action == 8)
-			{
-				if (this.stance == 0)
-				{
-					this.anim.stance("standIdleFlashlight");
-				}
-				else if (this.stance != 1)
-				{
-					this.anim.stance("proneIdleFlashlight");
-				}
-				else
-				{
-					this.anim.stance("crouchIdleFlashlight");
-				}
-			}
-			else if (this.action == 4)
-			{
-				this.anim.play("dead");
-				this.anim.stance(string.Empty);
-			}
-			else if (this.action == 5)
-			{
-				this.anim.stance("ladderIdleBasic");
-			}
-			else if (this.action == 6)
-			{
-				this.anim.stance("swimIdleBasic");
-			}
-		}
 	}
 }

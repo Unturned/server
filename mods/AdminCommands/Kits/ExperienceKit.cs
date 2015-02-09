@@ -51,7 +51,7 @@ namespace AdminCommands.Kits
         public override void Additional(BetterNetworkUser user) 
         {
             Reference.Tell(user.networkPlayer, "Added 100 experience to you.");
-            user.player.GetComponent<Skills> ().learn (100);
+            user.player.GetComponent<Skills> ().learn (50); // 2x xp becouse activated gold feature
         }
     }
 }

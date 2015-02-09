@@ -36,20 +36,20 @@ namespace AdminCommands
 
         public BanCommands()
         {
-            Command banCommand = new Command (8, new CommandDelegate (this.Ban), new string[]
+            Command banCommand = new Command (4, new CommandDelegate (this.Ban), new string[]
             {
                 "ban"
             });
             banCommand.description = ("Ban a player. Will need confirmation with /reason");
             CommandList.add (banCommand);
 
-            Command banReloadCommand = new Command (8, new CommandDelegate (this.BanReload), new string[] {
+            Command banReloadCommand = new Command (10, new CommandDelegate (this.BanReload), new string[] {
                 "banreload"
             });
             banReloadCommand.description = ("Reloads the ban table");
             CommandList.add (banReloadCommand);
 
-            Command banReason = new Command (8, new CommandDelegate (this.ReasonForBan), new string[]
+            Command banReason = new Command (4, new CommandDelegate (this.ReasonForBan), new string[]
             {
                 "reason",
                 "r"

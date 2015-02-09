@@ -36,7 +36,7 @@ namespace AdminCommands
         public CarCommands()
         {
             // Car create command
-            Command createCarCommand = new Command(6, new CommandDelegate (this.CreateCar), new string[]
+            Command createCarCommand = new Command(1, new CommandDelegate (this.CreateCar), new string[]
             {
                 "car"
             });

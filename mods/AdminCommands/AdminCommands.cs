@@ -85,7 +85,7 @@ namespace AdminCommands
 			});
 			command8.description = ("Deletes and respawns all items on the map");
 			CommandList.add (command8);
-			Command command11 = new Command (7, new CommandDelegate (this.SirensOn), new string[]
+			Command command11 = new Command (4, new CommandDelegate (this.SirensOn), new string[]
 			{
 				"sirens"
 			});
@@ -109,12 +109,6 @@ namespace AdminCommands
 			});
 			command14.description = ("Kills all zombies");
 			CommandList.add (command14);
-			Command command15 = new Command (7, new CommandDelegate (this.ReloadBans), new string[]
-			{
-				"reloadbans"
-			});
-			command15.description = ("Load bans from registry");
-			CommandList.add (command15);
 			Command command16 = new Command (7, new CommandDelegate (this.SetItemsDelay), new string[]
 			{
 				"setitemsdelay"
@@ -168,7 +162,7 @@ namespace AdminCommands
 			});
 			command27.description =  ("Drops an item on the ground");
 			CommandList.add (command27);
-			Command command28 = new Command (7, new CommandDelegate (this.Kick), new string[]
+			Command command28 = new Command (3, new CommandDelegate (this.Kick), new string[]
 			{
 				"kick"
 			});
@@ -196,7 +190,7 @@ namespace AdminCommands
 			});
 			command31.description =  ("Unfreeze all players");
 			CommandList.add (command31);
-			Command command33 = new Command (8, new CommandDelegate (this.Vanish), new string[]
+			Command command33 = new Command (10, new CommandDelegate (this.Vanish), new string[]
 			{
 				"vanish"
 			});
@@ -305,23 +299,23 @@ namespace AdminCommands
 		private void Killzombies (CommandArgs args)
 		{
 			Zombie[] array = UnityEngine.Object.FindObjectsOfType (typeof(Zombie)) as Zombie[];
-			Zombie[] array2 = array;
-			for (int i = 0; i < array2.Length; i++) {
+
+			foreach( Zombie zombie in array )
+			{
+				GameObject.Destroy( zombie.gameObject );
+			}
+
+			/*for (int i = 0; i < array2.Length; i++) {
 				Zombie zombie = array2 [i];
 				zombie.damage (500);
-			}
-			NetworkChat.sendAlert (string.Concat (new object[]
+			}*/
+
+			Reference.Tell( args.sender.networkPlayer, string.Concat (new object[]
 			{
-				args.sender.name,
-				" has killed ",
+				"Removed ",
 				array.Length,
 				" zombies"
 			}));
-		}
-
-		private void ReloadBans (CommandArgs args)
-		{
-			NetworkBans.Load ();
 		}
 
 		private void SetItemsDelay (CommandArgs args)
@@ -555,11 +549,11 @@ namespace AdminCommands
 		private void Vanish (CommandArgs args)
 		{
 			try {
-				//this.vanishedPlayers.Add (args.sender.steamid, new Vector3 (0f, 0f, 0f));
+				this.vanishedPlayers.Add (args.sender.steamid, new Vector3 (0f, 0f, 0f));
                 args.sender.player.gameObject.networkView.group = 1;
 				Reference.Tell (args.sender.networkPlayer, "You have vanished :D");
 			} catch {
-				//this.vanishedPlayers.Remove (args.sender.steamid);
+				this.vanishedPlayers.Remove(args.sender.steamid);
                 args.sender.player.gameObject.networkView.group = 0;
 				Reference.Tell (args.sender.networkPlayer, "You are visible again.");
 			}

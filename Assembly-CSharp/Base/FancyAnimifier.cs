@@ -43,6 +43,7 @@ public class FancyAnimifier : MonoBehaviour
 
 	public void Update()
 	{
+		/*
 		if (this.anim != null)
 		{
 			if (this.playID != string.Empty)
@@ -61,5 +62,6 @@ public class FancyAnimifier : MonoBehaviour
 				this.anim.CrossFade(this.stanceID, FancyAnimifier.FADE);
 			}
 		}
+		*/
 	}
 }

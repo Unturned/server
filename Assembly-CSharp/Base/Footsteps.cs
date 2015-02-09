@@ -38,6 +38,8 @@ public class Footsteps : MonoBehaviour
 
 	public void Update()
 	{
+		// TODO: this is server...
+		/*
 		int num;
 		Physics.Raycast(base.transform.position + new Vector3(0f, 0.5f, 0f), Vector3.down, out Footsteps.hit, 1f);
 		if (Footsteps.hit.collider == null)
@@ -250,5 +252,6 @@ public class Footsteps : MonoBehaviour
 				}
 			}
 		}
+		*/
 	}
 }

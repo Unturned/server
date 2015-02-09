@@ -276,7 +276,4 @@ public class NetworkChat : MonoBehaviour
 	public void tellNotification(string text) {
 		NetworkChat.notification = text;
 	}
-
-	public void Update() {
-	}
 }
