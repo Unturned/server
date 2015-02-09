@@ -35,6 +35,7 @@ namespace AdminCommands
             new KitCommands();
             new BanCommands();
 			new AICommands();
+			new BuildCommands();	
 
 			Command saveCommand = new Command(8, new CommandDelegate(this.SaveAll), new String[] {
 				"s",
@@ -684,9 +685,9 @@ namespace AdminCommands
 			}
 			string steamid = user.steamid;
 			if (this.playerHomes.ContainsKey (steamid)) {
-				string[] array = System.IO.File.ReadAllLines ("Unturned_Data/Managed/mods/AdminCommands/PlayerHomes.txt");
-				System.IO.File.Delete ("Unturned_Data/Managed/mods/AdminCommands/PlayerHomes.txt");
-				System.IO.StreamWriter streamWriter = new System.IO.StreamWriter ("Unturned_Data/Managed/mods/AdminCommands/PlayerHomes.txt", true);
+				string[] array = System.IO.File.ReadAllLines ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt");
+				System.IO.File.Delete ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt");
+				System.IO.StreamWriter streamWriter = new System.IO.StreamWriter ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt", true);
 				for (int j = 0; j < array.Length; j++) {
 					if (!array [j].StartsWith (steamid)) {
 						streamWriter.WriteLine (array [j]);
@@ -694,7 +695,7 @@ namespace AdminCommands
 				}
 				streamWriter.Close ();
 			}
-			System.IO.StreamWriter streamWriter2 = new System.IO.StreamWriter ("Unturned_Data/Managed/mods/AdminCommands/PlayerHomes.txt", true);
+			StreamWriter streamWriter2 = new System.IO.StreamWriter ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt", true);
 			streamWriter2.WriteLine (string.Concat (new object[]
 			{
 				steamid,
@@ -842,32 +843,17 @@ namespace AdminCommands
 				streamWriter.Close ();
 			}
 			
-            string[] array2 = System.IO.File.ReadAllLines ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt");
-			for (int i = 0; i < array2.Length; i++) {
-				if (array2 [i].Length > 5) {
-					string key = array2 [i].Split (new char[]
-					{
-						':'
-					}) [0];
-					string text = array2 [i].Split (new char[]
-					{
-						':'
-					}) [1];
-					string value = text.Split (new char[]
-					{
-						','
-					}) [0];
-					string value2 = text.Split (new char[]
-					{
-						','
-					}) [1];
-					string value3 = text.Split (new char[]
-					{
-						','
-					}) [2];
-					Vector3 value4 = new Vector3 (System.Convert.ToSingle (value), System.Convert.ToSingle (value2), System.Convert.ToSingle (value3));
-					this.playerHomes [key] = value4;
-				}
+            string[] homes = System.IO.File.ReadAllLines ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt");
+			foreach (string homeEntry in homes ) {
+				string[] homeStruct = homeEntry.Split(new char[]{':'});
+				string steamID = homeStruct[0];
+
+				string[] posStruct = homeStruct[1].Split(new char[]{','});
+				String posX = posStruct[0];
+				string posY = posStruct[1];
+				string posZ = posStruct[2];
+				Vector3 value4 = new Vector3 (Convert.ToSingle(posX), Convert.ToSingle(posY), Convert.ToSingle(posZ));
+				this.playerHomes[steamID] = value4;
 			}
 			if (!System.IO.File.Exists ("Unturned_Data/Managed/mods/AdminCommands/UnturnedAnnounces.txt")) {
 				System.IO.StreamWriter streamWriter = new System.IO.StreamWriter ("Unturned_Data/Managed/mods/AdminCommands/UnturnedAnnounces.txt", true);
