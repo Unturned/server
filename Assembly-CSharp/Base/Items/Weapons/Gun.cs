@@ -40,16 +40,6 @@ public class Gun : Useable
 
 	private float lastTactical;
 
-	private SleekBox infoBox;
-
-	private SleekButton buttonMagazine;
-
-	private SleekButton buttonTactical;
-
-	private SleekButton buttonBarrel;
-
-	private SleekButton buttonSight;
-
 	private int ammo = -1;
 
 	private int capacity;
@@ -331,11 +321,6 @@ public class Gun : Useable
 		Gun.dualrender = false;
 		Look.fov = 0f;
 		Look.zoom.farClipPlane = 0.17f;
-		this.infoBox.@remove();
-		this.buttonMagazine.@remove();
-		this.buttonTactical.@remove();
-		this.buttonBarrel.@remove();
-		this.buttonSight.@remove();
 		if (this.laser != null)
 		{
 			UnityEngine.Object.Destroy(this.laser);
@@ -1050,10 +1035,6 @@ public class Gun : Useable
 		if (this.attaching)
 		{
 			this.attaching = false;
-			this.buttonMagazine.visible = false;
-			this.buttonTactical.visible = false;
-			this.buttonBarrel.visible = false;
-			this.buttonSight.visible = false;
 			if (!this.reloading && !this.cocking)
 			{
 				Viewmodel.play("stopAttach");
@@ -1078,48 +1059,7 @@ public class Gun : Useable
 	public override void tick()
 	{
 		Vector3 vector3;
-		if (ServerSettings.mode == 2)
-		{
-			if (this.firemode == 0)
-			{
-				this.infoBox.text = string.Concat(new object[] { Texts.LABEL_SAFETY, " [", InputSettings.firemodeKey, "]" });
-			}
-			else if (this.firemode != 1)
-			{
-				this.infoBox.text = string.Concat(new object[] { Texts.LABEL_AUTO, " [", InputSettings.firemodeKey, "]" });
-			}
-			else
-			{
-				this.infoBox.text = string.Concat(new object[] { Texts.LABEL_SINGLE, " [", InputSettings.firemodeKey, "]" });
-			}
-		}
-		else if (this.magazine != -1)
-		{
-			if (this.firemode == 0)
-			{
-				this.infoBox.text = string.Concat(new object[] { this.ammo, "/", this.capacity, " [", InputSettings.attachmentKey, "] - ", Texts.LABEL_SAFETY, " [", InputSettings.firemodeKey, "]" });
-			}
-			else if (this.firemode != 1)
-			{
-				this.infoBox.text = string.Concat(new object[] { this.ammo, "/", this.capacity, " [", InputSettings.attachmentKey, "] - ", Texts.LABEL_AUTO, " [", InputSettings.firemodeKey, "]" });
-			}
-			else
-			{
-				this.infoBox.text = string.Concat(new object[] { this.ammo, "/", this.capacity, " [", InputSettings.attachmentKey, "] - ", Texts.LABEL_SINGLE, " [", InputSettings.firemodeKey, "]" });
-			}
-		}
-		else if (this.firemode == 0)
-		{
-			this.infoBox.text = string.Concat(new object[] { "0/0 [", InputSettings.attachmentKey, "] - ", Texts.LABEL_SAFETY, " [", InputSettings.firemodeKey, "]" });
-		}
-		else if (this.firemode != 1)
-		{
-			this.infoBox.text = string.Concat(new object[] { "0/0 [", InputSettings.attachmentKey, "] - ", Texts.LABEL_AUTO, " [", InputSettings.firemodeKey, "]" });
-		}
-		else
-		{
-			this.infoBox.text = string.Concat(new object[] { "0/0 [", InputSettings.attachmentKey, "] - ", Texts.LABEL_SINGLE, " [", InputSettings.firemodeKey, "]" });
-		}
+
 		if (this.magazine == -1)
 		{
 			Interact.hint = string.Concat("Ammo [", InputSettings.attachmentKey, "]");
@@ -1398,16 +1338,6 @@ public class Gun : Useable
 			this.attaching = true;
 			if (this.magazinePoint != null)
 			{
-				this.buttonMagazine.visible = true;
-				if (this.magazine == -1)
-				{
-					this.buttonMagazine.text = Texts.LABEL_MAGAZINE;
-				}
-				else
-				{
-					this.buttonMagazine.text = string.Concat(new object[] { this.ammo, "/", this.capacity, " - ", ItemName.getName(this.magazine) });
-				}
-				this.buttonMagazine.clearFrames();
 				this.magazineAttach = new List<Point2>();
 				for (int i = 0; i < Player.inventory.height; i++)
 				{
@@ -1422,16 +1352,6 @@ public class Gun : Useable
 			}
 			if (this.tacticalPoint != null)
 			{
-				this.buttonTactical.visible = true;
-				if (this.tactical == -1)
-				{
-					this.buttonTactical.text = Texts.LABEL_TACTICAL;
-				}
-				else
-				{
-					this.buttonTactical.text = ItemName.getName(this.tactical);
-				}
-				this.buttonTactical.clearFrames();
 				this.tacticalAttach = new List<Point2>();
 				for (int k = 0; k < Player.inventory.height; k++)
 				{
@@ -1447,16 +1367,6 @@ public class Gun : Useable
 			}
 			if (this.barrelPoint != null)
 			{
-				this.buttonBarrel.visible = true;
-				if (this.barrel == -1)
-				{
-					this.buttonBarrel.text = Texts.LABEL_BARREL;
-				}
-				else
-				{
-					this.buttonBarrel.text = ItemName.getName(this.barrel);
-				}
-				this.buttonBarrel.clearFrames();
 				this.barrelAttach = new List<Point2>();
 				for (int m = 0; m < Player.inventory.height; m++)
 				{
@@ -1472,16 +1382,6 @@ public class Gun : Useable
 			}
 			if (this.sightPoint != null)
 			{
-				this.buttonSight.visible = true;
-				if (this.sight == -1)
-				{
-					this.buttonSight.text = Texts.LABEL_SIGHT;
-				}
-				else
-				{
-					this.buttonSight.text = ItemName.getName(this.sight);
-				}
-				this.buttonSight.clearFrames();
 				this.sightAttach = new List<Point2>();
 				for (int o = 0; o < Player.inventory.height; o++)
 				{
@@ -1503,27 +1403,8 @@ public class Gun : Useable
 		}
 		if (this.attaching)
 		{
-			if (this.magazinePoint != null)
-			{
-				Vector3 screenPoint = Look.view.WorldToScreenPoint(this.magazinePoint.position);
-				this.buttonMagazine.position = new Coord2((int)screenPoint.x - 100, Screen.height - (int)screenPoint.y - 20, 0f, 0f);
-			}
-			if (this.tacticalPoint != null)
-			{
-				Vector3 screenPoint1 = Look.view.WorldToScreenPoint(this.tacticalPoint.position);
-				this.buttonTactical.position = new Coord2((int)screenPoint1.x - 100, Screen.height - (int)screenPoint1.y - 20, 0f, 0f);
-			}
-			if (this.barrelPoint != null)
-			{
-				Vector3 vector31 = Look.view.WorldToScreenPoint(this.barrelPoint.position);
-				this.buttonBarrel.position = new Coord2((int)vector31.x - 100, Screen.height - (int)vector31.y - 20, 0f, 0f);
-			}
-			if (this.sightPoint != null)
-			{
-				Vector3 screenPoint2 = Look.view.WorldToScreenPoint(this.sightPoint.position);
-				this.buttonSight.position = new Coord2((int)screenPoint2.x - 100, Screen.height - (int)screenPoint2.y - 20, 0f, 0f);
-			}
 		}
+
 		Gun.spread = Mathf.Lerp(Gun.spread, 1f, 4f * Time.deltaTime);
 		if (this.firing && (this.firetype != 2 || Gun.aiming))
 		{
@@ -1912,159 +1793,5 @@ public class Gun : Useable
 		}
 	}
 
-	public void usedAttachBarrel(SleekFrame frame)
-	{
-		NetworkSounds.askSound("Sounds/General/firemode", base.transform.position, 0.1f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
-		int offsetY = (frame.position.offset_y - 50) / 50;
-		if (!Network.isServer)
-		{
-			NetworkView networkView = base.networkView;
-			object[] objArray = new object[] { Equipment.equipped.x, Equipment.equipped.y, null, null };
-			Point2 item = this.barrelAttach[offsetY];
-			objArray[2] = item.x;
-			Point2 point2 = this.barrelAttach[offsetY];
-			objArray[3] = point2.y;
-			networkView.RPC("setBarrel", RPCMode.Server, objArray);
-		}
-		else
-		{
-			int num = Equipment.equipped.x;
-			int num1 = Equipment.equipped.y;
-			int item1 = this.barrelAttach[offsetY].x;
-			Point2 point21 = this.barrelAttach[offsetY];
-			this.setBarrel(num, num1, item1, point21.y);
-		}
-		this.stopAttach();
-	}
 
-	public void usedAttachMagazine(SleekFrame frame)
-	{
-		NetworkSounds.askSound("Sounds/General/firemode", base.transform.position, 0.1f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
-		int offsetY = (frame.position.offset_y - 50) / 50;
-		if (!Network.isServer)
-		{
-			NetworkView networkView = base.networkView;
-			object[] objArray = new object[] { Equipment.equipped.x, Equipment.equipped.y, null, null };
-			Point2 item = this.magazineAttach[offsetY];
-			objArray[2] = item.x;
-			Point2 point2 = this.magazineAttach[offsetY];
-			objArray[3] = point2.y;
-			networkView.RPC("setMagazine", RPCMode.Server, objArray);
-		}
-		else
-		{
-			int num = Equipment.equipped.x;
-			int num1 = Equipment.equipped.y;
-			int item1 = this.magazineAttach[offsetY].x;
-			Point2 point21 = this.magazineAttach[offsetY];
-			this.setMagazine(num, num1, item1, point21.y);
-		}
-		this.stopAttach();
-	}
-
-	public void usedAttachSight(SleekFrame frame)
-	{
-		NetworkSounds.askSound("Sounds/General/firemode", base.transform.position, 0.1f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
-		int offsetY = (frame.position.offset_y - 50) / 50;
-		if (!Network.isServer)
-		{
-			NetworkView networkView = base.networkView;
-			object[] objArray = new object[] { Equipment.equipped.x, Equipment.equipped.y, null, null };
-			Point2 item = this.sightAttach[offsetY];
-			objArray[2] = item.x;
-			Point2 point2 = this.sightAttach[offsetY];
-			objArray[3] = point2.y;
-			networkView.RPC("setSight", RPCMode.Server, objArray);
-		}
-		else
-		{
-			int num = Equipment.equipped.x;
-			int num1 = Equipment.equipped.y;
-			int item1 = this.sightAttach[offsetY].x;
-			Point2 point21 = this.sightAttach[offsetY];
-			this.setSight(num, num1, item1, point21.y);
-		}
-		this.stopAttach();
-	}
-
-	public void usedAttachTactical(SleekFrame frame)
-	{
-		NetworkSounds.askSound("Sounds/General/firemode", base.transform.position, 0.1f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
-		int offsetY = (frame.position.offset_y - 50) / 50;
-		if (!Network.isServer)
-		{
-			NetworkView networkView = base.networkView;
-			object[] objArray = new object[] { Equipment.equipped.x, Equipment.equipped.y, null, null };
-			Point2 item = this.tacticalAttach[offsetY];
-			objArray[2] = item.x;
-			Point2 point2 = this.tacticalAttach[offsetY];
-			objArray[3] = point2.y;
-			networkView.RPC("setTactical", RPCMode.Server, objArray);
-		}
-		else
-		{
-			int num = Equipment.equipped.x;
-			int num1 = Equipment.equipped.y;
-			int item1 = this.tacticalAttach[offsetY].x;
-			Point2 point21 = this.tacticalAttach[offsetY];
-			this.setTactical(num, num1, item1, point21.y);
-		}
-		this.stopAttach();
-	}
-
-	public void usedBarrel(SleekFrame frame)
-	{
-		NetworkSounds.askSound("Sounds/General/firemode", base.transform.position, 0.1f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
-		if (!Network.isServer)
-		{
-			base.networkView.RPC("setBarrel", RPCMode.Server, new object[] { Equipment.equipped.x, Equipment.equipped.y, -1, -1 });
-		}
-		else
-		{
-			this.setBarrel(Equipment.equipped.x, Equipment.equipped.y, -1, -1);
-		}
-		this.stopAttach();
-	}
-
-	public void usedMagazine(SleekFrame frame)
-	{
-		NetworkSounds.askSound("Sounds/General/firemode", base.transform.position, 0.1f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
-		if (!Network.isServer)
-		{
-			base.networkView.RPC("setMagazine", RPCMode.Server, new object[] { Equipment.equipped.x, Equipment.equipped.y, -1, -1 });
-		}
-		else
-		{
-			this.setMagazine(Equipment.equipped.x, Equipment.equipped.y, -1, -1);
-		}
-		this.stopAttach();
-	}
-
-	public void usedSight(SleekFrame frame)
-	{
-		NetworkSounds.askSound("Sounds/General/firemode", base.transform.position, 0.1f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
-		if (!Network.isServer)
-		{
-			base.networkView.RPC("setSight", RPCMode.Server, new object[] { Equipment.equipped.x, Equipment.equipped.y, -1, -1 });
-		}
-		else
-		{
-			this.setSight(Equipment.equipped.x, Equipment.equipped.y, -1, -1);
-		}
-		this.stopAttach();
-	}
-
-	public void usedTactical(SleekFrame frame)
-	{
-		NetworkSounds.askSound("Sounds/General/firemode", base.transform.position, 0.1f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
-		if (!Network.isServer)
-		{
-			base.networkView.RPC("setTactical", RPCMode.Server, new object[] { Equipment.equipped.x, Equipment.equipped.y, -1, -1 });
-		}
-		else
-		{
-			this.setTactical(Equipment.equipped.x, Equipment.equipped.y, -1, -1);
-		}
-		this.stopAttach();
-	}
 }

@@ -366,8 +366,11 @@ public class InteractionInterface : MonoBehaviour
 	}
 
 	[RPC]
-	public void askHarvest(Vector3 position)
+	public void askHarvest(Vector3 position, NetworkMessageInfo info)
 	{
+#if DEBUG
+		Console.WriteLine("Asking harvest: " + NetworkUserList.getUserFromPlayer(info.sender).name);
+#endif
 		Point2 region = NetworkRegions.getRegion(position);
 		int indexFromPositionServer = SpawnBarricades.getIndexFromPositionServer(region, position);
 		if (indexFromPositionServer != -1 && Epoch.getSeconds() - int.Parse(SpawnBarricades.regions[region.x, region.y].barricades[indexFromPositionServer].state) > HarvestStats.getGrowth(SpawnBarricades.regions[region.x, region.y].barricades[indexFromPositionServer].id))
@@ -965,7 +968,8 @@ public class InteractionInterface : MonoBehaviour
 		}
 		else
 		{
-			InteractionInterface.tool.askHarvest(position);
+			Console.WriteLine("Server called askHarvest, what is commented out!!!");
+			//InteractionInterface.tool.askHarvest(position);
 		}
 	}
 

@@ -67,20 +67,6 @@ public class Vehicle : Interactable
 
 	private float lastTick;
 
-	private SleekBox speedMeter;
-
-	private SleekLabel speedLabel;
-
-	private SleekImage speedIcon;
-
-	private SleekBox fuelMeter;
-
-	private SleekImage fuelBar;
-
-	private SleekLabel fuelLabel;
-
-	private SleekImage fuelIcon;
-
 	private static RaycastHit hit;
 
 	private bool real = true;
@@ -675,16 +661,6 @@ public class Vehicle : Interactable
 	{
 		if (this.real)
 		{
-			if (this.speedMeter != null)
-			{
-				this.speedMeter.@remove();
-				this.speedMeter = null;
-			}
-			if (this.fuelMeter != null)
-			{
-				this.fuelMeter.@remove();
-				this.fuelMeter = null;
-			}
 			if (Movement.isDriving)
 			{
 				base.networkView.RPC("updateSpeed", RPCMode.All, new object[] { 0 });
@@ -775,11 +751,6 @@ public class Vehicle : Interactable
 	public void tellFuel_Pizza(int setFuel)
 	{
 		this.fuel = setFuel;
-		if (this.fuelMeter != null)
-		{
-			this.fuelLabel.text = string.Concat(Mathf.FloorToInt((float)this.fuel / (float)this.maxFuel * 100f), "%");
-			this.fuelBar.size = new Coord2((int)((float)this.fuel / (float)this.maxFuel * 90f), 20, 0f, 0f);
-		}
 	}
 
 	[RPC]
