@@ -34,6 +34,7 @@ namespace AdminCommands
             new CreditCommand();
             new KitCommands();
             new BanCommands();
+			new AICommands();
 
 			Command saveCommand = new Command(8, new CommandDelegate(this.SaveAll), new String[] {
 				"s",
@@ -97,18 +98,9 @@ namespace AdminCommands
 			});
 			command12.description = ("Deactivates all sirens");
 			CommandList.add (command12);
-			Command command13 = new Command (7, new CommandDelegate (this.ResetZombies), new string[]
-			{
-				"resetzombies"
-			});
-			command13.description = ("Deletes and respawns all zombies");
-			CommandList.add (command13);
-			Command command14 = new Command (7, new CommandDelegate (this.Killzombies), new string[]
-			{
-				"killzombies"
-			});
-			command14.description = ("Kills all zombies");
-			CommandList.add (command14);
+
+
+
 			Command command16 = new Command (7, new CommandDelegate (this.SetItemsDelay), new string[]
 			{
 				"setitemsdelay"
@@ -288,34 +280,6 @@ namespace AdminCommands
 					false
 				});
 			}
-		}
-
-		private void ResetZombies (CommandArgs args)
-		{
-			SpawnAnimals.reset ();
-			NetworkChat.sendAlert (args.sender.name + " has respawned all zombies");
-		}
-
-		private void Killzombies (CommandArgs args)
-		{
-			Zombie[] array = UnityEngine.Object.FindObjectsOfType (typeof(Zombie)) as Zombie[];
-
-			foreach( Zombie zombie in array )
-			{
-				GameObject.Destroy( zombie.gameObject );
-			}
-
-			/*for (int i = 0; i < array2.Length; i++) {
-				Zombie zombie = array2 [i];
-				zombie.damage (500);
-			}*/
-
-			Reference.Tell( args.sender.networkPlayer, string.Concat (new object[]
-			{
-				"Removed ",
-				array.Length,
-				" zombies"
-			}));
 		}
 
 		private void SetItemsDelay (CommandArgs args)

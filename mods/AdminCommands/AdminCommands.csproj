@@ -49,6 +49,7 @@
     <Compile Include="Kits\ShotgunKit.cs" />
     <Compile Include="Kits\SpawnKit.cs" />
     <Compile Include="Kits\TimberKit.cs" />
+    <Compile Include="AICommands.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
