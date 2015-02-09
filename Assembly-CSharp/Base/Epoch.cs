@@ -3,12 +3,7 @@ using UnityEngine;
 
 public class Epoch
 {
-	public static int serverTime;
-
-	static Epoch()
-	{
-		Epoch.serverTime = -1;
-	}
+	public static int serverTime = -1;
 
 	public Epoch()
 	{

@@ -52,10 +52,10 @@ public class Database : MonoBehaviour
             PlayerSettings.status = 21;
             if (Epoch.serverTime == -1)
             {
-                Epoch.serverTime = (int)0;//(SteamUtils.GetServerRealTime() - 1401854099);
+				Epoch.serverTime = (int)(GetServerTime() - 1401854099);
             }
 					
-            ServerSettings.cycle = (int)0;//(SteamUtils.GetServerRealTime() - 1401854099);
+            ServerSettings.cycle = (int)(GetServerTime() - 1401854099);
             ServerSettings.offset = 0f;
             ServerSettings.time = (int)((float)ServerSettings.cycle % Sun.COURSE);
             Sun.tick = 0f;
@@ -63,4 +63,13 @@ public class Database : MonoBehaviour
             Sun.tool.cycle();
         }
     }
+
+	/// <summary>
+	/// returns Unix time in seconds
+	/// </summary>
+	/// <returns>The server time.</returns>
+	public static int GetServerTime()
+	{
+		return (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+	}
 }
