@@ -351,28 +351,21 @@ public class GunStats
 			{
 				return 12.8571424f;
 			}
+			case 9002:
+			{
+				return 7.5f;
+			}
+			case 9003:
+			{
+				return 90f;
+			}
+			case 9004:
+			{
+				return 15f;
+			}
 			default:
 			{
-				switch (num)
-				{
-					case 9002:
-					{
-						return 7.5f;
-					}
-					case 9003:
-					{
-						return 90f;
-					}
-					case 9004:
-					{
-						return 15f;
-					}
-					default:
-					{
-						return 90f;
-					}
-				}
-				break;
+				return 90f;
 			}
 		}
 	}
@@ -905,28 +898,21 @@ public class GunStats
 			{
 				return false;
 			}
+			case 7014:
+			{
+				return false;
+			}
+				case 7015:
+			{
+				return true;
+			}
+			case 7016:
+			{
+				return false;
+			}
 			default:
 			{
-				switch (num)
-				{
-					case 7014:
-					{
-						return false;
-					}
-					case 7015:
-					{
-						return true;
-					}
-					case 7016:
-					{
-						return false;
-					}
-					default:
-					{
-						return true;
-					}
-				}
-				break;
+				return true;
 			}
 		}
 	}
@@ -956,20 +942,13 @@ public class GunStats
 			{
 				return true;
 			}
-			default:
+			case 7017:
 			{
-				if (num == 7017)
-				{
-					break;
-				}
-				else
-				{
-					if (num == 7018)
-					{
-						return true;
-					}
-					return false;
-				}
+				return true;
+			}
+			case 7018:
+			{
+				return true;
 			}
 		}
 		return true;

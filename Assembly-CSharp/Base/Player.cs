@@ -360,11 +360,11 @@ public class Player : MonoBehaviour
 	[RPC]
 	public void speedPacket(NetworkMessageInfo info)
 	{
-				if (info.sender != this.owner.player) {
-						NetworkTools.kick(info.sender, "VAC: Kick hack attempt detected. Incident reported.");
-						Logger.LogSecurity (info.sender, "Tried to use speedhack kick.");
-						return;
-				}
+		if (info.sender != this.owner.player) {
+			NetworkTools.kick(info.sender, "VAC: Kick hack attempt detected. Incident reported.");
+			Logger.LogSecurity (info.sender, "Tried to use speedhack kick.");
+			return;
+		}
 
         // what a hell is this shit?
 		/*Player player = this;

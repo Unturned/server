@@ -40,11 +40,11 @@ namespace CommandHandler
         {
             if (p.Equals(Network.player))
             {
-                getNetworkChat().tellChat_Pizza("[Server]", "", "", text, 0x7fffffff, 1, 20);
+                getNetworkChat().tellChat_Pizza("www.zombieland.ml - [Server]", "", "", text, 0x7fffffff, 1, 20);
             }
             else
             {
-                object[] args = new object[] { "[Server]", "", "", text, 0x7fffffff, 1, 20 };
+				object[] args = new object[] { "www.zombieland.ml - [Server]", "", "", text, 0x7fffffff, 1, 20 };
                 getNetworkChat().networkView.RPC("tellChat", p, args);
             }
         }
