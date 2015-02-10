@@ -37,24 +37,27 @@ public class NetworkSounds : MonoBehaviour
 	[RPC]
 	public void tellSound(string path, Vector3 position, float volume, float pitch, float range)
 	{
-		if (!ServerSettings.dedicated && Camera.main != null && Mathf.Abs(position.x - Camera.main.transform.position.x) < 32f && Mathf.Abs(position.z - Camera.main.transform.position.z) < 32f)
+		if (!Network.isServer)
 		{
-			path = string.Concat("Sounds/", path);
-			GameObject gameObject = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Effects/sound"), position, Quaternion.identity);
-			gameObject.name = "sound";
-			gameObject.transform.parent = NetworkSounds.model.transform;
-			gameObject.audio.clip = (AudioClip)Resources.Load(path);
-			gameObject.audio.volume = volume;
-			gameObject.audio.pitch = pitch;
-			gameObject.audio.minDistance = range;
-			gameObject.audio.Play();
-			if (gameObject.audio.clip == null)
+			if (!ServerSettings.dedicated && Camera.main != null && Mathf.Abs(position.x - Camera.main.transform.position.x) < 32f && Mathf.Abs(position.z - Camera.main.transform.position.z) < 32f)
 			{
-				UnityEngine.Object.Destroy(gameObject, 1f);
-			}
-			else
-			{
-				UnityEngine.Object.Destroy(gameObject, gameObject.audio.clip.length);
+				path = string.Concat("Sounds/", path);
+				GameObject gameObject = (GameObject)UnityEngine.Object.Instantiate(Resources.Load("Effects/sound"), position, Quaternion.identity);
+				gameObject.name = "sound";
+				gameObject.transform.parent = NetworkSounds.model.transform;
+				gameObject.audio.clip = (AudioClip)Resources.Load(path);
+				gameObject.audio.volume = volume;
+				gameObject.audio.pitch = pitch;
+				gameObject.audio.minDistance = range;
+				gameObject.audio.Play();
+				if (gameObject.audio.clip == null)
+				{
+					UnityEngine.Object.Destroy(gameObject, 1f);
+				}
+				else
+				{
+					UnityEngine.Object.Destroy(gameObject, gameObject.audio.clip.length);
+				}
 			}
 		}
 	}

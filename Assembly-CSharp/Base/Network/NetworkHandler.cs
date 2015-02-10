@@ -140,27 +140,26 @@ public class NetworkHandler : MonoBehaviour
 
     private IEnumerator SavePlayerCredit(NetworkPlayer player)
     {
-        String steamID = String.Empty;
-        int credit = 0;
         try 
         {
-            NetworkUser user = NetworkUserList.getUserFromPlayer(player);
-            steamID = user.id;
-            credit = user.model.GetComponent<Player>().credit;
-            yield return null;
+			NetworkUser user = NetworkUserList.getUserFromPlayer(player);
+            String steamID = user.id;
+            int credit = user.model.GetComponent<Player>().credit;
+            
+			// Saving credit
+			Database.provider.SaveCredits(steamID, credit);
         }
+		catch (Exception e)
+		{
+			UnityEngine.Debug.Log("Cannot save the user's credit. Error: " + e.Message );
+		}
         finally
         {
             Network.RemoveRPCs(player);
             Network.DestroyPlayerObjects(player);
         }
 
-		// Saving credit
-        if (!steamID.Equals(String.Empty))
-        {
-            Database.provider.SaveCredits(steamID, credit);
-            yield return true;
-        }
+		yield return true;
     }
 
 	public void onPlayerDisconnected(NetworkPlayer player)
