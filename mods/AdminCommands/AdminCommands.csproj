@@ -51,6 +51,7 @@
     <Compile Include="Kits\TimberKit.cs" />
     <Compile Include="AICommands.cs" />
     <Compile Include="BuildCommands.cs" />
+    <Compile Include="HomeCommands.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

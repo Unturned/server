@@ -15,16 +15,14 @@ namespace AdminCommands
         public System.Timers.Timer announceTimer;
 		public int announceIndex = 0;
 		
-        public int itemsResetIntervalInSeconds = 2700;
+        public int itemsResetIntervalInSeconds = 8 * 60; // 5 mins respawn time
 		public int announceIntervalInSeconds = 600;
 		public string[] AnnounceMessages;
 
         public bool usePlayerHomes = true;
-		private Dictionary<string, Vector3> frozenPlayers = new System.Collections.Generic.Dictionary<string, Vector3> ();
-		private Dictionary<string, Vector3> vanishedPlayers = new System.Collections.Generic.Dictionary<string, Vector3> ();
-		private Dictionary<string, float> usedHomeCommand = new System.Collections.Generic.Dictionary<string, float> ();
-		
-        private Dictionary<string, Vector3> playerHomes = new System.Collections.Generic.Dictionary<string, Vector3> ();
+		private Dictionary<string, Vector3> frozenPlayers = new Dictionary<string, Vector3> ();
+		private Dictionary<string, Vector3> vanishedPlayers = new Dictionary<string, Vector3> ();
+
 		private static System.Random random = new System.Random ((int)System.DateTime.Now.Ticks);
 
 		public void Start ()
@@ -57,19 +55,7 @@ namespace AdminCommands
 			});
 			timeCommand.description =  ("Shows in-game time");
 			CommandList.add (timeCommand);
-			Command setHomeCommand = new Command (0, new CommandDelegate (this.SetHome), new string[]
-			{
-				"sethome"
-			});
-			setHomeCommand.description =  ("Sets your home (if enabled)");
-			CommandList.add (setHomeCommand);
-			
-			Command teleportHomeCommand = new Command (0, new CommandDelegate (this.Home), new string[]
-			{
-				"home"
-			});
-			teleportHomeCommand.description = ("Teleports to your home (if enabled)");
-			CommandList.add (teleportHomeCommand);
+
 			
 			Command announceCommand = new Command (6, new CommandDelegate (this.Announce), new string[]
 			{
@@ -230,24 +216,7 @@ namespace AdminCommands
 			NetworkChat.sendAlert ("Time: " + Sun.getTime ());
 		}
 
-		private void SetHome (CommandArgs args)
-		{
-			if (this.usePlayerHomes) {
-				Vector3 position = args.sender.position;
-				this.setHome(args.sender, position);
-			} else {
-				Reference.Tell(args.sender.networkPlayer, "PlayerHomes are not enabled on this server.");
-			}
-		}
 
-		private void Home (CommandArgs args)
-		{
-			if (this.usePlayerHomes) {
-				this.home (args.sender);
-			} else {
-				Reference.Tell(args.sender.networkPlayer, "PlayerHomes are not enabled on this server.");
-			}
-		}
 
 		private void Announce (CommandArgs args)
 		{
@@ -332,7 +301,7 @@ namespace AdminCommands
 			float num = float.Parse (args.Parameters[0]);
 			float num2 = float.Parse (args.Parameters[1]);
 			float num3 = float.Parse (args.Parameters[2]);
-			this.teleportUserTo (args.sender, new Vector3 (num, num2, num3));
+			this.teleportUserTo (args.sender, new Vector3 (num, num2, num3), Quaternion.identity);
 		}
 
 		private void TeleportAll (CommandArgs args)
@@ -565,22 +534,6 @@ namespace AdminCommands
 			Application.Quit ();
 		}
 
-		private void teleportUserTo (BetterNetworkUser user, Vector3 target)
-		{
-			user.position = target;
-			user.player.gameObject.GetComponent<Life> ().networkView.RPC ("tellStatePosition", RPCMode.All, new object[]
-			{
-				target,
-				user.rotation
-			});
-			user.player.gameObject.GetComponent<NetworkInterpolation> ().tellStatePosition_Pizza (target, user.rotation);
-			Network.SetReceivingEnabled (user.networkPlayer, 0, false);
-			new Timer (delegate(object obj)
-			{
-				Network.SetReceivingEnabled (user.networkPlayer, 0, true);
-			}, null, 2000, -1);
-		}
-
 		private void teleportUserTo (BetterNetworkUser user, Vector3 targetposition, Quaternion targetrotation)
 		{
 			user.position = targetposition;
@@ -664,117 +617,6 @@ namespace AdminCommands
 			NetworkTools.kick (userFromName.networkPlayer, reason);
 		}
 
-		private void setHome (BetterNetworkUser user, Vector3 location)
-		{
-			Reference.Tell (user.networkPlayer, "Setting home... Stand still for 20 seconds.");
-			new Timer (delegate(object obj)
-			{
-				this.setPlayerhome (user, location);
-			}, null, 500, -1);
-		}
-
-		private bool setPlayerhome (BetterNetworkUser user, Vector3 location)
-		{
-			int i = 20;
-			bool result;
-			while (i > 0) {
-				if (!user.position.Equals (location)) {
-					Reference.Tell (user.networkPlayer, "Sethome cancelled");
-					result = false;
-					return result;
-				}
-				Reference.Tell (user.networkPlayer, "Setting home in " + i + " seconds");
-				i--;
-				System.Threading.Thread.Sleep (1000);
-			}
-			string steamid = user.steamid;
-			if (this.playerHomes.ContainsKey (steamid)) {
-				string[] array = System.IO.File.ReadAllLines ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt");
-				System.IO.File.Delete ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt");
-				System.IO.StreamWriter streamWriter = new System.IO.StreamWriter ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt", true);
-				for (int j = 0; j < array.Length; j++) {
-					if (!array [j].StartsWith (steamid)) {
-						streamWriter.WriteLine (array [j]);
-					}
-				}
-				streamWriter.Close ();
-			}
-			StreamWriter streamWriter2 = new System.IO.StreamWriter ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt", true);
-			streamWriter2.WriteLine (string.Concat (new object[]
-			{
-				steamid,
-				":",
-				location.x,
-				",",
-				location.y,
-				",",
-				location.z
-			}));
-			streamWriter2.Close ();
-			this.playerHomes [steamid] = location;
-			Reference.Tell (user.networkPlayer, "Home set.");
-			result = true;
-			return result;
-		}
-
-		private void home (BetterNetworkUser user)
-		{
-			if (!this.usedHomeCommand.ContainsKey (user.steamid)) {
-				Vector3 originalposition = user.position;
-				Reference.Tell (user.networkPlayer, "Teleporting home... Stand still for 5 seconds.");
-				new Timer (delegate(object obj)
-				{
-					if (this.teleportHome (user, originalposition)) {
-						this.usedHomeCommand.Add (user.steamid, UnityEngine.Time.realtimeSinceStartup);
-					}
-				}, null, 500, -1);
-			} else {
-				if (UnityEngine.Time.realtimeSinceStartup - this.usedHomeCommand[user.steamid] > 60f || UserList.getPermission(user.steamid) > 4L) {
-					Vector3 originalposition = user.position;
-					Reference.Tell (user.networkPlayer, "Teleporting home... Stand still for 5 seconds.");
-					new Timer (delegate(object obj)
-					{
-						if (this.teleportHome (user, originalposition)) {
-							this.usedHomeCommand [user.steamid] = UnityEngine.Time.realtimeSinceStartup;
-						}
-					}, null, 500, -1);
-				} else {
-					Reference.Tell(
-						user.networkPlayer, 
-						"You need to wait " + 
-						System.Math.Round ((double)(60f - (UnityEngine.Time.realtimeSinceStartup - this.usedHomeCommand[user.steamid]))).ToString() + 
-						" more seconds before you can teleport home again.");
-				}
-			}
-		}
-
-		private bool teleportHome(BetterNetworkUser user, Vector3 originalposition) {
-			int i = 10;
-			bool result;
-			
-			while (i > 0) {
-				if (!user.position.Equals (originalposition)) {
-					Reference.Tell (user.networkPlayer, "Teleportation cancelled");
-					result = false;
-					return result;
-				}
-				i--;
-				System.Threading.Thread.Sleep(500);
-			}
-			
-			if (user.position.Equals (originalposition)) {
-				this.teleportUserTo (user, this.playerHomes [user.steamid]);
-				Reference.Tell (user.networkPlayer, "Teleported home.");
-                NetworkEvents.triggerOnRegionUpdate();
-				result = true;
-				return result;
-			}
-			
-			Reference.Tell (user.networkPlayer, "Teleportation cancelled");
-			result = false;
-			return result;
-		}
-
 		public void Update () {
 			if (this.frozenPlayers.Count > 0) {
 				foreach (System.Collections.Generic.KeyValuePair<string, Vector3> current in this.frozenPlayers) {
@@ -840,25 +682,7 @@ namespace AdminCommands
             this.usePlayerHomes = true;
             this.itemsResetIntervalInSeconds = 2700;
             this.announceIntervalInSeconds = 600;
-			
-            if (!System.IO.File.Exists ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt")) {
-				System.IO.StreamWriter streamWriter = new System.IO.StreamWriter ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt", true);
-				streamWriter.WriteLine ("");
-				streamWriter.Close ();
-			}
-			
-            string[] homes = System.IO.File.ReadAllLines ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt");
-			foreach (string homeEntry in homes ) {
-				string[] homeStruct = homeEntry.Split(new char[]{':'});
-				string steamID = homeStruct[0];
 
-				string[] posStruct = homeStruct[1].Split(new char[]{','});
-				String posX = posStruct[0];
-				string posY = posStruct[1];
-				string posZ = posStruct[2];
-				Vector3 value4 = new Vector3 (Convert.ToSingle(posX), Convert.ToSingle(posY), Convert.ToSingle(posZ));
-				this.playerHomes[steamID] = value4;
-			}
 			if (!System.IO.File.Exists ("Unturned_Data/Managed/mods/AdminCommands/UnturnedAnnounces.txt")) {
 				System.IO.StreamWriter streamWriter = new System.IO.StreamWriter ("Unturned_Data/Managed/mods/AdminCommands/UnturnedAnnounces.txt", true);
 				streamWriter.WriteLine ("This line will be announced 10 minutes after injecting (or whatever you change the interval to)");
@@ -882,6 +706,7 @@ namespace AdminCommands
             this.itemsTimer = new System.Timers.Timer ((double)(this.itemsResetIntervalInSeconds * 1000));
             this.itemsTimer.Elapsed += new System.Timers.ElapsedEventHandler (this.itemsTimeElapsed);
 			this.itemsTimer.Enabled = true;
+
             this.announceTimer = new System.Timers.Timer ((double)(this.announceIntervalInSeconds * 1000));
             this.announceTimer.Elapsed += new System.Timers.ElapsedEventHandler (this.announcesTimeElapsed);
 			this.announceTimer.Enabled = true;

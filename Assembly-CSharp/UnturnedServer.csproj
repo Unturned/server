@@ -35,7 +35,6 @@
       <AutoGen>false</AutoGen>
       <DesignTimeSharedInput>false</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ModLoader\Hook.cs" />
     <Compile Include="ModLoader\Loader.cs" />
     <Compile Include="ModLoader\Reference.cs" />
     <Compile Include="Base\Network\NetworkChat.cs" />
@@ -228,6 +227,7 @@
     <Compile Include="CommandHandler\CommandList.cs" />
     <Compile Include="CommandHandler\UserList.cs" />
     <Compile Include="HookManager\HookEnventManager.cs" />
+    <Compile Include="ModLoader\ModManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

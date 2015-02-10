@@ -6,23 +6,22 @@ namespace ModLoader
 {
     public class Loader : MonoBehaviour
     {
+		public const String LOADER_LOG_FILE = @"modloader.log";
+
         public static GameObject gameobject;
         public static GameObject keepAlive;
 
 
         public static void hook()
         {
-            Directory.CreateDirectory("Unturned_Data/Managed/mods");
-            Directory.CreateDirectory("Unturned_Data/Managed/mods/Server mods");
-            Directory.CreateDirectory("Unturned_Data/Managed/mods/Client mods");
-
-            System.IO.File.WriteAllText(@"Unturned_Data/Managed/mods/ModLoader_logs.txt", string.Empty);
+            Directory.CreateDirectory("mods");
+			File.WriteAllText(LOADER_LOG_FILE, string.Empty);
 
             if (Loader.gameobject == null)
             {
                 gameobject = getNetworkChat().gameObject;
                 UnityEngine.Object.DontDestroyOnLoad(Loader.gameobject);
-                gameobject.AddComponent<Hook>();
+                gameobject.AddComponent<ModManager>();
             }  
 
             if (Loader.keepAlive == null)
@@ -39,16 +38,16 @@ namespace ModLoader
             if (gameobject == null)
             {
                 Log("GameObject was destroyed! Finding new gameobject...");
-                gameobject = getNetworkChat().gameObject;
+                gameobject = Loader.getNetworkChat().gameObject;
                 Log("Found new GameObject :)");
                 UnityEngine.Object.DontDestroyOnLoad(Loader.gameobject);
-                gameobject.AddComponent<Hook>();
+                gameobject.AddComponent<ModManager>();
             }
         }
 
         public static void Log(string p)
         {
-            System.IO.StreamWriter file = new StreamWriter(@"Unturned_Data/Managed/mods/ModLoader_logs.txt", true);
+			StreamWriter file = new StreamWriter(LOADER_LOG_FILE, true);
             file.WriteLine(p);
             file.Close();
         }
@@ -58,7 +57,5 @@ namespace ModLoader
             NetworkChat chat = UnityEngine.Object.FindObjectOfType(typeof(NetworkChat)) as NetworkChat;
             return chat;
         }
-
-
     }
 }

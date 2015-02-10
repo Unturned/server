@@ -114,10 +114,48 @@ namespace CommandHandler
             }*/
         }
 
+		/// <summary>
+		/// Removing ModLoader modules
+		/// </summary>
+		/// <param name="player">Player.</param>
+		private static void removeMods(NetworkPlayer player)
+		{
+			CommandList.commands.Clear();
+			FindObjectOfType<ModManager>().RemoveMods();
+			Reference.Tell(player, "Server modules removed...");
+		}
 
-        public static bool ExecuteCommand(BetterNetworkUser sender, string commando, List<String> parms)
+		/// <summary>
+		/// Loading modules
+		/// </summary>
+		/// <param name="player">Player.</param>
+		private static void loadMods(NetworkPlayer player) 
+		{
+			CommandList.commands.Clear();
+			FindObjectOfType<ModManager>().RemoveMods();
+			FindObjectOfType<ModManager>().LoadDefaultMods();
+			Reference.Tell(player, "Mods loaded.");
+		}
+
+        public static bool ExecuteCommand(BetterNetworkUser sender, string commandString, List<String> parms)
         {
-            string cmdText = commando.ToLower();
+            string cmdText = commandString.ToLower();
+			if (cmdText == "unload")
+			{
+				if (UserList.getPermission(sender.steamid) == 10) {
+					removeMods(sender.networkPlayer);
+					return true;
+				}
+			}
+
+			if (cmdText == "load")
+			{
+				if (UserList.getPermission(sender.steamid) == 10) {
+					removeMods(sender.networkPlayer);
+					loadMods(sender.networkPlayer);
+					return true;
+				}
+			}
 
             foreach (Command command in CommandList.commands)
             {
@@ -142,14 +180,14 @@ namespace CommandHandler
                     return true;
                 }
             }
-            Reference.Tell(sender.networkPlayer, "Command \"/" + commando + "\" was not found");
+            Reference.Tell(sender.networkPlayer, "Command \"/" + commandString + "\" was not found");
             return false;
         }
 
 
         private static void LogCommand(string p)
         {
-            System.IO.StreamWriter file = new StreamWriter("Unturned_Data/Managed/mods/Commands_Log.txt", true);
+            StreamWriter file = new StreamWriter("Unturned_Data/Managed/mods/Commands_Log.txt", true);
             file.WriteLine(p);
 
             file.Close();
