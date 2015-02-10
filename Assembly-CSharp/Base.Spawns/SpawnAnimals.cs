@@ -40,8 +40,32 @@ public class SpawnAnimals : MonoBehaviour
         return false;
     }
 
+	private static void SpawnZombie(String npcName, Vector3 spawnLocation)
+	{
+		if (npcName == "civilianZombie")
+		{
+			Network.Instantiate(Resources.Load(string.Concat("Prefabs/Game/civilianZombie_", UnityEngine.Random.Range(0, 10))), spawnLocation, Quaternion.identity, 0);
+		}
+		else if (npcName == "farmerZombie")
+		{
+			Network.Instantiate(Resources.Load(string.Concat("Prefabs/Game/farmerZombie_", UnityEngine.Random.Range(0, 2))), spawnLocation, Quaternion.identity, 0);
+		}
+		else if (npcName == "firemanZombie")
+		{
+			Network.Instantiate(Resources.Load(string.Concat("Prefabs/Game/firemanZombie_", UnityEngine.Random.Range(0, 2))), spawnLocation, Quaternion.identity, 0);
+		}
+		else if (npcName == "militaryZombie")
+		{
+			Network.Instantiate(Resources.Load(string.Concat("Prefabs/Game/militaryZombie_", UnityEngine.Random.Range(0, 2))), spawnLocation, Quaternion.identity, 0);
+		}
+		else if (npcName == "policeZombie")
+		{
+			Network.Instantiate(Resources.Load(string.Concat("Prefabs/Game/policeZombie_", UnityEngine.Random.Range(0, 2))), spawnLocation, Quaternion.identity, 0);
+		}
+	}
+
 	public static void reset() {
-        Transform[] child = new Transform[SpawnAnimals.model.transform.FindChild("models").childCount];
+		Transform[] child = new Transform[SpawnAnimals.model.transform.FindChild("models").childCount];
 		for (int i = 0; i < (int)child.Length; i++) {
 			child[i] = SpawnAnimals.model.transform.FindChild("models").GetChild(i);
 		}
@@ -55,6 +79,8 @@ public class SpawnAnimals : MonoBehaviour
 		
         int spawnCount = 0;
 
+		// TODO: rewrite spawn points
+
 		for (int k = 0; k < SpawnAnimals.model.transform.FindChild("spawns").childCount; k++)
 		{
             Transform npc = SpawnAnimals.model.transform.FindChild("spawns").GetChild(k);
@@ -63,39 +89,18 @@ public class SpawnAnimals : MonoBehaviour
             if (npc.name == "animal") {
                 if ( SpawnAnimal(spawnLocation) )
                     spawnCount++;
-			}
-
-            if ( // Spawn chance
+			} else if ( // Spawn chance
                 ServerSettings.mode == 0 && UnityEngine.Random.@value > Loot.NORMAL_ZOMBIE_CHANCE || 
                 ServerSettings.mode == 1 && UnityEngine.Random.@value > Loot.BAMBI_ZOMBIE_CHANCE || 
                 ServerSettings.mode == 2 && UnityEngine.Random.@value > Loot.HARDCORE_ZOMBIE_CHANCE || 
                 ServerSettings.mode == 3 && UnityEngine.Random.@value > Loot.GOLD_ZOMBIE_CHANCE)
 			{
-                Debug.Log("Zombie spawn disabled, not spawning...");
-                continue;
-
-				if (npc.name == "civilianZombie")
-				{
-					Network.Instantiate(Resources.Load(string.Concat("Prefabs/Game/civilianZombie_", UnityEngine.Random.Range(0, 10))), spawnLocation, Quaternion.identity, 0);
-				}
-				else if (npc.name == "farmerZombie")
-				{
-					Network.Instantiate(Resources.Load(string.Concat("Prefabs/Game/farmerZombie_", UnityEngine.Random.Range(0, 2))), spawnLocation, Quaternion.identity, 0);
-				}
-				else if (npc.name == "firemanZombie")
-				{
-					Network.Instantiate(Resources.Load(string.Concat("Prefabs/Game/firemanZombie_", UnityEngine.Random.Range(0, 2))), spawnLocation, Quaternion.identity, 0);
-				}
-				else if (npc.name == "militaryZombie")
-				{
-					Network.Instantiate(Resources.Load(string.Concat("Prefabs/Game/militaryZombie_", UnityEngine.Random.Range(0, 2))), spawnLocation, Quaternion.identity, 0);
-				}
-				else if (npc.name == "policeZombie")
-				{
-					Network.Instantiate(Resources.Load(string.Concat("Prefabs/Game/policeZombie_", UnityEngine.Random.Range(0, 2))), spawnLocation, Quaternion.identity, 0);
-				}
+				SpawnZombie(npc.name, spawnLocation);
 				spawnCount++;
 			}
+
+			if (spawnCount == 50)
+				return;
 		}
 	}
 
