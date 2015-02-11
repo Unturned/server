@@ -47,7 +47,7 @@ namespace Unturned.Log {
 	    public static void LogSecurity(String steamId, String nick, String incident) 
 	    {
 	        StreamWriter file = new StreamWriter(@"Unturned_Data/Incident.txt", true);
-			file.WriteLine("{0:" + DATE_PATTERN + "} User: {1} ({2}) IP: {3} {4}",
+			file.WriteLine("{0:" + DATE_PATTERN + "} User: {1} ({2}) {3}",
 	                           System.DateTime.Now,
 	                           nick,
 	                           steamId,
