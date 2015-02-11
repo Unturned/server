@@ -3,9 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Threading;
-using Timer = System.Threading.Timer;
 using UnityEngine;
+using System.Collections;
 
 namespace AdminCommands
 {
@@ -216,8 +215,6 @@ namespace AdminCommands
 			NetworkChat.sendAlert ("Time: " + Sun.getTime ());
 		}
 
-
-
 		private void Announce (CommandArgs args)
 		{
 			string parametersAsString = args.ParametersAsString;
@@ -265,7 +262,9 @@ namespace AdminCommands
 		private void SetAnnounceDelay (CommandArgs args)
 		{
 			string value = args.Parameters[0];
-			this.setAnnounceIntervalInSeconds (System.Convert.ToInt32 (value));
+			StopCoroutine("AnnouncerCoroutine");
+			this.setAnnounceIntervalInSeconds(System.Convert.ToInt32 (value));
+			StartCoroutine("AnnouncerCoroutine");
 		}
 
 		private void TeleportToPlayer (CommandArgs args)
@@ -543,19 +542,9 @@ namespace AdminCommands
 				targetrotation
 			});
 			user.player.gameObject.GetComponent<NetworkInterpolation> ().tellStatePosition_Pizza (targetposition, targetrotation);
-			Network.SetReceivingEnabled (user.networkPlayer, 0, false);
-			new Timer (delegate(object obj)
-			{
-				Network.SetReceivingEnabled (user.networkPlayer, 0, true);
-			}, null, 2000, -1);
 		}
 
-        public void announcesTimeElapsed (object sender, System.Timers.ElapsedEventArgs eventArgs)
-		{
-			this.announceNext ();
-		}
-
-		private void announceNext ()
+        private void announceNext ()
 		{
 			for (int i = this.announceIndex; i < this.AnnounceMessages.Length; i++) {
 				string text = this.AnnounceMessages [i];
@@ -574,11 +563,6 @@ namespace AdminCommands
 			this.announceTimer.Stop ();
 			this.announceTimer.Interval = ((double)(seconds * 1000));
 			this.announceTimer.Start ();
-		}
-
-        private void itemsTimeElapsed (object sender, System.Timers.ElapsedEventArgs eventArgs)
-		{
-			this.resetItems ();
 		}
 
 		public void setItemResetIntervalInSeconds (int seconds)
@@ -703,13 +687,28 @@ namespace AdminCommands
 				this.AnnounceMessages [i] = array3 [i];
 			}
 
-            this.itemsTimer = new System.Timers.Timer ((double)(this.itemsResetIntervalInSeconds * 1000));
-            this.itemsTimer.Elapsed += new System.Timers.ElapsedEventHandler (this.itemsTimeElapsed);
-			this.itemsTimer.Enabled = true;
+			StartCoroutine("ItemRespawnCoroutine");
+			StartCoroutine("AnnouncerCoroutine");
+		}
 
-            this.announceTimer = new System.Timers.Timer ((double)(this.announceIntervalInSeconds * 1000));
-            this.announceTimer.Elapsed += new System.Timers.ElapsedEventHandler (this.announcesTimeElapsed);
-			this.announceTimer.Enabled = true;
+		private IEnumerator AnnouncerCoroutine()
+		{
+			while (true)
+			{
+				yield return new WaitForSeconds(announceIntervalInSeconds);
+				this.announceNext ();
+			}
+		}
+
+		private IEnumerator ItemRespawnCoroutine()
+		{
+			Debug.Log("Item respawn coroutine started!");
+			while (true)
+			{
+				yield return new WaitForSeconds(this.itemsResetIntervalInSeconds);
+				NetworkChat.sendChat("Respawning items...");
+				this.resetItems();
+			}
 		}
 		
 		public void SaveAll(CommandArgs args) {

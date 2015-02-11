@@ -163,7 +163,14 @@ namespace CommandHandler
                 {
                     if (command.permission > UserList.getPermission(sender.steamid))
                     {
-                        Reference.Tell(sender.networkPlayer, "You are not allowed to use that command. (Need lv." + command.permission + "/" + UserList.getPermission(sender.steamid) + ")");
+						if ( command.permission == 1 )
+						{
+							Reference.Tell(sender.networkPlayer, "You should be VIP/Donator to use this command.");
+						}
+						else
+						{
+                        	Reference.Tell(sender.networkPlayer, "You are not allowed to use that command. (Need lv." + command.permission + "/" + UserList.getPermission(sender.steamid) + ")");
+						}
                         return false;
                     }
                     if (!usingHiddenChat)

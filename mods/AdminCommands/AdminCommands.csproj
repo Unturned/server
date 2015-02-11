@@ -52,6 +52,7 @@
     <Compile Include="AICommands.cs" />
     <Compile Include="BuildCommands.cs" />
     <Compile Include="HomeCommands.cs" />
+    <Compile Include="BankCommand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

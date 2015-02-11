@@ -40,7 +40,7 @@ namespace AdminCommands
             {
                 "car"
             });
-            createCarCommand.description =  ("Teleport a random car or a specific car name");
+            createCarCommand.description =  ("Creates a car instance for you");
             CommandList.add (createCarCommand);
 
             // Refuel command

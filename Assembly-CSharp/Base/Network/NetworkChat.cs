@@ -183,7 +183,7 @@ public class NetworkChat : MonoBehaviour
 	{
 		if (Network.isServer)
 		{
-			NetworkChat.tool.networkView.RPC("tellChat", RPCMode.All, new object[] { "Server", string.Empty, string.Empty, text, 2147483647, 3, -1 });
+			NetworkChat.tool.networkView.RPC("tellChat", RPCMode.All, new object[] { "www.zombieland.ml - Server", string.Empty, string.Empty, text, 2147483647, 3, -1 });
 		}
 	}
 

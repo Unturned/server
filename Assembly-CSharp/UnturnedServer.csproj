@@ -78,7 +78,6 @@
     <Compile Include="Base\Electricity.cs" />
     <Compile Include="Base\ElectricTrap.cs" />
     <Compile Include="Base\Epoch.cs" />
-    <Compile Include="Base\Equipment.cs" />
     <Compile Include="Base\ExplosionTool.cs" />
     <Compile Include="Base\FaceStyles.cs" />
     <Compile Include="Base\FancyAnimifier.cs" />
@@ -90,7 +89,6 @@
     <Compile Include="Base\Gore.cs" />
     <Compile Include="Base\GraphicsSettings.cs" />
     <Compile Include="Base\Ground.cs" />
-    <Compile Include="Base\GunStats.cs" />
     <Compile Include="Base\HairColor.cs" />
     <Compile Include="Base\HairStyles.cs" />
     <Compile Include="Base\Harvest.cs" />
@@ -135,16 +133,13 @@
     <Compile Include="Base\Painter.cs" />
     <Compile Include="Base\Pants.cs" />
     <Compile Include="Base\Passenger.cs" />
-    <Compile Include="Base\Pick.cs" />
     <Compile Include="Base\Plant.cs" />
     <Compile Include="Base\Player.cs" />
     <Compile Include="Base\PlayerSettings.cs" />
     <Compile Include="Base\Point2.cs" />
     <Compile Include="Base\RayMasks.cs" />
-    <Compile Include="Base\Refillable.cs" />
     <Compile Include="Base\Reflective.cs" />
     <Compile Include="Base\Reflector.cs" />
-    <Compile Include="Base\Repair.cs" />
     <Compile Include="Base\Reputation.cs" />
     <Compile Include="Base\RudeFilter.cs" />
     <Compile Include="Base\Savedata.cs" />
@@ -228,6 +223,11 @@
     <Compile Include="CommandHandler\UserList.cs" />
     <Compile Include="HookManager\HookEnventManager.cs" />
     <Compile Include="ModLoader\ModManager.cs" />
+    <Compile Include="Base\Items\Equipment.cs" />
+    <Compile Include="Base.Stats\GunStats.cs" />
+    <Compile Include="Base\Items\Pick.cs" />
+    <Compile Include="Base\Items\Refillable.cs" />
+    <Compile Include="Base\Items\Repair.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

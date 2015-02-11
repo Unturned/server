@@ -31,6 +31,8 @@ using CommandHandler;
 using Unturned;
 
 using Unturned.Log;
+using System.Threading.Tasks;
+using System.IO;
 
 namespace AdminCommands
 {
@@ -53,10 +55,14 @@ namespace AdminCommands
                 {
                     this.PrintGOStat(args.sender.networkPlayer);
                 }
-                if( statType.ToLower().Equals("player") )
+                else if( statType.ToLower().Equals("player") )
                 {
                     this.PrintPlayerStat(args.sender.networkPlayer);
                 }
+				else if( statType.ToLower().Equals("component") )
+				{
+					this.PrintComponentStat(args.sender.networkPlayer);
+				}
                 else
                 {
                     this.PrintUsage(args.sender.networkPlayer);
@@ -68,9 +74,40 @@ namespace AdminCommands
             }
         }
 
+		private void WriteComponentsToFile (Component[] objects)
+		{
+			String components = "";
+			foreach ( Component cmp in objects)
+			{
+				if( cmp.gameObject != null)
+				{
+					components += "[" + cmp.gameObject.name + "] ";
+				}
+				else
+				{
+					components += "[null go] ";
+				}
+
+				components += "Name: (" + cmp.name + ")\n";
+			}
+
+			File.WriteAllText("components.db", components);
+		}
+
+		public void PrintComponentStat(NetworkPlayer player)
+		{
+			Component[] objects = UnityEngine.Object.FindObjectsOfType<Component>();
+			Reference.Tell(player, "There is " + objects.Length + " component");
+
+			Task task = new Task(delegate { 
+				WriteComponentsToFile(objects); 
+			});
+			task.Start();
+		}
+
         public void PrintUsage(NetworkPlayer player) 
         {
-            Reference.Tell(player, "Available subcommands: [go]");
+            Reference.Tell(player, "Available subcommands: [go, player, component]");
         }
 
         public void PrintGOStat(NetworkPlayer player) 
@@ -78,12 +115,14 @@ namespace AdminCommands
             GameObject[] objects = UnityEngine.Object.FindObjectsOfType<GameObject>();
             Reference.Tell(player, "There is " + objects.Length + " GameObject");
 
+#if CREATE_DATA_FILES
             foreach ( GameObject go in objects) {
                 string parent = "";
                 if (go.transform.parent != null)
                     parent = go.transform.parent.name;
                 Logger.LogDatabase("Name: " + go.name + " coord:" + go.transform.position + " Parent:" + parent);
             }
+#endif
         }
 
         void PrintPlayerStat(NetworkPlayer player)

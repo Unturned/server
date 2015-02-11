@@ -16,7 +16,7 @@ namespace AdminCommands
 	{
 		public BuildCommands ()
 		{
-			Command allowBuildCommand = new Command(0, new CommandDelegate(this.AllowBuild), new string[] {
+			Command allowBuildCommand = new Command(1, new CommandDelegate(this.AllowBuild), new string[] {
 				"build"
 			});
 			CommandList.add(allowBuildCommand);
