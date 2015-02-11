@@ -249,14 +249,11 @@ public class Inventory : MonoBehaviour {
             try {
                 if (!ItemStackable.getStackable(this.items[itemX, itemY].id)) 
                 {
-					this.weight -= ItemWeight.getWeight(this.items[itemX, itemY].id);
 					SpawnItems.drop(this.items[itemX, itemY].id, this.items[itemX, itemY].amount, this.items[itemX, itemY].state, position + new Vector3(UnityEngine.Random.Range(-1.5f, 1.5f), 0f, UnityEngine.Random.Range(-1.5f, 1.5f)));
                 }
                 else 
                 {
-					int stackableWeight = ItemWeight.getWeight(this.items[itemX, itemY].id);
                     for (int n = 0; n < this.items[itemX, itemY].amount; n++) {
-						this.weight -= stackableWeight;
 						SpawnItems.drop(
                             this.items[itemX, itemY].id, 
                             1, 
@@ -276,9 +273,11 @@ public class Inventory : MonoBehaviour {
             }
         }
 
+		weight = 0;
         for (int itemX = 0; itemX < this.width; itemX++) {
             for (int itemY = 0; itemY < this.height; itemY++) {
                 this.syncItem(itemX, itemY);
+				this.weight += ItemWeight.getWeight(this.items[itemX, itemY].id) * this.items[itemX, itemY].amount;
             }
         }
 
