@@ -34,7 +34,8 @@ public class Bumper : MonoBehaviour
 					{
 						NetworkHandler.offsetReputation(userFromPlayer.player, 1);
 					}
-					gameObject.GetComponent<Life>().damage(1000, string.Concat("You were run over by ", userFromPlayer.name, "!"));
+
+					gameObject.GetComponent<Life>().damage(1000, string.Concat("You were run over by ", userFromPlayer.name, "!"), -1, userFromPlayer.id);
 					NetworkSounds.askSound("Sounds/Impacts/flesh", gameObject.transform.position + Vector3.up, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
 					NetworkEffects.askEffect("Effects/flesh", gameObject.transform.position + Vector3.up, Quaternion.identity, -1f);
 				}

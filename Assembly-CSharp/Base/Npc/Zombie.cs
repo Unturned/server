@@ -105,7 +105,7 @@ public class Zombie : AI
 				{
 					armor = armor * ArmorStats.getArmor(modelFromPlayer.GetComponent<Clothes>().vest);
 				}
-				modelFromPlayer.GetComponent<Life>().damage((int)armor, "You were mauled by a zombie!");
+				modelFromPlayer.GetComponent<Life>().damage((int)armor, "You were mauled by a zombie!", -20, "");
 				if (ServerSettings.mode != 2)
 				{
 					modelFromPlayer.GetComponent<Life>().infect(4);

@@ -174,10 +174,16 @@ public class Life : MonoBehaviour
 		}
 	}
 
-	public void damage(int amount, string killer)
+	private int killerWeapon;
+	private string killerId;
+
+	public void damage(int amount, string killer, int killerWeapon, string killerId)
 	{
 		if (amount != 0)
 		{
+			this.killerWeapon = killerWeapon;
+			this.killerId = killerId;
+
 			if (base.networkView.isMine && amount > 3)
 			{
 				//HUDGame.lastFlash = Time.realtimeSinceStartup;
@@ -818,7 +824,7 @@ public class Life : MonoBehaviour
 			if (this.sickness == 0 && Time.realtimeSinceStartup - this.lastSickDamage > 0.5f)
 			{
 				this.lastSickDamage = Time.realtimeSinceStartup;
-				this.damage(1, "You succumbed to illness.");
+				this.damage(1, "You succumbed to illness.", -11, "");
 			}
 			if (Time.realtimeSinceStartup - this.lastStarve > 20f && Time.realtimeSinceStartup - this.lastStarve > 20f + base.GetComponent<Skills>().survivalist() * 10f)
 			{
@@ -828,7 +834,7 @@ public class Life : MonoBehaviour
 			if (this.food == 0 && Time.realtimeSinceStartup - this.lastFoodDamage > 0.5f && (double)(Time.realtimeSinceStartup - this.lastFoodDamage) > 0.5 + (double)base.GetComponent<Skills>().survivalist())
 			{
 				this.lastFoodDamage = Time.realtimeSinceStartup;
-				this.damage(1, "You starved to death.");
+				this.damage(1, "You starved to death.", -12, "");
 			}
 			if (Time.realtimeSinceStartup - this.lastDehydrate > 17f && Time.realtimeSinceStartup - this.lastDehydrate > 17f + base.GetComponent<Skills>().survivalist() * 10f)
 			{
@@ -838,14 +844,14 @@ public class Life : MonoBehaviour
 			if (this.water == 0 && Time.realtimeSinceStartup - this.lastWaterDamage > 0.5f && (double)(Time.realtimeSinceStartup - this.lastWaterDamage) > 0.5 + (double)base.GetComponent<Skills>().survivalist())
 			{
 				this.lastWaterDamage = Time.realtimeSinceStartup;
-				this.damage(1, "You dehydrated to death.");
+				this.damage(1, "You dehydrated to death.", -13, "");
 			}
 			if (this.bleeding)
 			{
 				if (Time.realtimeSinceStartup - this.lastBleed > 1f)
 				{
 					this.lastBleed = Time.realtimeSinceStartup;
-					this.damage(1, "You bled to death.");
+					this.damage(1, "You bled to death.", -14, "");
 				}
 				if (Time.realtimeSinceStartup - this.lastTrail > 2f)
 				{

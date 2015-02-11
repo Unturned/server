@@ -249,12 +249,15 @@ public class Inventory : MonoBehaviour {
             try {
                 if (!ItemStackable.getStackable(this.items[itemX, itemY].id)) 
                 {
-                    SpawnItems.drop(this.items[itemX, itemY].id, this.items[itemX, itemY].amount, this.items[itemX, itemY].state, position + new Vector3(UnityEngine.Random.Range(-1.5f, 1.5f), 0f, UnityEngine.Random.Range(-1.5f, 1.5f)));
+					this.weight -= ItemWeight.getWeight(this.items[itemX, itemY].id);
+					SpawnItems.drop(this.items[itemX, itemY].id, this.items[itemX, itemY].amount, this.items[itemX, itemY].state, position + new Vector3(UnityEngine.Random.Range(-1.5f, 1.5f), 0f, UnityEngine.Random.Range(-1.5f, 1.5f)));
                 }
                 else 
                 {
+					int stackableWeight = ItemWeight.getWeight(this.items[itemX, itemY].id);
                     for (int n = 0; n < this.items[itemX, itemY].amount; n++) {
-                        SpawnItems.drop(
+						this.weight -= stackableWeight;
+						SpawnItems.drop(
                             this.items[itemX, itemY].id, 
                             1, 
                             this.items[itemX, itemY].state, 
@@ -278,6 +281,8 @@ public class Inventory : MonoBehaviour {
                 this.syncItem(itemX, itemY);
             }
         }
+
+		this.syncWeight();
     }
 
     public int hasSpace(ServerItem item) {

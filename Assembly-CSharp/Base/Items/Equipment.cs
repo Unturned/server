@@ -229,7 +229,12 @@ public class Equipment : MonoBehaviour
 				{
 					empty = "chest";
 				}
-				userFromID.model.GetComponent<Life>().damage((int)multiplierPlayer, string.Concat(new string[] { "You were punched in the ", empty, " by ", base.GetComponent<Player>().owner.name, "!" }));
+
+				int itemId = base.GetComponent<Clothes>().item;
+				string steamID = base.GetComponent<Player>().owner.id;
+
+				userFromID.model.GetComponent<Life>().damage((int)multiplierPlayer, string.Concat(new string[] { "You were punched in the ", empty, " by ", base.GetComponent<Player>().owner.name, "!" }),
+				                                             itemId, steamID);
 				if (userFromID.model.GetComponent<Life>().dead && Time.realtimeSinceStartup - userFromID.model.GetComponent<Player>().owner.spawned > (float)Reputation.SPAWN_DELAY)
 				{
 					if (userFromID.model.GetComponent<Player>().owner.reputation >= 0)

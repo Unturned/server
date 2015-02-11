@@ -109,7 +109,10 @@ public class NetworkInterpolation : MonoBehaviour
 		if (info.sender != Network.player) 
 		{
 			NetworkUser user = NetworkUserList.getUserFromPlayer(info.sender);
-			Logger.LogSecurity(user.id, user.name, "Tried to use teleport hack");
+			if (user != null)
+			{
+				Logger.LogSecurity(user.id, user.name, "Maybe tried to use teleport hack.");
+			}
 		}
 
 

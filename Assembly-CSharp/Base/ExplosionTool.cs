@@ -18,7 +18,7 @@ public class ExplosionTool : MonoBehaviour
 				{
 					if (ServerSettings.pvp)
 					{
-						colliderArray[i].GetComponent<Life>().damage(damage, "You were blown up by an explosion.");
+						colliderArray[i].GetComponent<Life>().damage(damage, "You were blown up by an explosion.", -2, "");
 						NetworkEffects.askEffect("Effects/flesh", colliderArray[i].transform.position + Vector3.up, Quaternion.identity, -1f);
 					}
 				}
@@ -27,7 +27,7 @@ public class ExplosionTool : MonoBehaviour
 					if (ServerSettings.pvp)
 					{
 						GameObject owner = OwnerFinder.getOwner(colliderArray[i].gameObject);
-						owner.GetComponent<Life>().damage(damage, "You were blown up by an explosion.");
+						owner.GetComponent<Life>().damage(damage, "You were blown up by an explosion.", -2, "");
 						NetworkEffects.askEffect("Effects/flesh", colliderArray[i].transform.position + Vector3.up, Quaternion.identity, -1f);
 					}
 				}

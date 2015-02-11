@@ -45,7 +45,7 @@ namespace Tests
 				if( desc.Contains("Sorry") )
 					continue;
 
-				Console.WriteLine( String.Format("Item ({0}): Name: '{1}' Desc: '{2}'", new object[]{
+				Console.WriteLine( String.Format("INSERT INTO items (`id`, `name_en`, `desc_en`) VALUES ({0} ,\"{1}\", \"{2}\");", new object[]{
 					i, desc, ItemDescription.getDescription(i, "")
 				}));
 			}

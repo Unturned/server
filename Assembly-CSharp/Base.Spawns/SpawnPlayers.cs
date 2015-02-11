@@ -201,7 +201,7 @@ public class SpawnPlayers : MonoBehaviour
 		GameObject modelFromPlayer = NetworkUserList.getModelFromPlayer(info.sender);
 		if (modelFromPlayer != null)
 		{
-			modelFromPlayer.GetComponent<Life>().damage(1000, "You died at your own hand. Everyone is disappointed.");
+			modelFromPlayer.GetComponent<Life>().damage(1000, "You died at your own hand. Everyone is disappointed.", -21, "");
 		}
 	}
 
@@ -210,7 +210,7 @@ public class SpawnPlayers : MonoBehaviour
 		GameObject modelFromPlayer = NetworkUserList.getModelFromPlayer(Network.player);
 		if (modelFromPlayer != null)
 		{
-			modelFromPlayer.GetComponent<Life>().damage(1000, "You died at your own hand. Everyone is disappointed.");
+			modelFromPlayer.GetComponent<Life>().damage(1000, "You died at your own hand. Everyone is disappointed.", -21, "");
 		}
 	}
 

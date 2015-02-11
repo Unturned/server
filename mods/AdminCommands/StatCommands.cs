@@ -31,7 +31,6 @@ using CommandHandler;
 using Unturned;
 
 using Unturned.Log;
-using System.Threading.Tasks;
 using System.IO;
 using System.Threading;
 using System.Collections.Generic;

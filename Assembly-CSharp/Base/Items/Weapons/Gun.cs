@@ -768,9 +768,9 @@ public class Gun : Useable
 					RaycastHit hitCheck;
 					Physics.Raycast(base.transform.position, user.model.transform.position, out hitCheck, weaponRange, RayMasks.DAMAGE);
 					float rayDistance = (user.model.transform.position - hitCheck.point).magnitude;
-					if ((rayDistance - 5 < hitDistance) || (rayDistance + 5 > hitDistance) )
+					if ( Math.Abs( rayDistance - hitDistance ) > 5 )
 					{
-						Logger.LogSecurity(user.id, user.name, "This fag can shoot through walls: " + owner + " with " + weapon);
+						Logger.LogSecurity(user.id, user.name, "This fag can shoot through walls: " + owner + " with " + weapon + " Distance (d/ray): " + hitDistance + "/" + rayDistance );
 					}
 
 					float damage = (float)GunStats.getDamage(base.GetComponent<Clothes>().item) * DamageMultiplier.getMultiplierPlayer(limb);
@@ -819,20 +819,26 @@ public class Gun : Useable
 					{
                         bone = "chest";
 					}
-					
-                    user.model.GetComponent<Life>().damage(
+
+					int itemId = base.GetComponent<Clothes>().item;
+					string steamID = base.GetComponent<Player>().owner.id;
+
+					var killString = string.Concat (new string[] {
+						"You were shot in the ",
+						bone,
+						" with the ",
+						weapon,
+						" by ",
+						owner.Length > 10 ? owner.Substring (0, 10) : owner,
+						" from ",
+						hitDistance.ToString ("F"),
+						"meters!"
+					});
+					user.model.GetComponent<Life> ().damage (
                         (int)damage, 
-                        string.Concat(new string[] { 
-                            "You were shot in the ", 
-                            bone, 
-                            " with the ", 
-                            weapon,
-                            " by ", 
-							owner.Length > 10 ? owner.Substring(0, 10) : owner,
-							" from ",
-							hitDistance.ToString("F"),
-							"meters!" 
-                        }));
+                        killString,
+						itemId,
+						steamID);
 
 					if (user.model.GetComponent<Life>().dead && Time.realtimeSinceStartup - user.model.GetComponent<Player>().owner.spawned > (float)Reputation.SPAWN_DELAY)
 					{
@@ -996,7 +1002,12 @@ public class Gun : Useable
 				{
 					bone = "chest";
 				}
-				userFromID.model.GetComponent<Life>().damage((int)multiplierPlayer, string.Concat(new string[] { "You were stabbed in the ", bone, " by ", base.GetComponent<Player>().owner.name, "!" }));
+
+				int itemId = base.GetComponent<Clothes>().item;
+				string steamID = base.GetComponent<Player>().owner.id;
+
+				userFromID.model.GetComponent<Life>().damage((int)multiplierPlayer, string.Concat(new string[] { "You were stabbed in the ", bone, " by ", base.GetComponent<Player>().owner.name, "!" }),
+				itemId, steamID);
 				if (userFromID.model.GetComponent<Life>().dead && Time.realtimeSinceStartup - userFromID.model.GetComponent<Player>().owner.spawned > (float)Reputation.SPAWN_DELAY)
 				{
 					if (userFromID.model.GetComponent<Player>().owner.reputation >= 0)

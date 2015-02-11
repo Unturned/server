@@ -140,7 +140,21 @@ public class Melee : Useable
 				{
 					empty = "chest";
 				}
-				userFromID.model.GetComponent<Life>().damage((int)damage, string.Concat(new string[] { "You were chopped in the ", empty, " with the ", ItemName.getName(base.GetComponent<Clothes>().item), " by ", base.GetComponent<Player>().owner.name, "!" }));
+
+				int itemId = base.GetComponent<Clothes>().item;
+				string steamID = base.GetComponent<Player>().owner.id;
+
+				var killString = string.Concat (new string[] {
+					"You were chopped in the ",
+					empty,
+					" with the ",
+					ItemName.getName (base.GetComponent<Clothes> ().item),
+					" by ",
+					base.GetComponent<Player> ().owner.name,
+					"!"
+				});
+
+				userFromID.model.GetComponent<Life> ().damage ((int)damage, killString, itemId, steamID);
 				if (userFromID.model.GetComponent<Life>().dead && Time.realtimeSinceStartup - userFromID.model.GetComponent<Player>().owner.spawned > (float)Reputation.SPAWN_DELAY)
 				{
 					if (userFromID.model.GetComponent<Player>().owner.reputation >= 0)

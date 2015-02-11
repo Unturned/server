@@ -314,7 +314,8 @@ namespace AdminCommands
 
 		private void Kill (CommandArgs args) {
 			string parametersAsString = args.ParametersAsString;
-			UserList.getUserFromName(parametersAsString).player.gameObject.GetComponent<Life>().damage(500, "You died of retardedness");
+			UserList.getUserFromName(parametersAsString).player.gameObject.GetComponent<Life>()
+				.damage(500, "You died of retardedness", -32, args.sender.steamid);
 		}
 		
 		private void HealPlayer(GameObject playerObject) {
@@ -445,7 +446,7 @@ namespace AdminCommands
 					false,
 					false
 				});
-				component.damage (1, "poke");
+				component.damage (1, "poke", 0, "");
 			} else {
 				component.networkView.RPC ("tellAllLife", RPCMode.All, new object[]
 				{
@@ -456,7 +457,7 @@ namespace AdminCommands
 					false,
 					false
 				});
-				component.damage (1, "poke");
+				component.damage (1, "poke", 0, "");
 			}
 		}
 
@@ -529,6 +530,7 @@ namespace AdminCommands
 
 		private void SaveAndCloseServer (CommandArgs args)
 		{
+			Network.isMessageQueueRunning = false;
 			CommandList.issueCommand ("save", args.sender);
 			Application.Quit ();
 		}

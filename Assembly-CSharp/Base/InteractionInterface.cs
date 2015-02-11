@@ -635,15 +635,15 @@ public class InteractionInterface : MonoBehaviour
 				{
 					if (SpawnBarricades.regions[region.x, region.y].barricades[indexFromPositionServer].id == 16006)
 					{
-						modelFromPlayer.GetComponent<Life>().damage(BarricadeStats.getDamage(SpawnBarricades.regions[region.x, region.y].barricades[indexFromPositionServer].id), "You got your leg stuck in a snare.");
+						modelFromPlayer.GetComponent<Life>().damage(BarricadeStats.getDamage(SpawnBarricades.regions[region.x, region.y].barricades[indexFromPositionServer].id), "You got your leg stuck in a snare.", -3, "");
 					}
 					else if (SpawnBarricades.regions[region.x, region.y].barricades[indexFromPositionServer].id != 16009)
 					{
-						modelFromPlayer.GetComponent<Life>().damage(BarricadeStats.getDamage(SpawnBarricades.regions[region.x, region.y].barricades[indexFromPositionServer].id), "You punctured yourself on something sharp.");
+						modelFromPlayer.GetComponent<Life>().damage(BarricadeStats.getDamage(SpawnBarricades.regions[region.x, region.y].barricades[indexFromPositionServer].id), "You punctured yourself on something sharp.", -4 , "");
 					}
 					else
 					{
-						modelFromPlayer.GetComponent<Life>().damage(BarricadeStats.getDamage(SpawnBarricades.regions[region.x, region.y].barricades[indexFromPositionServer].id), "You electrocuted yourself.");
+						modelFromPlayer.GetComponent<Life>().damage(BarricadeStats.getDamage(SpawnBarricades.regions[region.x, region.y].barricades[indexFromPositionServer].id), "You electrocuted yourself.", -5, "");
 					}
 					SpawnBarricades.damage(position, 10);
 				}

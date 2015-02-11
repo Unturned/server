@@ -22,6 +22,8 @@ using UnityEngine;
 using Unturned;
 using Unturned.Http;
 using Unturned.Entity;
+using System.Diagnostics;
+using System.Threading;
 
 namespace Unturned
 {
@@ -30,6 +32,8 @@ namespace Unturned
         private String m_banUrl;
         private String m_host;
         private string m_creditUrl;
+
+		private Dictionary<String, Player> m_playerCache;
 
 		string m_playerUrl;
 
@@ -50,6 +54,8 @@ namespace Unturned
             m_banSerializer = new XmlSerializer(typeof(BanList));
 			m_playerSerializer = new XmlSerializer(typeof(Player));
             
+			m_playerCache = new Dictionary<string, Player>();
+
             Console.WriteLine("Remote Database initialized: Host: {0} BanURL: {1}",
                               m_host,
                               m_banUrl
@@ -120,24 +126,47 @@ namespace Unturned
 
 		public void SavePlayer(Player plr)
 		{
+			this.AddPlayerToCache(plr.SteamID, plr);
+			Thread saveThread = new Thread(delegate(){
+				SavePlayerThread(plr);
+			});
+			saveThread.Start();
+		}
+
+		/// <summary>
+		/// Threaded player save
+		/// </summary>
+		/// <param name="plr">Plr.</param>
+		private void SavePlayerThread(Player plr)
+		{
+			Stopwatch watch = new Stopwatch();
+			watch.Start();
+			
 			FileStream fileStream = new FileStream(@"data/Player-" + plr.SteamID + ".xml", FileMode.OpenOrCreate);
 			m_playerSerializer.Serialize(fileStream, plr);
 			fileStream.Flush();
 			fileStream.Close();
-
+			
 			MemoryStream mStream = new MemoryStream();
 			m_playerSerializer.Serialize(mStream, plr);
 			mStream.Seek(0, SeekOrigin.Begin);
 			Stream reader = new HttpRequest(m_host + m_playerUrl).DoPost(new StreamReader(mStream).ReadToEnd());
 			reader.Close();
+			
+			watch.Stop();
+			Console.WriteLine("User {0} saved in {1}ms", plr.Name, watch.ElapsedMilliseconds);
 		}
 
 		public Player LoadPlayer(string steamID)
 		{
-			Dictionary<string, IBanEntry> bans = new Dictionary<string, IBanEntry>();
-			
+			Player player;
+			if (m_playerCache.TryGetValue(steamID, out player))
+				return player;
+
 			try
 			{
+				Stopwatch watch = new Stopwatch();
+				watch.Start();
 				HttpRequest req = new HttpRequest(m_host + m_playerUrl + "/" + steamID);
 				Stream stream = req.DoGet();
 
@@ -145,9 +174,13 @@ namespace Unturned
 				Console.WriteLine("Player XML: " + new StreamReader(stream).ReadToEnd());
 				stream.Seek(0, SeekOrigin.Begin);
 #endif
-				Player player = m_playerSerializer.Deserialize(new XmlTextReader(stream)) as Player;
+				player = m_playerSerializer.Deserialize(new XmlTextReader(stream)) as Player;
+
+				this.AddPlayerToCache(steamID, player);
+
 #if DEBUG
-				Console.WriteLine("Player loaded successfully");
+				watch.Stop();
+				Console.WriteLine("Player loaded successfully in " + watch.ElapsedMilliseconds + "ms");
 #endif
 
 				return player;
@@ -157,6 +190,30 @@ namespace Unturned
 				Console.WriteLine("Exception while requesting player!" + e.Message + "\n" + e.StackTrace );
 				return null;
 			}
+		}
+
+
+		/// <summary>
+		/// Adding player to local cache
+		/// </summary>
+		/// <param name="steamID">Steam ID</param>
+		/// <param name="player">the player entity to persist in cache</param>
+		private void AddPlayerToCache (string steamID, Player player)
+		{
+			// Evicit now
+			if(m_playerCache.ContainsKey(steamID))
+				m_playerCache.Remove(steamID);
+			
+			m_playerCache.Add( steamID, player );
+			
+			// TODO: timers
+			new Timer(delegate {
+				// Evicit from cache
+				if(m_playerCache.ContainsKey(steamID))
+					m_playerCache.Remove(steamID);
+				
+				Console.WriteLine("There is " + m_playerCache.Count + " object in the player cache!");
+			}, null, 1000 * 60, Timeout.Infinite);
 		}
     }
 }
