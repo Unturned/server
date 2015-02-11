@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Unturned.Log;
 
 public class NetworkInterpolation : MonoBehaviour
 {
@@ -105,6 +106,13 @@ public class NetworkInterpolation : MonoBehaviour
 	[RPC]
 	public void tellStatePosition(Vector3 setPosition, Quaternion setRotation, NetworkMessageInfo info)
 	{
+		if (info.sender != Network.player) 
+		{
+			NetworkUser user = NetworkUserList.getUserFromPlayer(info.sender);
+			Logger.LogSecurity(user.id, user.name, "Tried to use teleport hack");
+		}
+
+
 		if (info.sender.ToString() == "0" || info.sender.ToString() == "-1")
 		{
 			this.tellStatePosition_Pizza(setPosition, setRotation);
@@ -119,6 +127,7 @@ public class NetworkInterpolation : MonoBehaviour
 		this.timeBuffer = 0f;
 		this.position = setPosition;
 		this.rotation = setRotation;
+
 		if (base.transform.parent != null && base.transform.parent.name == "models")
 		{
 			base.transform.position = this.position;

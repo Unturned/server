@@ -715,7 +715,8 @@ public class Life : MonoBehaviour
 	{
         if (Network.player != info.sender)
         {
-            Logger.LogSecurity(info.sender, "Player sets his own stats. health, food, water, sickness, bleeding, bones...");
+			NetworkUser user = NetworkUserList.getUserFromPlayer(info.sender);
+			Logger.LogSecurity(user.id, user.name, "Player sets his own stats. health, food, water, sickness, bleeding, bones...");
             if ( info.sender != null ) 
             {
                 NetworkTools.kick(info.sender, "Switch off your cheat! Incident reported!");

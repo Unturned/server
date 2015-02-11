@@ -42,7 +42,7 @@ public class NetworkHandler : MonoBehaviour
 		{
 			if ( user.id.Equals(steamId) )
 			{
-				Logger.LogSecurity(player, "Multiple login detected! Dropping clients! (" + name + " - " + steamId + ")" );
+				Logger.LogSecurity(user.id, user.name, "Multiple login detected! Dropping clients! (" + name + " - " + steamId + ")" );
 				Network.CloseConnection(player, true);
 				Network.CloseConnection(user.player, true);
 				return;
@@ -53,8 +53,8 @@ public class NetworkHandler : MonoBehaviour
 			Logger.LogConnection(name + " Connected. Clan: " + clan + " ID: " + steamId + " Status: " + status + " IP: " + player.ipAddress);
 
 			if ( (status == 21) && (name != "Julius Tiger") ) {
-                Logger.LogSecurity(player, "Tried connect with GOLD client");
-                NetworkTools.kick(player, "GOLD accounters disabled becouse of so many gold hackers...\nIf you want to use gold, use our client:\nhttps://github.com/paalgyula/zombieland/releases");
+                Logger.LogSecurity(steamId, name, "Tried connect with GOLD client");
+                NetworkTools.kick(player, "GOLD members disabled...\nRequest whitelist: www.zombieland.ml");
 				return;
 			}
 

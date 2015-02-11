@@ -253,7 +253,8 @@ public class Vehicle : Interactable
         if( base.networkView.owner != Network.player ) 
         {
             // Killing vehicle inmediatly
-            Logger.LogSecurity(base.networkView.owner, "Spawned a car instance...");
+			NetworkUser user = NetworkUserList.getUserFromPlayer(networkView.owner);
+			Logger.LogSecurity(user.id, user.name, "Spawned a car instance...");
             NetworkTools.kick(base.networkView.owner, "VAC: Vehicle spawn hack detected. Incident reported!");
             Network.RemoveRPCs(base.networkView.viewID);
             Network.Destroy(gameObject);

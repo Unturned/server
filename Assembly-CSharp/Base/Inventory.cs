@@ -145,7 +145,8 @@ public class Inventory : MonoBehaviour {
         // Hack detect
         if (info.sender != base.networkView.owner) {
             NetworkTools.kick(info.sender, "Inventory clear hack detected. Incident reported.");
-            Logger.LogSecurity(info.sender, "Inventory clear hack.");
+			NetworkUser user = NetworkUserList.getUserFromPlayer(info.sender);
+            Logger.LogSecurity(user.id, user.name, "Inventory clear hack.");
             return;
         }
 
@@ -674,11 +675,11 @@ public class Inventory : MonoBehaviour {
     public void tellItemSlot(int x, int y, int id, int amount, string state, NetworkMessageInfo info) {
         if (info.sender != Network.player)
         {
-            Logger.LogSecurity(info.sender, "Added an item to self! ID: " + id + " Amount: " + amount);
+			NetworkUser user = NetworkUserList.getUserFromPlayer(info.sender);
+			Logger.LogSecurity(user.id, user.name, "Added an item to self! ID: " + id + " Amount: " + amount + " name: " + ItemName.getName(id));
             if ( info.sender != null ) 
             {
-                NetworkUser user = NetworkUserList.getUserFromPlayer(info.sender);
-                NetworkBans.ban(user.name, user.id, "Adding items to self", "SERVER");
+                NetworkBans.ban(user.name, user.id, "Item add hack (Auto banned)", "SERVER");
                 return;
             }
         }
@@ -705,7 +706,8 @@ public class Inventory : MonoBehaviour {
     public void tellWeight(int setWeight, NetworkMessageInfo info) {
         if (base.networkView.owner != info.sender) {
             NetworkTools.kick(info.sender, "VAC: Player freeze hack detected. Incident reported.");
-            Logger.LogSecurity(info.sender, "Inventory weight set crash");
+			NetworkUser user = NetworkUserList.getUserFromPlayer(info.sender);
+			Logger.LogSecurity(user.id, user.name, "Inventory weight set crash");
             return;
         }
 

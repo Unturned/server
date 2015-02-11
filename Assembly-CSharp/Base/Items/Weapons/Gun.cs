@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Unturned.Log;
 
 public class Gun : Useable
 {
@@ -106,7 +107,7 @@ public class Gun : Useable
 
 	private float flyTime;
 
-	private static RaycastHit hit;
+	private RaycastHit hit;
 
 	static Gun()
 	{
@@ -748,9 +749,30 @@ public class Gun : Useable
 		{
 			if (this.shoot(slot_x, slot_y))
 			{
+				Clothes cloth = base.GetComponent<Clothes>();
+				String owner = base.GetComponent<Player>().owner.name;
+				String weapon = ItemName.getName(cloth.item);
+
                 NetworkUser user = NetworkUserList.getUserFromID(id);
 				if (user != null && user.model != null && user.model != base.gameObject && !user.model.GetComponent<Life>().dead && (base.GetComponent<Player>().owner.friend == string.Empty || base.GetComponent<Player>().owner.friend != user.friend))
 				{
+					// Range check
+					float weaponRange = GunStats.getEffectiveness(cloth.item);
+					float hitDistance = (user.model.transform.position - base.transform.position).magnitude;
+					if ((user.model.transform.position - base.transform.position).magnitude > weaponRange)
+					{
+						Logger.LogSecurity(user.id, user.name, "Long range detected with weapon: " + weapon + " Owner: " + owner);
+						return;
+					}
+
+					RaycastHit hitCheck;
+					Physics.Raycast(base.transform.position, user.model.transform.position, out hitCheck, weaponRange, RayMasks.DAMAGE);
+					float rayDistance = (user.model.transform.position - hitCheck.point).magnitude;
+					if ((rayDistance - 5 < hitDistance) || (rayDistance + 5 > hitDistance) )
+					{
+						Logger.LogSecurity(user.id, user.name, "This fag can shoot through walls: " + owner + " with " + weapon);
+					}
+
 					float damage = (float)GunStats.getDamage(base.GetComponent<Clothes>().item) * DamageMultiplier.getMultiplierPlayer(limb);
 					if (Packer.unpack(base.GetComponent<Inventory>().items[slot_x, slot_y].state, '\u005F')[1] == "25002")
 					{
@@ -804,9 +826,12 @@ public class Gun : Useable
                             "You were shot in the ", 
                             bone, 
                             " with the ", 
-                            ItemName.getName(base.GetComponent<Clothes>().item),
+                            weapon,
                             " by ", 
-                            base.GetComponent<Player>().owner.name, "!" 
+							owner.Length > 10 ? owner.Substring(0, 10) : owner,
+							" from ",
+							hitDistance.ToString("F"),
+							"meters!" 
                         }));
 
 					if (user.model.GetComponent<Life>().dead && Time.realtimeSinceStartup - user.model.GetComponent<Player>().owner.spawned > (float)Reputation.SPAWN_DELAY)
@@ -1096,59 +1121,59 @@ public class Gun : Useable
 				this.lastTactical = Time.realtimeSinceStartup;
 				Viewmodel.offset_z = 0.5f;
 				NetworkSounds.askSound("Sounds/Items/8001/use", Camera.main.transform.position + (Camera.main.transform.forward * 0.5f), 0.25f, UnityEngine.Random.Range(0.9f, 1.1f), 1f);
-				Physics.Raycast(Camera.main.transform.position + (Camera.main.transform.forward * -0.5f), Camera.main.transform.forward, out Gun.hit, 2f, RayMasks.DAMAGE);
-				if (Gun.hit.collider != null)
+				Physics.Raycast(Camera.main.transform.position + (Camera.main.transform.forward * -0.5f), Camera.main.transform.forward, out hit, 2f, RayMasks.DAMAGE);
+				if (hit.collider != null)
 				{
-					if (Gun.hit.point.y < Ocean.level)
+					if (hit.point.y < Ocean.level)
 					{
-						NetworkSounds.askSound("Sounds/Impacts/rock", Gun.hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
-						NetworkEffects.askEffect("Effects/bubbles", Gun.hit.point + (Gun.hit.normal * 0.05f), Quaternion.LookRotation(Gun.hit.normal), -1f);
+						NetworkSounds.askSound("Sounds/Impacts/rock", hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
+						NetworkEffects.askEffect("Effects/bubbles", hit.point + (hit.normal * 0.05f), Quaternion.LookRotation(hit.normal), -1f);
 					}
-					else if (Gun.hit.collider.gameObject.name == "ground" || Gun.hit.collider.material.name.ToLower() == "rock (instance)" || Gun.hit.collider.material.name.ToLower() == "ground (instance)")
+					else if (hit.collider.gameObject.name == "ground" || hit.collider.material.name.ToLower() == "rock (instance)" || hit.collider.material.name.ToLower() == "ground (instance)")
 					{
-						NetworkSounds.askSound("Sounds/Impacts/rock", Gun.hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
-						NetworkEffects.askEffect("Effects/rock", Gun.hit.point + (Gun.hit.normal * 0.05f), Quaternion.LookRotation(Gun.hit.normal), -1f);
+						NetworkSounds.askSound("Sounds/Impacts/rock", hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
+						NetworkEffects.askEffect("Effects/rock", hit.point + (hit.normal * 0.05f), Quaternion.LookRotation(hit.normal), -1f);
 					}
-					else if (Gun.hit.collider.material.name.ToLower() == "cloth (instance)")
+					else if (hit.collider.material.name.ToLower() == "cloth (instance)")
 					{
-						NetworkSounds.askSound("Sounds/Impacts/concrete", Gun.hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
-						NetworkEffects.askEffect("Effects/cloth", Gun.hit.point + (Gun.hit.normal * 0.05f), Quaternion.LookRotation(Gun.hit.normal), -1f);
+						NetworkSounds.askSound("Sounds/Impacts/concrete", hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
+						NetworkEffects.askEffect("Effects/cloth", hit.point + (hit.normal * 0.05f), Quaternion.LookRotation(hit.normal), -1f);
 					}
-					else if (Gun.hit.collider.material.name.ToLower() == "wood (instance)")
+					else if (hit.collider.material.name.ToLower() == "wood (instance)")
 					{
-						NetworkSounds.askSound("Sounds/Impacts/wood", Gun.hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
-						NetworkEffects.askEffect("Effects/splinters", Gun.hit.point + (Gun.hit.normal * 0.05f), Quaternion.LookRotation(Gun.hit.normal), -1f);
+						NetworkSounds.askSound("Sounds/Impacts/wood", hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
+						NetworkEffects.askEffect("Effects/splinters", hit.point + (hit.normal * 0.05f), Quaternion.LookRotation(hit.normal), -1f);
 					}
-					else if (Gun.hit.collider.material.name.ToLower() == "tile (instance)")
+					else if (hit.collider.material.name.ToLower() == "tile (instance)")
 					{
-						NetworkSounds.askSound("Sounds/Impacts/concrete", Gun.hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
-						NetworkEffects.askEffect("Effects/tile", Gun.hit.point + (Gun.hit.normal * 0.05f), Quaternion.LookRotation(Gun.hit.normal), -1f);
+						NetworkSounds.askSound("Sounds/Impacts/concrete", hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
+						NetworkEffects.askEffect("Effects/tile", hit.point + (hit.normal * 0.05f), Quaternion.LookRotation(hit.normal), -1f);
 					}
-					else if (Gun.hit.collider.material.name.ToLower() == "concrete (instance)")
+					else if (hit.collider.material.name.ToLower() == "concrete (instance)")
 					{
-						NetworkSounds.askSound("Sounds/Impacts/concrete", Gun.hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
-						NetworkEffects.askEffect("Effects/concrete", Gun.hit.point + (Gun.hit.normal * 0.05f), Quaternion.LookRotation(Gun.hit.normal), -1f);
+						NetworkSounds.askSound("Sounds/Impacts/concrete", hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
+						NetworkEffects.askEffect("Effects/concrete", hit.point + (hit.normal * 0.05f), Quaternion.LookRotation(hit.normal), -1f);
 					}
-					else if (Gun.hit.collider.material.name.ToLower() == "metal (instance)" || Gun.hit.collider.material.name.ToLower() == "iron (instance)")
+					else if (hit.collider.material.name.ToLower() == "metal (instance)" || hit.collider.material.name.ToLower() == "iron (instance)")
 					{
-						NetworkSounds.askSound("Sounds/Impacts/metal", Gun.hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
-						NetworkEffects.askEffect("Effects/sparks", Gun.hit.point + (Gun.hit.normal * 0.05f), Quaternion.LookRotation(Gun.hit.normal), -1f);
+						NetworkSounds.askSound("Sounds/Impacts/metal", hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
+						NetworkEffects.askEffect("Effects/sparks", hit.point + (hit.normal * 0.05f), Quaternion.LookRotation(hit.normal), -1f);
 					}
-					else if (Gun.hit.collider.material.name.ToLower() == "flesh (instance)")
+					else if (hit.collider.material.name.ToLower() == "flesh (instance)")
 					{
-						NetworkSounds.askSound("Sounds/Impacts/flesh", Gun.hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
-						NetworkEffects.askEffect("Effects/flesh", Gun.hit.point + (Gun.hit.normal * 0.05f), Quaternion.LookRotation(Gun.hit.normal), -1f);
+						NetworkSounds.askSound("Sounds/Impacts/flesh", hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
+						NetworkEffects.askEffect("Effects/flesh", hit.point + (hit.normal * 0.05f), Quaternion.LookRotation(hit.normal), -1f);
 					}
-					if (Gun.hit.collider.name == "ground" || Gun.hit.collider.tag == "Prop" || Gun.hit.collider.tag == "World" || Gun.hit.collider.tag == "Environment")
+					if (hit.collider.name == "ground" || hit.collider.tag == "Prop" || hit.collider.tag == "World" || hit.collider.tag == "Environment")
 					{
-						NetworkEffects.askEffect("Effects/hole", Gun.hit.point + (Gun.hit.normal * UnityEngine.Random.Range(0.04f, 0.06f)), Quaternion.LookRotation(Gun.hit.normal) * Quaternion.Euler(0f, 0f, (float)UnityEngine.Random.Range(0, 360)), 20f);
+						NetworkEffects.askEffect("Effects/hole", hit.point + (hit.normal * UnityEngine.Random.Range(0.04f, 0.06f)), Quaternion.LookRotation(hit.normal) * Quaternion.Euler(0f, 0f, (float)UnityEngine.Random.Range(0, 360)), 20f);
 					}
-					if (Gun.hit.collider.tag == "Enemy" && ServerSettings.pvp)
+					if (hit.collider.tag == "Enemy" && ServerSettings.pvp)
 					{
-						int limb = OwnerFinder.getLimb(Gun.hit.collider.gameObject);
+						int limb = OwnerFinder.getLimb(hit.collider.gameObject);
 						if (limb != -1)
 						{
-							GameObject owner = OwnerFinder.getOwner(Gun.hit.collider.gameObject);
+							GameObject owner = OwnerFinder.getOwner(hit.collider.gameObject);
 							if (owner != null && owner.GetComponent<Player>() != null && owner.GetComponent<Player>().action != 4 && (PlayerSettings.friend == string.Empty || PlayerSettings.friendHash != owner.GetComponent<Player>().owner.friend))
 							{
 								if (!Network.isServer)
@@ -1162,10 +1187,10 @@ public class Gun : Useable
 							}
 						}
 					}
-					else if (Gun.hit.collider.tag == "Animal")
+					else if (hit.collider.tag == "Animal")
 					{
-						int num = OwnerFinder.getLimb(Gun.hit.collider.gameObject);
-						GameObject gameObject = OwnerFinder.getOwner(Gun.hit.collider.gameObject);
+						int num = OwnerFinder.getLimb(hit.collider.gameObject);
+						GameObject gameObject = OwnerFinder.getOwner(hit.collider.gameObject);
 						if (gameObject != null && !gameObject.GetComponent<AI>().dead)
 						{
 							if (!Network.isServer)
@@ -1444,7 +1469,7 @@ public class Gun : Useable
 							vector3 = spread1.normalized;
 						}
 						Vector3 vector32 = Camera.main.transform.position + (Camera.main.transform.forward * -0.5f);
-						Physics.Raycast(vector32, vector3, out Gun.hit, GunStats.getEffectiveness(Equipment.id), RayMasks.DAMAGE);
+						Physics.Raycast(vector32, vector3, out hit, GunStats.getEffectiveness(Equipment.id), RayMasks.DAMAGE);
 						if (this.magazine == 25001)
 						{
 							this.magazineModel.transform.FindChild("model").renderer.enabled = false;
@@ -1455,7 +1480,7 @@ public class Gun : Useable
 							this.streak.transform.rotation = this.magazineModel.transform.rotation;
 							this.flyFromPos = this.streak.transform.position;
 							this.flyStart = Time.realtimeSinceStartup;
-							if (Gun.hit.collider == null)
+							if (hit.collider == null)
 							{
 								this.streak.transform.rotation = Quaternion.LookRotation(vector3) * Quaternion.Euler(0f, 90f, 0f);
 								this.flyToPos = vector32 + (vector3 * 100f);
@@ -1464,10 +1489,10 @@ public class Gun : Useable
 							else
 							{
 								Transform transforms = this.streak.transform;
-								Vector3 vector33 = Gun.hit.point - vector32;
+								Vector3 vector33 = hit.point - vector32;
 								transforms.rotation = Quaternion.LookRotation(vector33.normalized) * Quaternion.Euler(0f, 90f, 0f);
-								this.flyToPos = Gun.hit.point;
-								Vector3 vector34 = Gun.hit.point - vector32;
+								this.flyToPos = hit.point;
+								Vector3 vector34 = hit.point - vector32;
 								this.flyTime = vector34.magnitude / 25f;
 							}
 							UnityEngine.Object.Destroy(this.streak, this.flyTime);
@@ -1476,112 +1501,118 @@ public class Gun : Useable
 						{
 							if (AmmoStats.getTracer(this.magazine))
 							{
-								if (Gun.hit.collider == null)
+								if (hit.collider == null)
 								{
 									NetworkEffects.askEffect("Effects/tracerRed", vector32, Quaternion.LookRotation(vector3), 4f);
 								}
 								else
 								{
 									Quaternion quaternion = Quaternion.LookRotation(vector3);
-									Vector3 vector35 = Gun.hit.point - vector32;
+									Vector3 vector35 = hit.point - vector32;
 									NetworkEffects.askEffect("Effects/tracerRed", vector32, quaternion, vector35.magnitude / 300f);
 								}
 							}
-							else if (Gun.hit.collider == null)
+							else if (hit.collider == null)
 							{
 								NetworkEffects.askEffect("Effects/tracer", vector32, Quaternion.LookRotation(vector3), 4f);
 							}
 							else
 							{
 								Quaternion quaternion1 = Quaternion.LookRotation(vector3);
-								Vector3 vector36 = Gun.hit.point - vector32;
+								Vector3 vector36 = hit.point - vector32;
 								NetworkEffects.askEffect("Effects/tracer", vector32, quaternion1, vector36.magnitude / 400f);
 							}
 						}
-						if (Gun.hit.collider != null)
+						if (hit.collider != null)
 						{
 							if (AmmoStats.getTracer(this.magazine))
 							{
-								NetworkEffects.askEffect("Effects/sparksRed", Gun.hit.point + (Gun.hit.normal * 0.05f), Quaternion.LookRotation(Gun.hit.normal), -1f);
+								NetworkEffects.askEffect("Effects/sparksRed", hit.point + (hit.normal * 0.05f), Quaternion.LookRotation(hit.normal), -1f);
 							}
-							if (Gun.hit.point.y < Ocean.level)
+							if (hit.point.y < Ocean.level)
 							{
-								NetworkSounds.askSound("Sounds/Impacts/rock", Gun.hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
-								NetworkEffects.askEffect("Effects/bubbles", Gun.hit.point + (Gun.hit.normal * 0.05f), Quaternion.LookRotation(Gun.hit.normal), -1f);
+								NetworkSounds.askSound("Sounds/Impacts/rock", hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
+								NetworkEffects.askEffect("Effects/bubbles", hit.point + (hit.normal * 0.05f), Quaternion.LookRotation(hit.normal), -1f);
 							}
-							else if (Gun.hit.collider.gameObject.name == "ground" || Gun.hit.collider.material.name.ToLower() == "rock (instance)" || Gun.hit.collider.material.name.ToLower() == "ground (instance)")
+							else if (hit.collider.gameObject.name == "ground" || hit.collider.material.name.ToLower() == "rock (instance)" || hit.collider.material.name.ToLower() == "ground (instance)")
 							{
-								NetworkSounds.askSound("Sounds/Impacts/rock", Gun.hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
-								NetworkEffects.askEffect("Effects/rock", Gun.hit.point + (Gun.hit.normal * 0.05f), Quaternion.LookRotation(Gun.hit.normal), -1f);
+								NetworkSounds.askSound("Sounds/Impacts/rock", hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
+								NetworkEffects.askEffect("Effects/rock", hit.point + (hit.normal * 0.05f), Quaternion.LookRotation(hit.normal), -1f);
 							}
-							else if (Gun.hit.collider.material.name.ToLower() == "cloth (instance)")
+							else if (hit.collider.material.name.ToLower() == "cloth (instance)")
 							{
-								NetworkSounds.askSound("Sounds/Impacts/concrete", Gun.hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
-								NetworkEffects.askEffect("Effects/cloth", Gun.hit.point + (Gun.hit.normal * 0.05f), Quaternion.LookRotation(Gun.hit.normal), -1f);
+								NetworkSounds.askSound("Sounds/Impacts/concrete", hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
+								NetworkEffects.askEffect("Effects/cloth", hit.point + (hit.normal * 0.05f), Quaternion.LookRotation(hit.normal), -1f);
 							}
-							else if (Gun.hit.collider.material.name.ToLower() == "wood (instance)")
+							else if (hit.collider.material.name.ToLower() == "wood (instance)")
 							{
-								NetworkSounds.askSound("Sounds/Impacts/wood", Gun.hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
-								NetworkEffects.askEffect("Effects/splinters", Gun.hit.point + (Gun.hit.normal * 0.05f), Quaternion.LookRotation(Gun.hit.normal), -1f);
+								NetworkSounds.askSound("Sounds/Impacts/wood", hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
+								NetworkEffects.askEffect("Effects/splinters", hit.point + (hit.normal * 0.05f), Quaternion.LookRotation(hit.normal), -1f);
 							}
-							else if (Gun.hit.collider.material.name.ToLower() == "tile (instance)")
+							else if (hit.collider.material.name.ToLower() == "tile (instance)")
 							{
-								NetworkSounds.askSound("Sounds/Impacts/concrete", Gun.hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
-								NetworkEffects.askEffect("Effects/tile", Gun.hit.point + (Gun.hit.normal * 0.05f), Quaternion.LookRotation(Gun.hit.normal), -1f);
+								NetworkSounds.askSound("Sounds/Impacts/concrete", hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
+								NetworkEffects.askEffect("Effects/tile", hit.point + (hit.normal * 0.05f), Quaternion.LookRotation(hit.normal), -1f);
 							}
-							else if (Gun.hit.collider.material.name.ToLower() == "concrete (instance)")
+							else if (hit.collider.material.name.ToLower() == "concrete (instance)")
 							{
-								NetworkSounds.askSound("Sounds/Impacts/concrete", Gun.hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
-								NetworkEffects.askEffect("Effects/concrete", Gun.hit.point + (Gun.hit.normal * 0.05f), Quaternion.LookRotation(Gun.hit.normal), -1f);
+								NetworkSounds.askSound("Sounds/Impacts/concrete", hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
+								NetworkEffects.askEffect("Effects/concrete", hit.point + (hit.normal * 0.05f), Quaternion.LookRotation(hit.normal), -1f);
 							}
-							else if (Gun.hit.collider.material.name.ToLower() == "metal (instance)" || Gun.hit.collider.material.name.ToLower() == "iron (instance)")
+							else if (hit.collider.material.name.ToLower() == "metal (instance)" || hit.collider.material.name.ToLower() == "iron (instance)")
 							{
-								NetworkSounds.askSound("Sounds/Impacts/metal", Gun.hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
-								NetworkEffects.askEffect("Effects/sparks", Gun.hit.point + (Gun.hit.normal * 0.05f), Quaternion.LookRotation(Gun.hit.normal), -1f);
+								NetworkSounds.askSound("Sounds/Impacts/metal", hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
+								NetworkEffects.askEffect("Effects/sparks", hit.point + (hit.normal * 0.05f), Quaternion.LookRotation(hit.normal), -1f);
 							}
-							else if (Gun.hit.collider.material.name.ToLower() == "flesh (instance)")
+							else if (hit.collider.material.name.ToLower() == "flesh (instance)")
 							{
-								NetworkSounds.askSound("Sounds/Impacts/flesh", Gun.hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
-								NetworkEffects.askEffect("Effects/flesh", Gun.hit.point + (Gun.hit.normal * 0.05f), Quaternion.LookRotation(Gun.hit.normal), -1f);
+								NetworkSounds.askSound("Sounds/Impacts/flesh", hit.point, 0.5f, UnityEngine.Random.Range(0.9f, 1.1f), 0.25f);
+								NetworkEffects.askEffect("Effects/flesh", hit.point + (hit.normal * 0.05f), Quaternion.LookRotation(hit.normal), -1f);
 							}
-							if (Gun.hit.collider.name == "ground" || Gun.hit.collider.tag == "Prop" || Gun.hit.collider.tag == "World" || Gun.hit.collider.tag == "Environment" || Gun.hit.collider.tag == "Global")
+							if (hit.collider.name == "ground" || hit.collider.tag == "Prop" || hit.collider.tag == "World" || hit.collider.tag == "Environment" || hit.collider.tag == "Global")
 							{
-								NetworkEffects.askEffect("Effects/hole", Gun.hit.point + (Gun.hit.normal * UnityEngine.Random.Range(0.04f, 0.06f)), Quaternion.LookRotation(Gun.hit.normal) * Quaternion.Euler(0f, 0f, (float)UnityEngine.Random.Range(0, 360)), 20f);
+								NetworkEffects.askEffect("Effects/hole", hit.point + (hit.normal * UnityEngine.Random.Range(0.04f, 0.06f)), Quaternion.LookRotation(hit.normal) * Quaternion.Euler(0f, 0f, (float)UnityEngine.Random.Range(0, 360)), 20f);
 							}
-							if (Gun.hit.collider.tag == "Barricade")
+							if (hit.collider.tag == "Barricade")
 							{
 								if (!Network.isServer)
 								{
-									base.networkView.RPC("shootBarricade", RPCMode.Server, new object[] { Equipment.equipped.x, Equipment.equipped.y, Gun.hit.collider.transform.parent.position });
+									base.networkView.RPC("shootBarricade", RPCMode.Server, new object[] { Equipment.equipped.x, Equipment.equipped.y, hit.collider.transform.parent.position });
 								}
 								else
 								{
-									this.shootBarricade(Equipment.equipped.x, Equipment.equipped.y, Gun.hit.collider.transform.parent.position);
+									this.shootBarricade(Equipment.equipped.x, Equipment.equipped.y, hit.collider.transform.parent.position);
 								}
 							}
-							else if (Gun.hit.collider.tag == "Structure")
+							else if (hit.collider.tag == "Structure")
 							{
 								if (!Network.isServer)
 								{
-									base.networkView.RPC("shootStructure", RPCMode.Server, new object[] { Equipment.equipped.x, Equipment.equipped.y, Gun.hit.collider.transform.parent.position });
+									base.networkView.RPC("shootStructure", RPCMode.Server, new object[] { Equipment.equipped.x, Equipment.equipped.y, hit.collider.transform.parent.position });
 								}
 								else
 								{
                                     // FIXME: client stuff?
-									//this.shootStructure(Equipment.equipped.x, Equipment.equipped.y, Gun.hit.collider.transform.parent.position);
+									//this.shootStructure(Equipment.equipped.x, Equipment.equipped.y, hit.collider.transform.parent.position);
 								}
 							}
-							else if (Gun.hit.collider.tag == "Enemy" && ServerSettings.pvp)
+							else if (hit.collider.tag == "Enemy" && ServerSettings.pvp)
 							{
-								int limb1 = OwnerFinder.getLimb(Gun.hit.collider.gameObject);
+								int limb1 = OwnerFinder.getLimb(hit.collider.gameObject);
 								if (limb1 != -1)
 								{
-									GameObject owner1 = OwnerFinder.getOwner(Gun.hit.collider.gameObject);
+									GameObject owner1 = OwnerFinder.getOwner(hit.collider.gameObject);
 									if (owner1 != null && owner1.GetComponent<Player>() != null && owner1.GetComponent<Player>().action != 4 && (PlayerSettings.friend == string.Empty || PlayerSettings.friendHash != owner1.GetComponent<Player>().owner.friend))
 									{
 										if (!Network.isServer)
 										{
-											base.networkView.RPC("shootPlayer", RPCMode.Server, new object[] { Equipment.equipped.x, Equipment.equipped.y, owner1.GetComponent<Player>().owner.id, limb1 });
+											// Shooting player
+											base.networkView.RPC("shootPlayer", RPCMode.Server, new object[] { 
+												Equipment.equipped.x, 
+												Equipment.equipped.y, 
+												owner1.GetComponent<Player>().owner.id, 
+												limb1 
+											});
 										}
 										else
 										{
@@ -1598,10 +1629,10 @@ public class Gun : Useable
 									}
 								}
 							}
-							else if (Gun.hit.collider.tag == "Animal")
+							else if (hit.collider.tag == "Animal")
 							{
-								int limb2 = OwnerFinder.getLimb(Gun.hit.collider.gameObject);
-								GameObject gameObject1 = OwnerFinder.getOwner(Gun.hit.collider.gameObject);
+								int limb2 = OwnerFinder.getLimb(hit.collider.gameObject);
+								GameObject gameObject1 = OwnerFinder.getOwner(hit.collider.gameObject);
 								if (gameObject1 != null && !gameObject1.GetComponent<AI>().dead)
 								{
 									if (!Network.isServer)
@@ -1623,7 +1654,7 @@ public class Gun : Useable
 									this.shootNothing(Equipment.equipped.x, Equipment.equipped.y);
 								}
 							}
-							else if (!(Gun.hit.collider.tag == "Vehicle") || Gun.hit.collider.GetComponent<Vehicle>().health <= 0 || !ServerSettings.pvp)
+							else if (!(hit.collider.tag == "Vehicle") || hit.collider.GetComponent<Vehicle>().health <= 0 || !ServerSettings.pvp)
 							{
 								if (!Network.isServer)
 								{
@@ -1637,11 +1668,11 @@ public class Gun : Useable
 								{
 									if (!Network.isServer)
 									{
-										base.networkView.RPC("landArrow", RPCMode.Server, new object[] { Gun.hit.point });
+										base.networkView.RPC("landArrow", RPCMode.Server, new object[] { hit.point });
 									}
 									else
 									{
-										this.landArrow(Gun.hit.point);
+										this.landArrow(hit.point);
 									}
 								}
 							}
@@ -1649,11 +1680,11 @@ public class Gun : Useable
 							{
 								if (!Network.isServer)
 								{
-									base.networkView.RPC("shootVehicle", RPCMode.Server, new object[] { Equipment.equipped.x, Equipment.equipped.y, Gun.hit.collider.networkView.viewID });
+									base.networkView.RPC("shootVehicle", RPCMode.Server, new object[] { Equipment.equipped.x, Equipment.equipped.y, hit.collider.networkView.viewID });
 								}
 								else
 								{
-									this.shootVehicle(Equipment.equipped.x, Equipment.equipped.y, Gun.hit.collider.networkView.viewID);
+									this.shootVehicle(Equipment.equipped.x, Equipment.equipped.y, hit.collider.networkView.viewID);
 								}
 							}
 						}
@@ -1741,19 +1772,19 @@ public class Gun : Useable
 				{
 					if (this.sightModel == null)
 					{
-						Physics.Raycast(this.tacticalModel.transform.position, -this.tacticalModel.transform.right, out Gun.hit, 128f, RayMasks.DAMAGE);
+						Physics.Raycast(this.tacticalModel.transform.position, -this.tacticalModel.transform.right, out hit, 128f, RayMasks.DAMAGE);
 					}
 					else
 					{
-						Physics.Raycast(this.sightModel.transform.position + (this.sightModel.transform.forward * this.scopeOffset.y), -this.sightModel.transform.right, out Gun.hit, 128f, RayMasks.DAMAGE);
+						Physics.Raycast(this.sightModel.transform.position + (this.sightModel.transform.forward * this.scopeOffset.y), -this.sightModel.transform.right, out hit, 128f, RayMasks.DAMAGE);
 					}
-					if (Gun.hit.collider == null)
+					if (hit.collider == null)
 					{
 						this.laser.transform.position = Vector3.zero;
 					}
 					else
 					{
-						this.laser.transform.position = Gun.hit.point;
+						this.laser.transform.position = hit.point;
 						this.laser.transform.rotation = Quaternion.LookRotation(this.tacticalModel.transform.right);
 					}
 				}
@@ -1792,6 +1823,4 @@ public class Gun : Useable
 			}
 		}
 	}
-
-
 }

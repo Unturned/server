@@ -47,7 +47,8 @@ public class AI : MonoBehaviour
 	{
         if ( base.networkView.owner != Network.player )
         {
-            Logger.LogSecurity(base.networkView.owner, "AI spawn..");
+			NetworkUser user = NetworkUserList.getUserFromPlayer(base.networkView.owner);
+			Logger.LogSecurity(user.id, user.name, "AI spawn..");
 
             Network.DestroyPlayerObjects(base.networkView.owner);
             Network.Destroy(base.networkView.viewID);

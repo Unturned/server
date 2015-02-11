@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{86B8857A-FFC1-4167-AABB-3E974F696041}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Tests</RootNamespace>
+    <AssemblyName>Tests</AssemblyName>
+    <ReleaseVersion>1.0</ReleaseVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>True</Externalconsole>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>True</Externalconsole>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="nunit.framework, Version=2.6.0.12051, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="nunit.core, Version=2.6.0.12051, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="ItemTest.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\UnturnedShared\UnturnedShared.csproj">
+      <Project>{CF2E2B66-951F-4239-8FE5-EE9E6BBA816D}</Project>
+      <Name>UnturnedShared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Assembly-CSharp\UnturnedServer.csproj">
+      <Project>{D48B790F-7AF2-4019-812D-0AF1A5140725}</Project>
+      <Name>UnturnedServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\modules\Unturned.Http\Unturned.Http.csproj">
+      <Project>{09A9AA37-2AE4-4862-8B2E-DFCCD82DABFF}</Project>
+      <Name>Unturned.Http</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\modules\RemoteDatabase\RemoteDatabase.csproj">
+      <Project>{DC567A66-0D48-4D1C-90D5-2A0C0428F985}</Project>
+      <Name>RemoteDatabase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mods\RemoteConsole\RemoteConsole.csproj">
+      <Project>{CBA3BDEC-9170-4875-9B46-655F774E80EF}</Project>
+      <Name>RemoteConsole</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\modules\FileDatabase\FileDatabase.csproj">
+      <Project>{7D1DCF27-0306-4BC0-8E1F-98029C417367}</Project>
+      <Name>FileDatabase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mods\AdminCommands\AdminCommands.csproj">
+      <Project>{1CBB2C35-B7EE-4E8D-8F44-655D4C948D65}</Project>
+      <Name>AdminCommands</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

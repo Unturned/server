@@ -33,6 +33,8 @@ using Unturned;
 using Unturned.Log;
 using System.Threading.Tasks;
 using System.IO;
+using System.Threading;
+using System.Collections.Generic;
 
 namespace AdminCommands
 {
@@ -74,14 +76,14 @@ namespace AdminCommands
             }
         }
 
-		private void WriteComponentsToFile (Component[] objects)
+		private void WriteComponentsToFile()
 		{
 			String components = "";
-			foreach ( Component cmp in objects)
+			foreach ( MyComponent cmp in componentList)
 			{
-				if( cmp.gameObject != null)
+				if( cmp.goName != null)
 				{
-					components += "[" + cmp.gameObject.name + "] ";
+					components += "[" + cmp.goName + "] ";
 				}
 				else
 				{
@@ -92,20 +94,28 @@ namespace AdminCommands
 			}
 
 			File.WriteAllText("components.db", components);
+
+			componentList.Clear();
 		}
+
+		List<MyComponent> componentList;
 
 		public void PrintComponentStat(NetworkPlayer player)
 		{
-			Component[] objects = UnityEngine.Object.FindObjectsOfType<Component>();
+			Component[] objects = UnityEngine.Object.FindObjectsOfType<Component> ();
 			Reference.Tell(player, "There is " + objects.Length + " component");
 
-			Task task = new Task(delegate { 
-				WriteComponentsToFile(objects); 
-			});
-			task.Start();
+			componentList = new List<MyComponent>();
+			foreach (Component cmp in objects)
+			{
+				componentList.Add(new MyComponent(goName: cmp.gameObject.name, name: cmp.name));
+			}
+
+			Thread thread = new Thread (this.WriteComponentsToFile);
+			thread.Start();
 		}
 
-        public void PrintUsage(NetworkPlayer player) 
+		public void PrintUsage(NetworkPlayer player) 
         {
             Reference.Tell(player, "Available subcommands: [go, player, component]");
         }
@@ -130,10 +140,26 @@ namespace AdminCommands
             Player[] players = UnityEngine.Object.FindObjectsOfType<Player>();
             Reference.Tell(player, "There is " + players.Length + " Player objects..");
 
+#if DEBUG
             foreach ( Player plr in players) {
-                //Logger.LogDatabase("Name: " + go.name + " coord:" + go.transform.position + " Parent:" + parent);
+				GameObject go = plr.gameObject;
+                Logger.LogDatabase("Name: " + go.name + " coord:" + go.transform.position);
             }
+#endif
         }
+		
     }
+
+	public class MyComponent {
+		public String name {get; set;}
+		public String goName {get; set;}
+
+		public MyComponent (string name, string goName)
+		{
+			this.name = name;
+			this.goName = goName;
+		}
+		
+	}
 }
 

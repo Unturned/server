@@ -166,7 +166,7 @@ public class Player : MonoBehaviour
 
             if (!found) {
                 Network.CloseConnection(base.networkView.owner, true);
-                Logger.LogSecurity(base.networkView.owner, "Not found player in instantiate cycle!");
+				Logger.LogSecurity("", "", "Not found player in instantiate cycle!");
             }
 		}
 	}
@@ -362,7 +362,8 @@ public class Player : MonoBehaviour
 	{
 		if (info.sender != this.owner.player) {
 			NetworkTools.kick(info.sender, "VAC: Kick hack attempt detected. Incident reported.");
-			Logger.LogSecurity (info.sender, "Tried to use speedhack kick.");
+			NetworkUser user = NetworkUserList.getUserFromPlayer(info.sender);
+			Logger.LogSecurity(user.id, user.name, "Tried to use speedhack kick.");
 			return;
 		}
 
