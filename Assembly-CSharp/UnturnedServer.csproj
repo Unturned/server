@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>AssemblyCSharp</RootNamespace>
     <ReleaseVersion>1.0</ReleaseVersion>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProductVersion>12.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
@@ -228,10 +228,13 @@
     <Compile Include="Base\Items\Pick.cs" />
     <Compile Include="Base\Items\Refillable.cs" />
     <Compile Include="Base\Items\Repair.cs" />
+    <Compile Include="ObjExporter.cs" />
+    <Compile Include="ThreadWorker\TaskBehaviour.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="GridManager\" />
+    <Folder Include="ThreadWorker\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

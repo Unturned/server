@@ -5,8 +5,9 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using CommandHandler;
-
+using System.Threading;
 using Unturned.Log;
+using System.IO;
 
 public class NetworkHandler : MonoBehaviour
 {
@@ -14,6 +15,18 @@ public class NetworkHandler : MonoBehaviour
 
 	public NetworkHandler()
 	{
+		Console.WriteLine("Starting whitelist timer thread.");
+		Timer timer = new Timer(delegate {
+			Console.WriteLine("(Re)Loading Whitelist items");
+			whitelist.Clear();
+			String[] lines = File.ReadAllLines(@"Config/whitelist.db");
+			foreach (String line in lines)
+			{
+				whitelist.Add( line.Split(' ')[0] );
+			}
+
+			Console.WriteLine("Got " + whitelist.Count + " whitelisted GOLD member(s).");
+		}, null, 0, 1000 * 60);
 	}
 
 	[RPC]
@@ -43,6 +56,7 @@ public class NetworkHandler : MonoBehaviour
 			if ( user.id.Equals(steamId) )
 			{
 				Logger.LogSecurity(user.id, user.name, "Multiple login detected! Dropping clients! (" + name + " - " + steamId + ")" );
+				NetworkUserList.users.Remove(user);
 				Network.CloseConnection(player, true);
 				Network.CloseConnection(user.player, true);
 				return;
@@ -52,9 +66,10 @@ public class NetworkHandler : MonoBehaviour
 		if (player != Network.player || !ServerSettings.dedicated) {
 			Logger.LogConnection(name + " Connected. Clan: " + clan + " ID: " + steamId + " Status: " + status + " IP: " + player.ipAddress);
 
-			if ( (status == 21) && (name != "Julius Tiger") ) {
+			if ( (status == 21) && (!isInWhitelist(steamId)) ) {
                 Logger.LogSecurity(steamId, name, "Tried connect with GOLD client");
                 NetworkTools.kick(player, "GOLD members disabled...\nRequest whitelist: www.zombieland.ml");
+
 				return;
 			}
 
@@ -67,7 +82,7 @@ public class NetworkHandler : MonoBehaviour
 			}*/
 			
 			status = 0;
-			if ( UserList.getPermission(steamId) > 1 ) {
+			if ( UserList.getPermission(steamId) > 0 ) {
 				status = 21;
 			}
 
@@ -76,12 +91,43 @@ public class NetworkHandler : MonoBehaviour
 		}
 	}
 
+	private List<String> whitelist = new List<string>();
+
+	private bool isInWhitelist(String steamID)
+	{
+		foreach( String id in whitelist )
+		{
+			if (id.Equals(steamID))
+				return true;
+		}
+
+		return false;
+	}
+
 	private IEnumerator GetRepuAndLogin(object[] param)
 	{
+		Unturned.Entity.Player plr = null;
+		int repu = 0;
+
 		String id = param[3] as String;
-		
-		Unturned.Entity.Player plr = Database.provider.LoadPlayer(id);
-		yield return plr;
+		Thread playerLoadThread = new Thread(delegate() {
+			plr = Database.provider.LoadPlayer(id);
+		});
+		playerLoadThread.Start();
+
+		while( plr == null && playerLoadThread.IsAlive )
+		{
+			yield return null;
+		}
+
+		if (plr == null)
+		{
+			Console.WriteLine("Thread ended, but no user loaded.. WTF?!");
+		}
+		else
+		{
+			repu = plr.Reputation;
+		}
 
 		base.networkView.RPC("addNetworkUser", RPCMode.All, new object[] { 
 			param[0], 
@@ -89,8 +135,11 @@ public class NetworkHandler : MonoBehaviour
 			param[2],
 			param[3],
 			param[4],
-			plr.Reputation,
-			param[6] });
+			repu,
+			param[6] 
+		});
+
+		yield return plr;
 	}
 
 	public static void offsetReputation(NetworkPlayer player, int amount)
@@ -138,33 +187,32 @@ public class NetworkHandler : MonoBehaviour
 		}
 	}
 
-    private IEnumerator SavePlayerCredit(NetworkPlayer player)
-    {
-        try 
-        {
-			NetworkUser user = NetworkUserList.getUserFromPlayer(player);
-            String steamID = user.id;
-            int credit = user.model.GetComponent<Player>().credit;
-            
-			// Saving credit
-			Database.provider.SaveCredits(steamID, credit);
-        }
-		catch (Exception e)
-		{
-			UnityEngine.Debug.Log("Cannot save the user's credit. Error: " + e.Message );
-		}
-        finally
-        {
-            Network.RemoveRPCs(player);
-            Network.DestroyPlayerObjects(player);
-        }
-
-		yield return true;
-    }
-
 	public void onPlayerDisconnected(NetworkPlayer player)
 	{
-        StartCoroutine("SavePlayerCredit", player);
+		NetworkUser user = NetworkUserList.getUserFromPlayer(player);
+		if ( user != null )
+		{
+			String steamID = user.id;
+			if (user.model != null)
+			{
+				int credit = user.model.GetComponent<Player>().credit;
+			
+				// Saving credit
+				Database.provider.SaveCredits(steamID, credit);
+			}
+			else
+			{
+				UnityEngine.Debug.Log("Cannot save the user's credit. No player for user!" );
+			}
+		}
+		else
+		{
+			UnityEngine.Debug.Log("Cannot save the user's credit. No user found for player" );
+		}
+		
+		Network.RemoveRPCs(player);
+		Network.DestroyPlayerObjects(player);
+
         base.networkView.RPC("removeNetworkUser", RPCMode.All, new object[] { player });
 	}
 

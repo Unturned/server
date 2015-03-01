@@ -838,7 +838,8 @@ public class Gun : Useable
                         (int)damage, 
                         killString,
 						itemId,
-						steamID);
+						steamID,
+						hitDistance);
 
 					if (user.model.GetComponent<Life>().dead && Time.realtimeSinceStartup - user.model.GetComponent<Player>().owner.spawned > (float)Reputation.SPAWN_DELAY)
 					{

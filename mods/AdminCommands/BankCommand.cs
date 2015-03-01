@@ -29,6 +29,7 @@
 //------------------------------------------------------------------------------
 using System;
 using CommandHandler;
+using UnityEngine;
 
 namespace AdminCommands
 {
@@ -43,8 +44,21 @@ namespace AdminCommands
 
 		private void Bank (CommandArgs args)
 		{
-			// TODO: implement banking
+			BetterNetworkUser user = args.sender;
+
+			Vector3 target = new UnityEngine.Vector3(-273.985F, 59.87F, -15.0616F);
+			user.position = target;
+			user.player.gameObject.GetComponent<Life> ().networkView.RPC ("tellStatePosition", UnityEngine.RPCMode.All, new object[]{
+				target,
+				user.rotation
+			});
+			
+			user.player.gameObject.GetComponent<NetworkInterpolation>().tellStatePosition_Pizza(target, user.rotation);
+			NetworkEvents.triggerOnRegionUpdate();
+			NetworkEvents.triggerOnRegionUpdate();
+
 		}
+
 	}
 }
 

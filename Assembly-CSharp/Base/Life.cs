@@ -176,13 +176,15 @@ public class Life : MonoBehaviour
 
 	private int killerWeapon;
 	private string killerId;
+	private float distance;
 
-	public void damage(int amount, string killer, int killerWeapon, string killerId)
+	public void damage(int amount, string killer, int killerWeapon, string killerId, float distance = 0f)
 	{
 		if (amount != 0)
 		{
 			this.killerWeapon = killerWeapon;
 			this.killerId = killerId;
+			this.distance = distance;
 
 			if (base.networkView.isMine && amount > 3)
 			{
@@ -266,18 +268,31 @@ public class Life : MonoBehaviour
 			this.saveAllVitality();
 			if (base.networkView.owner != Network.player) {
 				// Kill announce
-				String chatMessage = this.death
-                    .Replace("You", base.GetComponent<Player>().name )
-                    .Replace("your", "his");
-				
-				NetworkChat.tool.networkView.RPC("tellChat", RPCMode.All, new object[] { 
-					"The Death",
-					"", 
-					"", 
-                    chatMessage, //chatMessage,
-					21, // Gold
-					0, 
-					-80 });
+				if ( killerWeapon > 0 )
+				{
+					String killerName = NetworkUserList.getUserFromID(killerId).name;
+					String victimName = base.GetComponent<Player>().name;
+					String itemName = ItemName.getName(killerWeapon);
+
+					String killMsg = String.Format("{0} killed {1} with {2}.", killerName, victimName, itemName);
+
+					NetworkChat.tool.networkView.RPC("tellChat", RPCMode.All, new object[] { 
+						"The Death" + (this.distance > 0 ? " from: " + this.distance.ToString ("F") + "meters" : ""),
+						"", 
+						"", 
+						killMsg, //chatMessage,
+						21, // Gold
+						0, 
+						-80 });
+
+					distance = 0;
+					killerId = "";
+					killerWeapon = -1;
+				} 
+				else 
+				{
+					Console.WriteLine("Kill annouce skipped for weapon: " + killerWeapon );
+				}
 				
 				base.networkView.RPC("tellDead", base.networkView.owner, new object[] { this.dead, this.death });
 			} else {

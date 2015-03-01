@@ -50,6 +50,12 @@ namespace Unturned.Http
 		public string Method { get; set; }
 		public string Protocol { get; set; }
 
+		/// <summary>
+		/// Returns the response status code
+		/// </summary>
+		/// <value>The response status.</value>
+		public int ResponseStatus { get; set; }
+
 		private TcpClient m_client;
 		private Uri m_uri;
 
@@ -116,9 +122,11 @@ namespace Unturned.Http
 			// Jumping to stream's start
 			mStream.Seek(0, SeekOrigin.Begin);
 			StreamReader reader = new StreamReader (mStream, Encoding.UTF8);
-#if (DEBUG)
+
 			String statusLine = reader.ReadLine();
-            Console.WriteLine("Response status: " + statusLine.Split(' ')[1] );
+			ResponseStatus = int.Parse(statusLine.Split(' ')[1]);
+#if (DEBUG)
+            Console.WriteLine("Response status: " + ResponseStatus );
 #endif
 			while (true) {
 				String line = reader.ReadLine();

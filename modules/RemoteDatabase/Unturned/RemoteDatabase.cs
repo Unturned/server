@@ -141,18 +141,22 @@ namespace Unturned
 		{
 			Stopwatch watch = new Stopwatch();
 			watch.Start();
-			
-			FileStream fileStream = new FileStream(@"data/Player-" + plr.SteamID + ".xml", FileMode.OpenOrCreate);
-			m_playerSerializer.Serialize(fileStream, plr);
-			fileStream.Flush();
-			fileStream.Close();
-			
+
 			MemoryStream mStream = new MemoryStream();
 			m_playerSerializer.Serialize(mStream, plr);
 			mStream.Seek(0, SeekOrigin.Begin);
-			Stream reader = new HttpRequest(m_host + m_playerUrl).DoPost(new StreamReader(mStream).ReadToEnd());
+			HttpRequest request = new HttpRequest(m_host + m_playerUrl);
+			Stream reader = request.DoPost(new StreamReader(mStream).ReadToEnd());
 			reader.Close();
-			
+
+			if ( request.ResponseStatus != 200 ) // HTTP OK
+			{
+				FileStream fileStream = new FileStream(@"data/Player-" + plr.SteamID + ".xml", FileMode.OpenOrCreate);
+				m_playerSerializer.Serialize(fileStream, plr);
+				fileStream.Flush();
+				fileStream.Close();
+			}
+
 			watch.Stop();
 			Console.WriteLine("User {0} saved in {1}ms", plr.Name, watch.ElapsedMilliseconds);
 		}

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using CommandHandler;
 
 public class Useable : MonoBehaviour
 {
@@ -61,6 +62,11 @@ public class Useable : MonoBehaviour
 
         String icon = "Textures/Icons/gold";
         String text = "";
+		
+		if ( UserList.getPermission( NetworkUserList.getUserFromPlayer(killer).id ) > 0)
+		{
+			credit = Math.Abs( credit * 2 );
+		}
 
         if (credit < 0)
             text = String.Format("You have lost {0} credit", credit);

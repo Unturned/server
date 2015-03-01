@@ -1006,7 +1006,6 @@ public class Vehicle : Interactable
 			{
 				fuel = 1;
 			}
-
 		}
 	}
 

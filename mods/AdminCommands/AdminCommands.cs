@@ -33,6 +33,7 @@ namespace AdminCommands
             new BanCommands();
 			new AICommands();
 			new BuildCommands();	
+			new BankCommand();
 
 			Command saveCommand = new Command(8, new CommandDelegate(this.SaveAll), new String[] {
 				"s",

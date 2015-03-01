@@ -60,58 +60,11 @@ namespace AdminCommands
 		private void SetHome (CommandArgs args)
 		{
 			Vector3 location = args.sender.position;
-			// FIXME: re-set delay message
-			//Reference.Tell (args.sender.networkPlayer, "Setting home... Stand still for 20 seconds.");
-			Reference.Tell (args.sender.networkPlayer, "Setting your home...");
-			this.setPlayerhome (args.sender, location);
-		}
-		
-		private bool setPlayerhome (BetterNetworkUser user, Vector3 location)
-		{
-			int i = 20;
-			bool result;
-			// FIXME: fix the delay!!!
-			/*while (i > 0) {
-				if (!user.position.Equals (location)) {
-					Reference.Tell (user.networkPlayer, "Sethome cancelled");
-					result = false;
-					return result;
-				}
-				Reference.Tell (user.networkPlayer, "Setting home in " + i + " seconds");
-				i--;
-				System.Threading.Thread.Sleep (1000);
-			}*/
-			string steamid = user.steamid;
-
-			if (this.playerHomes.ContainsKey(steamid)) 
-			{
-				string[] array = File.ReadAllLines ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt");
-				File.Delete ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt");
-				StreamWriter streamWriter = new StreamWriter("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt", true);
-				for (int j = 0; j < array.Length; j++) {
-					if (!array [j].StartsWith (steamid)) {
-						streamWriter.WriteLine (array [j]);
-					}
-				}
-				streamWriter.Close ();
-			}
-
-			StreamWriter writer = new StreamWriter("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt", true);
-			writer.WriteLine(string.Concat (new object[]{
-				steamid,
-				":",
-				location.x,
-				",",
-				location.y,
-				",",
-				location.z
-			}));
-			writer.Close ();
-			this.playerHomes[steamid] = location;
-			Reference.Tell(user.networkPlayer, "Home set.");
-			result = true;
-
-			return result;
+			Reference.Tell (args.sender.networkPlayer, "Setting home... Stand still for 20 seconds.");
+			StartCoroutine("SetHomeLocation", new object[]{
+				args.sender,
+				location
+			});
 		}
 
 		private void Home(CommandArgs args)
@@ -125,7 +78,7 @@ namespace AdminCommands
 					originalposition
 				});
 			} else {
-				if (UnityEngine.Time.realtimeSinceStartup - this.usedHomeCommand[user.steamid] > 60f || UserList.getPermission(user.steamid) > 4L) {
+				if (UnityEngine.Time.realtimeSinceStartup - this.usedHomeCommand[user.steamid] > 60f * 5 || UserList.getPermission(user.steamid) > 4L) {
 					Vector3 originalposition = user.position;
 					Reference.Tell (user.networkPlayer, "Teleporting home... Stand still for 5 seconds.");
 					StartCoroutine("TeleportHome", new object[]{
@@ -136,9 +89,64 @@ namespace AdminCommands
 					Reference.Tell(
 						user.networkPlayer, 
 						"You need to wait " + 
-						System.Math.Round ((double)(60f - (UnityEngine.Time.realtimeSinceStartup - this.usedHomeCommand[user.steamid]))).ToString() + 
+						System.Math.Round ((double)(60f * 5 - (UnityEngine.Time.realtimeSinceStartup - this.usedHomeCommand[user.steamid]))).ToString() + 
 						" more seconds before you can teleport home again.");
 				}
+			}
+		}
+
+		/// <summary>
+		/// Teleports the home.
+		/// The object must contains the betternetworkuser and vector3 as original location!
+		/// </summary>
+		/// <returns>The home.</returns>
+		/// <param name="args">Arguments.</param>
+		private IEnumerator SetHomeLocation(object[] args)
+		{
+			Debug.Log("Home set coroutine started!");
+			BetterNetworkUser user = (BetterNetworkUser)args[0];
+			Vector3 originalPosition = (Vector3)args[1];
+
+			for (int i=20; i>0; i--) {
+				if (!user.position.Equals (originalPosition)) {
+					Reference.Tell (user.networkPlayer, "Sethome cancelled");
+					yield return null;
+					break;
+				}
+
+				NetworkManager.error("Setting home in " + i + " seconds...", "Textures/Skills/survivalist", user.networkPlayer);
+				yield return new WaitForSeconds(1);
+			}
+
+			// Not setting...
+			if (user.position.Equals (originalPosition)) {
+				string steamid = user.steamid;
+				if (this.playerHomes.ContainsKey(steamid)) 
+				{
+					string[] array = File.ReadAllLines ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt");
+					File.Delete ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt");
+					StreamWriter streamWriter = new StreamWriter("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt", true);
+					for (int j = 0; j < array.Length; j++) {
+						if (!array [j].StartsWith (steamid)) {
+							streamWriter.WriteLine (array [j]);
+						}
+					}
+					streamWriter.Close ();
+				}
+				
+				StreamWriter writer = new StreamWriter("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt", true);
+				writer.WriteLine(string.Concat (new object[]{
+					steamid,
+					":",
+					originalPosition.x,
+					",",
+					originalPosition.y,
+					",",
+					originalPosition.z
+				}));
+				writer.Close ();
+				this.playerHomes[steamid] = originalPosition;
+				Reference.Tell(user.networkPlayer, "Home set.");
 			}
 		}
 
@@ -164,6 +172,8 @@ namespace AdminCommands
 					result = false;
 					break;
 				}
+
+				NetworkManager.error("Teleporting to home in " + i + " seconds...", "Textures/Skills/survivalist", user.networkPlayer);
 				i--;
 				yield return new WaitForSeconds(0.5f);
 			}

@@ -114,10 +114,26 @@ public class NetworkManager : MonoBehaviour {
 
     private IEnumerator EnableConnections()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(4);
         Network.SetSendingEnabled(0, true);
         Network.isMessageQueueRunning = true;
         Logger.LogConnection("Server is starting accepting connections");
+
+#if EXPORT
+		MeshFilter[] meshes = GameObject.FindObjectsOfType<MeshFilter>();
+		int i = 0;
+		foreach (MeshFilter mf in meshes)
+		{
+			i++;
+			try {
+				AssemblyCSharp.ObjExporter.MeshToFile(mf, mf.gameObject.name + "_" + i + ".obj");
+			} catch
+			{
+
+			}
+		}
+#endif
+
     }
 
 	public void OnPlayerConnected(NetworkPlayer player) {

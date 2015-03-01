@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using UnityEngine;
+using Unturned.ThreadWorker;
 
 namespace ModLoader
 {
@@ -22,6 +23,7 @@ namespace ModLoader
                 gameobject = getNetworkChat().gameObject;
                 UnityEngine.Object.DontDestroyOnLoad(Loader.gameobject);
                 gameobject.AddComponent<ModManager>();
+				gameobject.AddComponent<TaskBehaviour>();
             }  
 
             if (Loader.keepAlive == null)
