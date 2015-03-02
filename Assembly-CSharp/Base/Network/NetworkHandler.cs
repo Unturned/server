@@ -14,15 +14,31 @@ public class NetworkHandler : MonoBehaviour
 	public static NetworkHandler tool;
 	private List<String> whitelist = new List<string>();
 
+	private static string WHITELIST_FILE_PATH = @"config/whitelist.db";
+
 	public NetworkHandler()
 	{
 		Console.WriteLine("Starting whitelist timer thread.");
+
+		if ( !File.Exists(WHITELIST_FILE_PATH) )
+		{
+			using(StreamWriter writer = new StreamWriter(File.Create(WHITELIST_FILE_PATH) ))
+			{
+				writer.WriteLine("; Whitelist file. The description/name is optional! example:");
+				writer.WriteLine("76561197994222727 Julius Tiger");
+			}
+		}
+
+
 		Timer timer = new Timer(delegate {
 			Console.WriteLine("(Re)Loading Whitelist items");
 			whitelist.Clear();
-			String[] lines = File.ReadAllLines(@"Config/whitelist.db");
+			String[] lines = File.ReadAllLines();
 			foreach (String line in lines)
 			{
+				if(line.StartsWith(";"))
+					continue;
+
 				whitelist.Add( line.Split(' ')[0] );
 			}
 

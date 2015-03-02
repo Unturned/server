@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Unturned
 {
@@ -15,33 +16,42 @@ namespace Unturned
 
         public static ConfigFile ReadFile(String configPath)
         {
-            FileStream fs;
-            if (!File.Exists(configPath))
-            {
-                fs = File.Create(configPath);
-            }
+			try 
+			{
+	            FileStream fs;
+	            if (!File.Exists(configPath))
+	            {
+	                fs = File.Create(configPath);
+	            }
 
-            fs = new FileStream(configPath, FileMode.Open);
-            StreamReader reader = new StreamReader(fs);
-            String[] lines = reader.ReadToEnd().Split('\n');
+	            fs = new FileStream(configPath, FileMode.Open);
+	            StreamReader reader = new StreamReader(fs);
+	            String[] lines = reader.ReadToEnd().Split('\n');
 
-            Dictionary<String, String> configLines = new Dictionary<string, string>();
+	            Dictionary<String, String> configLines = new Dictionary<string, string>();
 
-            foreach (String line in lines)
-            {
-                String trimmed = line.Trim();
-                if (!trimmed.StartsWith(";") || !trimmed.StartsWith("#")) // comments
-                {
-                    String[] pair = trimmed.Split(new char[] { '=' }, 2);
+	            foreach (String line in lines)
+	            {
+	                String trimmed = line.Trim();
+	                if (!trimmed.StartsWith(";") || !trimmed.StartsWith("#")) // comments
+	                {
+	                    String[] pair = trimmed.Split(new char[] { '=' }, 2);
 
-                    if (pair.Length >= 2)
-                        configLines.Add(pair[0], pair[1]);
-                    else
-                        configLines.Add(pair[0], String.Empty);
-                }
-            }
+	                    if (pair.Length >= 2)
+	                        configLines.Add(pair[0], pair[1]);
+	                    else
+	                        configLines.Add(pair[0], String.Empty);
+	                }
+	            }
 
-            return new ConfigFile(configLines);
+	            return new ConfigFile(configLines);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("### Fatal error while loading configuration file: " + configPath + " Exception: " + e.Message);
+				Console.WriteLine("### Using defaults. Strongly recommended to fix this issue!");
+				return new ConfigFile(new Dictionary<string, string>());
+			}
         }
 
 		/// <summary>

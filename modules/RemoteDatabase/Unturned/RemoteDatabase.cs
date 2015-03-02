@@ -45,10 +45,10 @@ namespace Unturned
         
         public void Init()
         {
-            Unturned.ConfigFile config = Unturned.ConfigFile.ReadFile(@"Config/database.cfg");
-            m_host = config.getConfig("host");
-            m_banUrl = config.getConfig("banUrl");
-            m_creditUrl = config.getConfig("creditUrl");
+            Unturned.ConfigFile config = Unturned.ConfigFile.ReadFile(@"config/database.cfg");
+            m_host = config.getConfig("host", "http://localhost:8080/rest/unturned");
+            m_banUrl = config.getConfig("banUrl", "/bans");
+            m_creditUrl = config.getConfig("creditUrl", "/credit");
 			m_playerUrl = config.getConfig("playerUrl", "/player");
             
             m_banSerializer = new XmlSerializer(typeof(BanList));
