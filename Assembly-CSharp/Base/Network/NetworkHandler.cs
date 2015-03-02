@@ -33,7 +33,7 @@ public class NetworkHandler : MonoBehaviour
 		Timer timer = new Timer(delegate {
 			Console.WriteLine("(Re)Loading Whitelist items");
 			whitelist.Clear();
-			String[] lines = File.ReadAllLines();
+			String[] lines = File.ReadAllLines(WHITELIST_FILE_PATH);
 			foreach (String line in lines)
 			{
 				if(line.StartsWith(";"))

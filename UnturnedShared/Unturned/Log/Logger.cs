@@ -59,7 +59,7 @@ namespace Unturned.Log {
 
 	    public static void Instantiate(String logString) 
 	    {
-	        StreamWriter file = new StreamWriter(@"logs/insatntiate.log", true);
+	        StreamWriter file = new StreamWriter(@"logs/intantiate.log", true);
 	        file.WriteLine("{0:" + DATE_PATTERN + "} {1}", System.DateTime.Now, logString);
 	        file.Close();
 	    }
