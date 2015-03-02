@@ -70,6 +70,12 @@ namespace AdminCommands
 		private void Home(CommandArgs args)
 		{
 			BetterNetworkUser user = args.sender;
+			if ( this.playerHomes.ContainsKey(user.steamid))
+			{
+				Reference.Tell (user.networkPlayer, "You haven't got home yet. Try to set first with /sethome command");
+				return;
+			}
+
 			if (!this.usedHomeCommand.ContainsKey (user.steamid)) {
 				Vector3 originalposition = user.position;
 				Reference.Tell (user.networkPlayer, "Teleporting home... Stand still for 5 seconds.");
