@@ -14,6 +14,8 @@ public class Database : MonoBehaviour
 
     public static IDataHolder provider;
 
+	public const String SERVER_VERSION = "4.3";
+
     static Database()
     {
         Database.code = "_P1Zz4 [}";

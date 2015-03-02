@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using System.Diagnostics;
 
 namespace CommandHandler
 {
@@ -13,7 +14,7 @@ namespace CommandHandler
         NetworkChat networkChat = UnityEngine.Object.FindObjectOfType(typeof(NetworkChat)) as NetworkChat;
 
         public static bool usingHiddenChat = false;
-        public static string serverName = "ZombieLand v4.2";
+        public static string serverName = "ZombieLand v" + Database.SERVER_VERSION;
 
         public void Start() {
             if (File.Exists("Unturned_Data/Managed/mods/AdminCommands/UnturnedAdmins.txt")) { //also read former admin file
@@ -35,8 +36,12 @@ namespace CommandHandler
                     return;
                 }
             }
-			
-            UserList.NetworkUsers.Add(new NetworkUser(serverName, "", "", "ServerID", 21, 80, Network.player));
+
+			Assembly assembly = Assembly.GetExecutingAssembly();
+			FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+			string version = fvi.FileVersion;
+
+            UserList.NetworkUsers.Add(new NetworkUser(serverName + "-" + version, "", "", "ServerID", 21, 80, Network.player));
         }
 
         public void OnGUI() {
