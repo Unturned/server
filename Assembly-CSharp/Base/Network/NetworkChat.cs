@@ -130,6 +130,9 @@ public class NetworkChat : MonoBehaviour
 				}
 				if (type == 0)
 				{
+					// Enabling rude filter
+					text = RudeFilter.filter(text);
+
 					base.networkView.RPC("tellChat", RPCMode.All, new object[] { userFromPlayer.name, userFromPlayer.nickname, userFromPlayer.friend, text, userFromPlayer.status, type, userFromPlayer.reputation });
 					// TODO: write some better solution!
 					using (StreamWriter w = File.AppendText("chat.txt"))

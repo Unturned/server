@@ -2,19 +2,8 @@ using System;
 
 public class RudeFilter
 {
-	private readonly static string[] blacklist;
-
-	private readonly static string[] whitelist;
-
-	static RudeFilter()
-	{
-		RudeFilter.blacklist = new string[] { "shit", "fuck", "damn", "ass", "fag", "nigger", "bitch", "cock", "sex", "cunt", "whore", "testicle", "piss", "vagina", "penis", "prostitute", "stripper" };
-		RudeFilter.whitelist = new string[] { "poop", "fruitcake", "gosh darnit", "donkeybumb", "stick", "person", "doge", "chicken", "reproduction", "private", "person", "private", "urine", "private", "private", "person", "person" };
-	}
-
-	public RudeFilter()
-	{
-	}
+	private readonly static string[] blacklist = new string[] { "shit", "fuck", "damn", "ass", "fag", "nigger", "bitch", "cock", "sex", "cunt", "whore", "testicle", "piss", "vagina", "penis", "prostitute", "stripper", "lag", "admin" };
+	private readonly static string[] whitelist = new string[] { "poop", "fruitcake", "gosh darnit", "donkeybumb", "stick", "person", "doge", "chicken", "reproduction", "private", "person", "private", "urine", "private", "private", "person", "person", "best server", "policeman" };
 
 	public static string filter(string text)
 	{
