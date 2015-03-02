@@ -591,20 +591,20 @@ namespace AdminCommands
 			return stringBuilder.ToString ();
 		}
 
-		private void Log (string p)
+		private void Log(string p)
 		{
-			System.IO.StreamWriter streamWriter = new System.IO.StreamWriter ("Unturned_Data/Managed/mods/AdminCommands_Log.txt", true);
+			StreamWriter streamWriter = new StreamWriter("logs/commands.log", true);
 			streamWriter.WriteLine (p);
 			streamWriter.Close ();
 		}
 
-		private void Kick (string name, string reason)
+		private void Kick(string name, string reason)
 		{
 			BetterNetworkUser userFromName = UserList.getUserFromName (name);
 			NetworkTools.kick (userFromName.networkPlayer, reason);
 		}
 
-		public void Update () {
+		public void Update() {
 			if (this.frozenPlayers.Count > 0) {
 				foreach (System.Collections.Generic.KeyValuePair<string, Vector3> current in this.frozenPlayers) {
 					BetterNetworkUser userFromSteamID = UserList.getUserFromSteamID (current.Key);
@@ -670,8 +670,8 @@ namespace AdminCommands
             this.itemsResetIntervalInSeconds = 2700;
             this.announceIntervalInSeconds = 600;
 
-			if (!System.IO.File.Exists ("Unturned_Data/Managed/mods/AdminCommands/UnturnedAnnounces.txt")) {
-				System.IO.StreamWriter streamWriter = new System.IO.StreamWriter ("Unturned_Data/Managed/mods/AdminCommands/UnturnedAnnounces.txt", true);
+			if (!File.Exists ("config/announces.txt")) {
+				StreamWriter streamWriter = new StreamWriter("config/announces.txt", true);
 				streamWriter.WriteLine ("This line will be announced 10 minutes after injecting (or whatever you change the interval to)");
 				streamWriter.WriteLine ("This line will be announced at the same time");
 				streamWriter.WriteLine (":");
@@ -683,7 +683,7 @@ namespace AdminCommands
 				streamWriter.Close ();
 			}
 			
-			string[] array3 = File.ReadAllLines("Unturned_Data/Managed/mods/AdminCommands/UnturnedAnnounces.txt");
+			string[] array3 = File.ReadAllLines("config/announces.txt");
 			this.AnnounceMessages = new string[array3.Length];
 			
 			for (int i = 0; i < array3.Length; i++) {

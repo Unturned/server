@@ -14,7 +14,7 @@ namespace CommandHandler
 
         private static List<BetterNetworkUser> _users = new List<BetterNetworkUser>();
 
-        private static readonly string filePath = @"Unturned_Data/Managed/mods/UserPermissionLevels.ini";
+        private static readonly string filePath = @"config/UserPermissionLevels.ini";
 
         /// <summary>
         /// Returns a list of BetterNetworkUsers. Cloned from NetworkUserList

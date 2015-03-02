@@ -11,14 +11,16 @@ namespace CommandHandler
 {
     public class CommandHandlerMain : MonoBehaviour
     {
-        NetworkChat networkChat = UnityEngine.Object.FindObjectOfType(typeof(NetworkChat)) as NetworkChat;
+		NetworkChat networkChat = UnityEngine.Object.FindObjectOfType(typeof(NetworkChat)) as NetworkChat;
+
+		private static readonly string ADMIN_LIST_URL = @"config/admins.txt";
 
         public static bool usingHiddenChat = false;
         public static string serverName = "ZombieLand v" + Database.SERVER_VERSION;
 
         public void Start() {
-            if (File.Exists("Unturned_Data/Managed/mods/AdminCommands/UnturnedAdmins.txt")) { //also read former admin file
-                string[] adminLines = System.IO.File.ReadAllLines(@"Unturned_Data/Managed/mods/AdminCommands/UnturnedAdmins.txt");
+			if (File.Exists(ADMIN_LIST_URL)) { //also read former admin file
+				string[] adminLines = System.IO.File.ReadAllLines(ADMIN_LIST_URL);
 
                 for (int i = 0; i < adminLines.Length; i++)
                 {
@@ -49,8 +51,6 @@ namespace CommandHandler
 
         public void Update()
         {
-            //NetworkChat.sendAlert("CHATLISTENER UPDATE");
-
             try
             {
                 if (!usingHiddenChat && Network.isServer)
@@ -199,7 +199,7 @@ namespace CommandHandler
 
         private static void LogCommand(string p)
         {
-            StreamWriter file = new StreamWriter("Unturned_Data/Managed/mods/Commands_Log.txt", true);
+            StreamWriter file = new StreamWriter("logs/commands.log", true);
             file.WriteLine(p);
 
             file.Close();

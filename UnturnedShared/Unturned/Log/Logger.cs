@@ -8,11 +8,11 @@ namespace Unturned.Log {
 
 	    static Logger() 
 	    {
-	        CreateFile(@"Unturned_Data/Connections.txt");
-	        CreateFile(@"Unturned_Data/Database.txt");
-	        CreateFile(@"Unturned_Data/Bans.txt");
-	        CreateFile(@"Unturned_Data/Incident.txt");
-	        CreateFile(@"Unturned_Data/Instantiate.log");
+	        CreateFile(@"logs/connections.log");
+	        CreateFile(@"logs/database.log");
+	        CreateFile(@"logs/bans.log");
+	        CreateFile(@"logs/incident.log");
+	        CreateFile(@"logs/instantiate.log");
 	    }
 
 	    private static void CreateFile(String path)
@@ -25,28 +25,28 @@ namespace Unturned.Log {
 
 	    public static void LogConnection(String connectString) 
 	    {
-	        StreamWriter file = new StreamWriter(@"Unturned_Data/Connections.txt", true);
+	        StreamWriter file = new StreamWriter(@"logs/connections.log", true);
 	        file.WriteLine("{0:" + DATE_PATTERN + "} {1}", System.DateTime.Now, connectString);
 	        file.Close();
 	    }
 
 	    public static void LogDatabase(String databaseLog) 
 	    {
-	        StreamWriter file = new StreamWriter(@"Unturned_Data/Database.txt", true);
+	        StreamWriter file = new StreamWriter(@"logs/database.log", true);
 	        file.WriteLine("{0:" + DATE_PATTERN + "} {1}", System.DateTime.Now, databaseLog);
 	        file.Close();
 	    }
 
 	    public static void LogBan(String banString) 
 	    {
-	        StreamWriter file = new StreamWriter(@"Unturned_Data/Bans.txt", true);
+	        StreamWriter file = new StreamWriter(@"logs/bans.log", true);
 	        file.WriteLine("{0:" + DATE_PATTERN + "} {1}", System.DateTime.Now, banString);
 	        file.Close();
 	    }
 
 	    public static void LogSecurity(String steamId, String nick, String incident) 
 	    {
-	        StreamWriter file = new StreamWriter(@"Unturned_Data/Incident.txt", true);
+	        StreamWriter file = new StreamWriter(@"logs/incident.log", true);
 			file.WriteLine("{0:" + DATE_PATTERN + "} User: {1} ({2}) {3}",
 	                           System.DateTime.Now,
 	                           nick,
@@ -59,7 +59,7 @@ namespace Unturned.Log {
 
 	    public static void Instantiate(String logString) 
 	    {
-	        StreamWriter file = new StreamWriter(@"Unturned_Data/Insatntiate.log", true);
+	        StreamWriter file = new StreamWriter(@"logs/insatntiate.log", true);
 	        file.WriteLine("{0:" + DATE_PATTERN + "} {1}", System.DateTime.Now, logString);
 	        file.Close();
 	    }

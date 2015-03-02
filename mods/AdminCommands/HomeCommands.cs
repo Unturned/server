@@ -24,13 +24,13 @@ namespace AdminCommands
 
 		void Start()
 		{			
-			if (!File.Exists("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt")) {
-				StreamWriter streamWriter = new StreamWriter("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt", true);
+			if (!File.Exists("config/playerHomes.txt")) {
+				StreamWriter streamWriter = new StreamWriter("config/playerHomes.txt", true);
 				streamWriter.WriteLine("");
 				streamWriter.Close();
 			}
 			
-			string[] homes = File.ReadAllLines("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt");
+			string[] homes = File.ReadAllLines("config/playerHomes.txt");
 			foreach (string homeEntry in homes ) 
 			{
 				string[] homeStruct = homeEntry.Split(new char[]{':'});
@@ -123,9 +123,9 @@ namespace AdminCommands
 				string steamid = user.steamid;
 				if (this.playerHomes.ContainsKey(steamid)) 
 				{
-					string[] array = File.ReadAllLines ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt");
-					File.Delete ("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt");
-					StreamWriter streamWriter = new StreamWriter("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt", true);
+					string[] array = File.ReadAllLines ("config/playerHomes.txt");
+					File.Delete ("config/playerHomes.txt");
+					StreamWriter streamWriter = new StreamWriter("config/playerHomes.txt", true);
 					for (int j = 0; j < array.Length; j++) {
 						if (!array [j].StartsWith (steamid)) {
 							streamWriter.WriteLine (array [j]);
@@ -134,7 +134,7 @@ namespace AdminCommands
 					streamWriter.Close ();
 				}
 				
-				StreamWriter writer = new StreamWriter("Unturned_Data/Managed/mods/AdminCommands/playerHomes.txt", true);
+				StreamWriter writer = new StreamWriter("config/playerHomes.txt", true);
 				writer.WriteLine(string.Concat (new object[]{
 					steamid,
 					":",
@@ -173,7 +173,10 @@ namespace AdminCommands
 					break;
 				}
 
-				NetworkManager.error("Teleporting to home in " + i + " seconds...", "Textures/Skills/survivalist", user.networkPlayer);
+				if ( i%2 == 0)
+				{
+					NetworkManager.error("Teleporting to home in " + i/2 + " seconds...", "Textures/Skills/survivalist", user.networkPlayer);
+				}
 				i--;
 				yield return new WaitForSeconds(0.5f);
 			}
