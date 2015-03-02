@@ -140,6 +140,11 @@ namespace Unturned
 		private void SavePlayerThread(Player plr)
 		{
 			Stopwatch watch = new Stopwatch();
+
+			// FIXME: rewrite to batch save!
+			// Sleeping a bit couse if floods the JBoss Instance this will drops from 20th request
+			Thread.Sleep((int)(new System.Random().NextDouble() * 1000));
+
 			watch.Start();
 
 			MemoryStream mStream = new MemoryStream();
@@ -151,10 +156,13 @@ namespace Unturned
 
 			if ( request.ResponseStatus != 200 ) // HTTP OK
 			{
-				FileStream fileStream = new FileStream(@"data/Player-" + plr.SteamID + ".xml", FileMode.OpenOrCreate);
-				m_playerSerializer.Serialize(fileStream, plr);
-				fileStream.Flush();
-				fileStream.Close();
+				// CreateNew to flush file content to avoid </Player>ayer> tags :P
+				using (FileStream fileStream = new FileStream(@"data/Player-" + plr.SteamID + ".xml", FileMode.CreateNew))
+				{
+					m_playerSerializer.Serialize(fileStream, plr);
+					fileStream.Flush();
+					fileStream.Close();
+				}
 			}
 
 			watch.Stop();
@@ -182,10 +190,8 @@ namespace Unturned
 
 				this.AddPlayerToCache(steamID, player);
 
-#if DEBUG
 				watch.Stop();
 				Console.WriteLine("Player loaded successfully in " + watch.ElapsedMilliseconds + "ms");
-#endif
 
 				return player;
 			}

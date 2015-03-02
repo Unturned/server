@@ -12,6 +12,7 @@ using System.IO;
 public class NetworkHandler : MonoBehaviour
 {
 	public static NetworkHandler tool;
+	private List<String> whitelist = new List<string>();
 
 	public NetworkHandler()
 	{
@@ -91,8 +92,11 @@ public class NetworkHandler : MonoBehaviour
 		}
 	}
 
-	private List<String> whitelist = new List<string>();
-
+	/// <summary>
+	/// Checks whitelist
+	/// </summary>
+	/// <returns><c>true</c>, if player is in whitelist, <c>false</c> otherwise.</returns>
+	/// <param name="steamID">Steam ID</param>
 	private bool isInWhitelist(String steamID)
 	{
 		foreach( String id in whitelist )
