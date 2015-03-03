@@ -67,15 +67,9 @@ public class Player : MonoBehaviour
 
 	private Vector3 lastPredictedPrediction;
 
-	private float realLean;
-
-	private float realPivot;
-
 	private FancyAnimifier anim;
 
 	private Transform spine;
-
-	private Quaternion desiredSpineRot;
 
 	private bool shouldSave;
 

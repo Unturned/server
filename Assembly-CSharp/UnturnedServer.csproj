@@ -234,7 +234,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="GridManager\" />
-    <Folder Include="ThreadWorker\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -242,9 +241,6 @@
     </Reference>
     <Reference Include="System">
       <HintPath>..\libs\System.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Core">
-      <HintPath>..\libs\System.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

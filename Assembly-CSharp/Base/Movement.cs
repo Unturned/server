@@ -39,21 +39,19 @@ public class Movement : MonoBehaviour
 
 	public static Transform seat;
 
-	private static float move_x;
-
-	private static float move_y;
-
-	private static float move_z;
+	//private static float move_x;
+    //private static float move_y;
+    //private static float move_z;
 
 	public static float input_x;
 
 	public static float input_y;
 
-	private static float lastPant;
+	//private static float lastPant;
 
 	private static float lastHeight;
 
-	private static bool wasGrounded;
+	//private static bool wasGrounded;
 
 	static Movement()
 	{
@@ -90,9 +88,9 @@ public class Movement : MonoBehaviour
 		Movement.control.stepOffset = 0.4f;
 		Movement.vehicle = null;
 		Movement.seat = null;
-		Movement.move_x = 0f;
-		Movement.move_y = 0f;
-		Movement.move_z = 0f;
+		//Movement.move_x = 0f;
+		//Movement.move_y = 0f;
+		//Movement.move_z = 0f;
 		Movement.input_x = 0f;
 		Movement.input_y = 0f;
 		Movement.lastHeight = base.transform.position.y;

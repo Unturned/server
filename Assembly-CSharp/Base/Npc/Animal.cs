@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Animal : AI
 {
-	private static NavMeshHit hit;
-
 	private static Vector3 run;
 
 	public bool scared;

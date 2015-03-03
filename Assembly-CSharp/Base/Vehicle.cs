@@ -57,10 +57,6 @@ public class Vehicle : Interactable
 
 	public int lastSpeed;
 
-	private float spin;
-
-	private float spinSpeed;
-
 	private float lastPump;
 
 	private float lastHorn;
@@ -906,8 +902,6 @@ public class Vehicle : Interactable
 
 	public void Update()
 	{
-		float fuel;
-		
 		if (this.real)
 		{
 			if (Network.isServer)

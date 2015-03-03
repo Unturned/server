@@ -8,9 +8,7 @@ public class Zombie : AI
 	public readonly static int ATTACKS;
 
 	public readonly static int AGROS;
-
-	private static NavMeshHit hit;
-
+    
 	public bool agro;
 
 	public bool search;

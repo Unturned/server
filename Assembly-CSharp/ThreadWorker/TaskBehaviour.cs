@@ -40,7 +40,8 @@ namespace Unturned.ThreadWorker
 	{
 		// THreads
 		private Thread announceThread;
-		private Thread saveThread;
+        // TODO: implement batch save
+		//private Thread saveThread;
 		private Thread resourceMonitorThread;
 
 		private int announceTimeout = 60 * 8;
@@ -71,6 +72,8 @@ namespace Unturned.ThreadWorker
 
 		void Start()
 		{
+
+
 			restartAnnouncerThread();
 			this.resourceMonitorThread = new Thread(this.MonitorResources);
 			resourceMonitorThread.Start();
@@ -95,7 +98,8 @@ namespace Unturned.ThreadWorker
 			{
 				shouldSave = false;
 				Console.WriteLine("Saving world");
-				NetworkTools.save();
+				// FIXME: temporary disabled saving... This causes the awaiting players bug
+				//NetworkTools.save();
 			}
 		}
 

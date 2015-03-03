@@ -35,8 +35,8 @@ public class SpawnPlayers : MonoBehaviour
 
 	public static Transform getSpawnPoint(NetworkPlayer player, bool bed)
 	{
-		NetworkUser userFromPlayer = NetworkUserList.getUserFromPlayer(player);
-		if (userFromPlayer != null && bed)
+		NetworkUser user = NetworkUserList.getUserFromPlayer(player);
+		if (user != null && bed)
 		{
 			for (int i = 0; i < NetworkRegions.REGION_X; i++)
 			{
@@ -44,7 +44,7 @@ public class SpawnPlayers : MonoBehaviour
 				{
 					for (int k = 0; k < SpawnBarricades.regions[i, j].barricades.Count; k++)
 					{
-						if (SpawnBarricades.regions[i, j].barricades[k].state == userFromPlayer.id)
+						if (SpawnBarricades.regions[i, j].barricades[k].state == user.id)
 						{
 							SpawnPlayers.tool.transform.position = SpawnBarricades.regions[i, j].barricades[k].position + new Vector3(0f, 0.5f, 0f);
 							SpawnPlayers.tool.transform.rotation = Quaternion.Euler(0f, SpawnBarricades.regions[i, j].barricades[k].rotation.y, 0f);

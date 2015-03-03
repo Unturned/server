@@ -46,21 +46,11 @@ public class USpeaker : MonoBehaviour
 	public int Codec;
 
 	private USpeakCodecManager codecMgr;
-
-	private AudioClip recording;
-
+    
 	private int recFreq;
 
-	private int lastReadPos;
-
-	private float sendTimer;
-
-	private float sendt = 1f;
-
-	private string[] micDeviceList;
-
-	private float lastDeviceUpdate;
-
+	private int lastReadPos = 0;
+    
 	//private List<USpeakFrameContainer> sendBuffer = new List<USpeakFrameContainer>();
 
 	private List<byte> tempSendBytes = new List<byte>();
@@ -68,46 +58,26 @@ public class USpeaker : MonoBehaviour
 	//private ISpeechDataHandler audioHandler;
 
 	//private IUSpeakTalkController talkController;
-
-	private int overlap;
-
+    
 	//private USpeakSettingsData settings;
 
 	private string currentDeviceName = string.Empty;
 
-	private float talkTimer;
+	private float talkTimer = 0;
 
 	private float vadHangover = 0.5f;
 
 	private float lastVTime;
 
 	private List<float[]> pendingEncode = new List<float[]>();
-
-	private double played;
-
-	private int index;
-
-	private double received;
-
+    
 	private float[] receivedData;
-
-	private float playDelay;
-
-	private bool shouldPlay;
-
-	private float lastTime;
 
 	private BandMode lastBandMode;
 
 	private int lastCodec;
 
 	private ThreeDMode last3DMode;
-
-	private int recordedChunkCount;
-
-	private int micFoundDelay;
-
-	private bool waitingToStartRec;
 
 	private int audioFrequency
 	{
@@ -356,10 +326,6 @@ public class USpeaker : MonoBehaviour
 	{
 		base.audio.Stop();
 		base.audio.time = 0f;
-		this.index = 0;
-		this.played = 0;
-		this.received = 0;
-		this.lastTime = 0f;
 	}
 
 	private void Update()
