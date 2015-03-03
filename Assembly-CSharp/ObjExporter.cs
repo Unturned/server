@@ -49,12 +49,7 @@ namespace AssemblyCSharp
 		private static int vertexOffset = 0;
 		private static int normalOffset = 0;
 		private static int uvOffset = 0;
-		
-		
-		//User should probably be able to change this. It is currently left as an excercise for
-		//the reader.
-		private static string targetFolder = TARGET_DIR;
-		
+			
 		
 		private static string MeshToString(Component mf, Dictionary<string, ObjMaterial> materialList) 
 		{
