@@ -39,7 +39,7 @@ namespace AdminCommands
                 string[] homeStruct = homeEntry.Split(new char[] { ':' });
                 string steamID = homeStruct[0];
 
-                string[] posStruct = homeStruct[1].Split(new char[] { ',' });
+                string[] posStruct = homeStruct[1].Split(new char[] { '|' });
                 String posX = posStruct[0];
                 string posY = posStruct[1];
                 string posZ = posStruct[2];
@@ -159,9 +159,9 @@ namespace AdminCommands
 					steamid,
 					":",
 					originalPosition.x,
-					",",
+					"|",
 					originalPosition.y,
-					",",
+					"|",
 					originalPosition.z
 				}));
                 writer.Close();
